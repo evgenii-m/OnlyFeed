@@ -40,6 +40,19 @@ public class HomeController {
     @RequestMapping(method = GET)
     public String index(Model uiModel) {
         List<RssChannelEntity> rssChannelList = rssChannelService.getAll();
+        
+        RssChannelEntity testEntity = new RssChannelEntity();
+        testEntity.setId(0l);
+        testEntity.setName("name");
+        testEntity.setUrl("url");
+        rssChannelList.add(testEntity);
+        
+        for (int i = 0; i < rssChannelList.size(); i++) {
+            RssChannelEntity entity = rssChannelList.get(i);
+            logger.info("[" + i + "] id = " + entity.getId() + "; name = " + entity.getName() + 
+                    "; url = " + entity.getUrl() + ";");
+        }
+        
         uiModel.addAttribute("rssChannelList", rssChannelList);
         logger.info("Rss Channels count = " + rssChannelList.size());
         RssChannelEntity newRssChannel = new RssChannelEntity();
@@ -57,7 +70,10 @@ public class HomeController {
             rssChannelService.save(rssChannel);
         }
         
-        return "index";
+//        RssChannelEntity newRssChannel = new RssChannelEntity();
+//        uiModel.addAttribute("newRssChannel", newRssChannel);
+        
+        return "redirect:/";
 
     }
 }

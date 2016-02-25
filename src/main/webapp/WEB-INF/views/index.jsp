@@ -18,7 +18,7 @@
 </form:form>
 
 <div>
-    <c:if test="not empty rssChannelList">
+    <c:if test="${not empty rssChannelList}">
         <c:forEach items="${rssChannelList}" var="rssChannel">
             <tr>
                 <td>${rssChannel.id}</td>

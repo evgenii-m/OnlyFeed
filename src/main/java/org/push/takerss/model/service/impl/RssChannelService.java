@@ -3,41 +3,49 @@
  */
 package org.push.takerss.model.service.impl;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.push.takerss.model.service.IRssChannelService;
 import org.push.takerss.model.entity.RssChannelEntity;
-import org.springframework.stereotype.Service;
+import org.push.takerss.model.repository.RssChannelRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.*;
+import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * @author push
  *
  */
+@Repository
+@Transactional
 @Service
 public class RssChannelService implements IRssChannelService {
-    private ArrayList<RssChannelEntity> rssChannelList;
+    private RssChannelRepository rssChannelRepository;
+
     
-    
-    public RssChannelService() {
-        rssChannelList = new ArrayList<RssChannelEntity>();
+    @Autowired
+    public void setRssChannelRepository(RssChannelRepository rssChannelRepository) {
+        this.rssChannelRepository = rssChannelRepository;
     }
     
 
     @Override
     public void save(RssChannelEntity rssChannel) {
-        rssChannelList.add(rssChannel);
+        rssChannelRepository.save(rssChannel);
     }
 
 
     @Override
-    public RssChannelEntity findById(int id) {
-        return rssChannelList.get(id);
+    @Transactional(readOnly = true)
+    public RssChannelEntity findById(Long id) {
+        return rssChannelRepository.findOne(id);
     }
 
 
     @Override
-    public ArrayList<RssChannelEntity> getAll() {
-        return rssChannelList;
+    @Transactional(readOnly = true)
+    public List<RssChannelEntity> getAll() {
+        return rssChannelRepository.findAll();
     }
 }

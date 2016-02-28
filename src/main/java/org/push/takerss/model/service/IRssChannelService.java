@@ -3,7 +3,7 @@
  */
 package org.push.takerss.model.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.push.takerss.model.entity.RssChannelEntity;
 
@@ -14,6 +14,6 @@ import org.push.takerss.model.entity.RssChannelEntity;
  */
 public interface IRssChannelService {
     void save(RssChannelEntity rssChannel); 
-    RssChannelEntity findById(int id);
-    ArrayList<RssChannelEntity> getAll();
+    RssChannelEntity findById(Long id);
+    List<RssChannelEntity> getAll();
 }

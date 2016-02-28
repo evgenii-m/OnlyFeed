@@ -6,6 +6,8 @@ package org.push.takerss.model.entity;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 /**
@@ -13,29 +15,29 @@ import javax.persistence.*;
  *
  */
 @Entity
+@Table(name = "rss_channels")
 public class RssChannelEntity {
-    private Long id;
-    private String url;
-    private String name;
-    
-    
     @Id
     @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    
+    @Column(name = "name")
+    @Size(min = 1, max = 100, message = "{validation.name.Size.message}")
+    private String name;
+    
+    @Column(name = "url")
+    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    @Size(max = 255, message = "{validation.url.Size.message}")
+    private String url;
+    
+    
     public Long getId() {
         return id;
     }
     
     public void setId(Long id) {
         this.id = id;
-    }
-    
-    
-    public String getUrl() {
-        return url;
-    }
-    
-    public void setUrl(String url) {
-        this.url = url;
     }
     
     
@@ -48,9 +50,18 @@ public class RssChannelEntity {
     }
     
     
+    public String getUrl() {
+        return url;
+    }
+    
+    public void setUrl(String url) {
+        this.url = url;
+    }
+    
+    
     @Override
     public String toString() {
         return "RssChanelEntity " + 
-            "[id: " + id + "; url: " + url + "; name: " + name + "]";
+            "[id: " + id + "; name: " + name + "; url: " + url + "]";
     }
 }

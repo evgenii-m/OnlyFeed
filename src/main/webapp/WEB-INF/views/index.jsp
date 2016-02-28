@@ -4,18 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="appName" code="application_name" htmlEscape="false"/>
-<spring:message var="labelWelcome" code="welcome_label" arguments="${appName}"/>
-<spring:message var="labelAddChannel" code="label_add_channel"/>
-
-<h3>${labelWelcome}</h3>
-<br/>
-
-<form:form method="post" modelAttribute="newRssChannel">
-    <form:input path="name"/>
-    <form:input path="url"/>
-    <button type="submit">${labelAddChannel}</button>
-</form:form>
 
 <div>
     <c:if test="${not empty rssChannelList}">

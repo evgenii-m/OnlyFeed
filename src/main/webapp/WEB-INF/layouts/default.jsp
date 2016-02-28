@@ -4,6 +4,8 @@
 
 <spring:message var="appName" code="application_name" htmlEscape="false"/>
 
+<spring:url var="standardCssUrl" value="/resources/styles/standard.css"/>
+
 
 <!DOCTYPE HTML>
 
@@ -11,6 +13,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=8">
+        <link rel="stylesheet" href="${standardCssUrl}" type="text/css" media="screen"/>
         <title>${appName}</title>
 	</head>
 

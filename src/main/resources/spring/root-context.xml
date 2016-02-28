@@ -7,6 +7,10 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
     
+    <import resource="classpath:spring/datasource-tx-jpa.xml"/>
+    
     <context:component-scan base-package="org.push.takerss"/>
+    
+    <context:property-placeholder location="classpath:properties/app.properties"/>
     
 </beans>

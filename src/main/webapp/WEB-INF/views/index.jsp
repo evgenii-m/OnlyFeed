@@ -4,7 +4,7 @@
 
 
 <div>
-    <c:if test="${not empty rssChannelList}">
+    <c:if test="${not empty feedChannelList}">
         <table border="1" cellpadding="10" bordercolor="#111111">
             <thead>
                 <tr>
@@ -13,13 +13,16 @@
                 </tr>
             </thead>
             <tbody>
-		        <c:forEach items="${rssChannelList}" var="rssChannel">
+		        <c:forEach items="${feedChannelList}" var="feedChannel">
 		            <tr>
-		                <td>${rssChannel.name}</td>
-		                <td>${rssChannel.url}</td>
+		                <td>${feedChannel.name}</td>
+		                <td>${feedChannel.url}</td>
 		            </tr>
 		        </c:forEach>
 	        </tbody>
         </table>
     </c:if>
+</div>
+
+<div>
 </div>

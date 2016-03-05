@@ -17,7 +17,7 @@
     
     <mvc:default-servlet-handler/>
     
-    <context:component-scan base-package="org.push.takerss.controller"/>
+    <context:component-scan base-package="org.push.simplefeed.controller"/>
         
     <mvc:interceptors>
        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>

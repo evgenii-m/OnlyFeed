@@ -4,7 +4,7 @@
 
 
 <div id="menu">
-    <form:form commandName="rssChannelBlank">
+    <form:form commandName="feedChannelBlank">
         <div>
             <label for="name">Name</label>
             <form:input path="name"/>

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.takerss.controller;
+package org.push.simplefeed.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -10,9 +10,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.push.takerss.model.entity.RssChannelEntity;
-import org.push.takerss.model.service.IRssChannelService;
-import org.push.takerss.model.service.impl.RssChannelService;
+import org.push.simplefeed.model.entity.FeedChannelEntity;
+import org.push.simplefeed.model.service.IFeedChannelService;
+import org.push.simplefeed.model.service.impl.FeedChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,32 +29,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class IndexController {
     private static Logger logger = LogManager.getLogger(IndexController.class);
-    private IRssChannelService rssChannelService;
+    private IFeedChannelService feedChannelService;
     
 
     @Autowired
-    public void setRssChannelService(IRssChannelService rssChannelService) {
-        this.rssChannelService = rssChannelService;
+    public void setFeedChannelService(IFeedChannelService feedChannelService) {
+        this.feedChannelService = feedChannelService;
     }
     
     
     @RequestMapping(method = GET)
     public String index(Model uiModel) {
-        RssChannelEntity rssChannelBlank = new RssChannelEntity();
-        uiModel.addAttribute("rssChannelBlank", rssChannelBlank);
-        List<RssChannelEntity> rssChannelList = rssChannelService.getAll();       
-        uiModel.addAttribute("rssChannelList", rssChannelList);
-        logger.info("Rss Channels count = " + rssChannelList.size());
+        FeedChannelEntity feedChannelBlank = new FeedChannelEntity();
+        uiModel.addAttribute("feedChannelBlank", feedChannelBlank);
+        List<FeedChannelEntity> feedChannelList = feedChannelService.getAll();       
+        uiModel.addAttribute("feedChannelList", feedChannelList);
+        logger.info("Feed Channels count = " + feedChannelList.size());
         return "index";
     }
     
     @RequestMapping(method = POST)
-    public String addRssChannel(@ModelAttribute("rssChannelBlank") RssChannelEntity rssChannel, 
+    public String addFeedChannel(@ModelAttribute("feedChannelBlank") FeedChannelEntity feedChannel, 
             Model uiModel, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            logger.warn("Failed to add new RSS channel (" + rssChannel + ")");
+            logger.warn("Failed to add new Feed Channel (" + feedChannel + ")");
         } else {
-            rssChannelService.save(rssChannel);
+            feedChannelService.save(feedChannel);
         }
         return "redirect:/";
     }

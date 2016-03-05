@@ -9,7 +9,7 @@
     
     <import resource="classpath:spring/datasource-tx-jpa.xml"/>
     
-    <context:component-scan base-package="org.push.takerss"/>
+    <context:component-scan base-package="org.push.simplefeed"/>
     
     <context:property-placeholder location="classpath:properties/app.properties"/>
     

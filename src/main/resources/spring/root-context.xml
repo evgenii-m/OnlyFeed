@@ -9,15 +9,10 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
     
     <import resource="classpath:spring/datasource-tx-jpa.xml"/>
+    <import resource="classpath:spring/xml-converter-context.xml"/>
     
     <context:component-scan base-package="org.push.simplefeed"/>
     
     <context:property-placeholder location="classpath:properties/app.properties"/>
-    
-    <bean id="xmlConverter" class="org.push.simplefeed.util.XmlConverter">
-        <property name="marshaller" ref="castorMarshaller"/>
-        <property name="unmarshaller" ref="castorUnmarshaller"/>
-    </bean>
-    <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller"/>
     
 </beans>

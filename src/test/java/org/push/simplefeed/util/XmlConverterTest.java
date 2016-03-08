@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.*;
-import org.push.simplefeed.util.XmlConverter;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.oxm.XmlMappingException;
-import org.springframework.oxm.castor.CastorMarshaller;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.push.simplefeed.util.XmlConverter;
 import org.push.simplefeed.model.entity.FeedChannelEntity;
 
 
@@ -21,27 +24,15 @@ import org.push.simplefeed.model.entity.FeedChannelEntity;
  * @author push
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:spring/xml-converter-context.xml")
 public class XmlConverterTest {
-    private static XmlConverter xmlConverter;
+    @Autowired
+    private XmlConverter xmlConverter;
     private List<FeedChannelEntity> testData;
     private String testDataString;
     
-    
-    @BeforeClass
-    public static void setXmlConverter() {
-        xmlConverter = new XmlConverter();
         
-        CastorMarshaller marshaller = new CastorMarshaller();
-        // uncomment if there is custom XML mapping scheme 
-        // marshaller.setMappingLocation(mappingLocation);
-        xmlConverter.setMarshaller(marshaller);
-        
-        CastorMarshaller unmarshaller = new CastorMarshaller();
-        // uncomment if there is custom XML mapping scheme 
-        // unmarshaller.setMappingLocation(mappingLocation);
-        xmlConverter.setUnmarshaller(unmarshaller);
-    }
-    
     @Before
     public void setTestDataList() {        
         FeedChannelEntity feedChannel1 = new FeedChannelEntity();

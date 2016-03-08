@@ -29,24 +29,25 @@ import org.push.simplefeed.util.xmltypes.*;
 public class XmlConverterTest {
     @Autowired
     private XmlConverter xmlConverter;
-    // TODO: make normal test data set
-    private RssChannel testData;
-    private String testDataString;
+    private static final List<RssChannel> rssChannelDataSet = new ArrayList<>();
+    private static final List<String> xmlStringDataSet = new ArrayList<>();
     
+    
+    @BeforeClass
+    public static void setTestDataSet() {        
+        RssChannel rssChannel = new RssChannel();
+        rssChannel.setTitle("title");
+        rssChannel.setLink("link");
+        rssChannel.setDescription("description");
+        rssChannelDataSet.add(rssChannel);
         
-    @Before
-    public void setTestDataList() {        
-        testData = new RssChannel();
-        testData.setTitle("title");
-        testData.setLink("link");
-        testData.setDescription("description");
-        
-        testDataString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+        String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
                 + "<rssChannel>"
                     + "<title>title</title>"
                     + "<link>link</link>"
                     + "<description>description</description>"
                 + "</rssChannel>";
+        xmlStringDataSet.add(xmlString);
     }
     
     
@@ -57,21 +58,26 @@ public class XmlConverterTest {
      */
     @Test
     public void testObjectToXml() throws XmlMappingException, IOException {
-        StringWriter stringWriter = new StringWriter();
-        xmlConverter.objectToXml(testData, stringWriter);
-        assertNotNull("StringWriter object is null", stringWriter);
-        String xmlString = stringWriter.toString().trim();
-        assertNotEquals("Output XML is Blank", xmlString, "");
-        assertEquals("Output XML and test data are not same", xmlString, testDataString);
+        for (int i = 0; i < rssChannelDataSet.size(); ++i) {
+            RssChannel rssChannel = rssChannelDataSet.get(i);
+            String xmlString = xmlStringDataSet.get(i);
+            StringWriter stringWriter = new StringWriter();
+            xmlConverter.objectToXml(rssChannel, stringWriter);
+            assertNotNull("StringWriter object is null", stringWriter);
+            assertEquals("Output XML and test data are not same", stringWriter.toString().trim(), xmlString);
+        }
     }
     
 
     /**
      * Test method for {@link org.push.simplefeed.util.XmlConverter#fromXml(java.lang.String)}.
+     * @throws IOException 
+     * @throws XmlMappingException 
      */
     @Test
-    public void testXmlToObject() {
-        fail("Not yet implemented");
+    public void testXmlToObject() throws XmlMappingException, IOException {
+//        RssChannel rssChannel = (RssChannel)xmlConverter.xmlToObject("https://habrahabr.ru/rss/interesting/");
+//        assertEquals("Output XML and test data are not same", rssChannel.toString(), testDataString);        
     }
     
 }

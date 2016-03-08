@@ -17,7 +17,7 @@ import org.springframework.oxm.XmlMappingException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.push.simplefeed.util.XmlConverter;
-import org.push.simplefeed.model.entity.FeedChannelEntity;
+import org.push.simplefeed.util.xmltypes.*;
 
 
 /**
@@ -29,27 +29,24 @@ import org.push.simplefeed.model.entity.FeedChannelEntity;
 public class XmlConverterTest {
     @Autowired
     private XmlConverter xmlConverter;
-    private List<FeedChannelEntity> testData;
+    // TODO: make normal test data set
+    private RssChannel testData;
     private String testDataString;
     
         
     @Before
     public void setTestDataList() {        
-        FeedChannelEntity feedChannel1 = new FeedChannelEntity();
-        feedChannel1.setId(1l);
-        feedChannel1.setName("channel ONE name");
-        feedChannel1.setUrl("channel ONE url");
+        testData = new RssChannel();
+        testData.setTitle("title");
+        testData.setLink("link");
+        testData.setDescription("description");
         
-        FeedChannelEntity feedChannel2 = new FeedChannelEntity();
-        feedChannel2.setId(2l);
-        feedChannel2.setName("channel TWO name");
-        feedChannel2.setUrl("channel TWO url");
-
-        testData = new ArrayList<>();
-        testData.add(feedChannel1);
-        testData.add(feedChannel2);
-        
-        testDataString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+        testDataString = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<rssChannel>"
+                    + "<title>title</title>"
+                    + "<link>link</link>"
+                    + "<description>description</description>"
+                + "</rssChannel>";
     }
     
     

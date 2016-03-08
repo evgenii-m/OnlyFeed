@@ -7,6 +7,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 

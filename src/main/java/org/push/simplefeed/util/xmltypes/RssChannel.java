@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.*;
  * @author push
  *
  */
-@XmlRootElement
+@XmlRootElement(name = "channel")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "rssChannel", 
+@XmlType(name = "channel", 
     propOrder = {
         "title",
         "link",

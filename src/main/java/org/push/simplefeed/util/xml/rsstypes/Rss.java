@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.util.xmltypes;
+package org.push.simplefeed.util.xml.rsstypes;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import javax.xml.namespace.QName;
  * @author push
  *
  */
-@XmlRootElement(name = "rss")
+@XmlRootElement()
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "rss", 
     propOrder = {

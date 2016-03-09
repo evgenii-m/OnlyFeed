@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.util;
+package org.push.simplefeed.util.xml;
 
 import java.io.File;
 import java.io.IOException;

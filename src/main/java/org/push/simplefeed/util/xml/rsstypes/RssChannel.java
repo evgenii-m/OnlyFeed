@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.util.xmltypes;
+package org.push.simplefeed.util.xml.rsstypes;
 
 import javax.xml.bind.annotation.*;
 
@@ -10,9 +10,9 @@ import javax.xml.bind.annotation.*;
  * @author push
  *
  */
-@XmlRootElement(name = "channel")
+@XmlRootElement(name="channel")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "channel", 
+@XmlType(name = "rssChannel", 
     propOrder = {
         "title",
         "link",

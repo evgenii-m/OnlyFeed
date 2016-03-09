@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.util;
+package org.push.simplefeed.util.xml;
 
 import static org.junit.Assert.*;
 
@@ -16,8 +16,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.push.simplefeed.util.XmlConverter;
-import org.push.simplefeed.util.xmltypes.*;
+import org.push.simplefeed.util.xml.rsstypes.*;
 
 
 /**

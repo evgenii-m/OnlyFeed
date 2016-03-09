@@ -13,8 +13,14 @@
     </bean>
     
     <oxm:jaxb2-marshaller id="jaxb2Marshaller">
-        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.RssChannel"/>
         <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.Rss"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.RssChannel"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.RssChannelItem"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.Category"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.Guid"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.Image"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.Source"/>
+        <oxm:class-to-be-bound name="org.push.simplefeed.util.xml.rsstypes.TextInput"/>
     </oxm:jaxb2-marshaller>
     
 </beans>

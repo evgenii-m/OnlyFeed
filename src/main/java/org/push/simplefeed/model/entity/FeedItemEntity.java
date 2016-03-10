@@ -23,6 +23,18 @@ public class FeedItemEntity {
     private FeedChannelEntity feedChannel;
     
 
+    public FeedItemEntity() { }
+    
+    public FeedItemEntity(String title, String description, Date publishedDate, String link) {
+        this.id = 0l;
+        this.title = title;
+        this.description = description;
+        this.publishedDate = publishedDate;
+        this.link = link;
+        this.feedChannel = null;
+    }
+
+
     public Long getId() {
         return id;
     }

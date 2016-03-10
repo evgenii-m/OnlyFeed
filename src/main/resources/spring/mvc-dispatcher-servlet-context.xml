@@ -27,7 +27,7 @@
         p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"/>
 
     <bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
-        p:definitions="/WEB-INF/layouts/layouts.xml"/>
+        p:definitions="WEB-INF/layouts/layouts.xml"/>
     
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
         p:basenames="WEB-INF/i18n/messages,WEB-INF/i18n/application" p:fallbackToSystemLocale="false"/>

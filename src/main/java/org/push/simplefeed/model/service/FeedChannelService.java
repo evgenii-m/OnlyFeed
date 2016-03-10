@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.model.service.impl;
+package org.push.simplefeed.model.service;
 
 import java.util.List;
 

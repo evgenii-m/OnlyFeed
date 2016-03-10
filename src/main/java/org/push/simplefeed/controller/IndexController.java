@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedChannelEntity;
 import org.push.simplefeed.model.service.IFeedChannelService;
-import org.push.simplefeed.model.service.impl.FeedChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

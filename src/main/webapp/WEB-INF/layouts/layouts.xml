@@ -16,4 +16,8 @@
        <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
+    <definition name="feed" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/feed.jsp"/>
+    </definition>
+    
 </tiles-definitions>

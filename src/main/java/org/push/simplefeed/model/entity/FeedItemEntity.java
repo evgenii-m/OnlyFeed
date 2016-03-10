@@ -18,29 +18,31 @@ public class FeedItemEntity {
     private Long id;
     private String title;
     private String description;
-    private Date publishedDate;
     private String link;
+    private Date publishedDate;
+    private String author;
+    private String imageUrl;
     private FeedChannelEntity feedChannel;
-
-
+    
+    
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }
-    
+
 
     public String getTitle() {
         return title;
     }
-    
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    
+
     public String getDescription() {
         return description;
     }
@@ -49,16 +51,7 @@ public class FeedItemEntity {
         this.description = description;
     }
 
-    
-    public Date getPublishedDate() {
-        return publishedDate;
-    }
 
-    public void setPublishedDate(Date publishedDate) {
-        this.publishedDate = publishedDate;
-    }
-
-    
     public String getLink() {
         return link;
     }
@@ -67,7 +60,34 @@ public class FeedItemEntity {
         this.link = link;
     }
 
-    
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
+    }
+
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+
     public FeedChannelEntity getFeedChannel() {
         return feedChannel;
     }
@@ -77,10 +97,13 @@ public class FeedItemEntity {
     }
 
     
+
     @Override
     public String toString() {
-        return "FeedItemEntity [id=" + id + ", title=" + title + ", description=" + description + 
-                ", publishedDate=" + publishedDate + ", link=" + link + ", feedChannel=" + feedChannel + "]";
+        return "FeedItemEntity [id=" + id + ", title=" + title
+                + ", description=" + description + ", link=" + link
+                + ", publishedDate=" + publishedDate + ", author=" + author
+                + ", imageUrl=" + imageUrl + ", feedChannel=" + feedChannel
+                + "]";
     }
-    
 }

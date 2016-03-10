@@ -57,6 +57,7 @@ import javax.xml.namespace.QName;
     "guid",
     "pubDate",
     "source",
+    "author",
     "any"
 })
 public class RssChannelItem {
@@ -71,6 +72,7 @@ public class RssChannelItem {
     protected Guid guid;
     protected String pubDate;
     protected Source source;
+    protected String author;
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAnyAttribute
@@ -291,6 +293,16 @@ public class RssChannelItem {
     public void setSource(Source value) {
         this.source = value;
     }
+    
+    
+    public String getAuthor() {
+        return author;
+    }
+    
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+    
 
     /**
      * Gets the value of the any property.

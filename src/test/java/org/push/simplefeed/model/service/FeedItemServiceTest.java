@@ -36,8 +36,10 @@ public class FeedItemServiceTest {
     @Before
     public void prepareTestEnvironment() {
         List<FeedChannelEntity> feedChannelList = new ArrayList<>();
-        feedChannelList.add(new FeedChannelEntity(
-                "Хабрахабр / Интересные публикации", "https://habrahabr.ru/rss/interesting/"));
+        FeedChannelEntity feedChannel = new FeedChannelEntity();
+        feedChannel.setName("Хабрахабр / Интересные публикации");
+        feedChannel.setUrl("https://habrahabr.ru/rss/interesting/");
+        feedChannelList.add(feedChannel);
         
         FeedChannelRepository feedChannelRepository = mock(FeedChannelRepository.class);
         when(feedChannelRepository.findAll()).thenReturn(feedChannelList);

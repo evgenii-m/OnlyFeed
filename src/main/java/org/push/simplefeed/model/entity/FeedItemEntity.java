@@ -5,7 +5,7 @@ package org.push.simplefeed.model.entity;
 
 import java.util.Date;
 
-import javax.persistence.*;
+//import javax.persistence.*;
 
 /**
  * @author push
@@ -21,18 +21,6 @@ public class FeedItemEntity {
     private Date publishedDate;
     private String link;
     private FeedChannelEntity feedChannel;
-    
-
-    public FeedItemEntity() { }
-    
-    public FeedItemEntity(String title, String description, Date publishedDate, String link) {
-        this.id = 0l;
-        this.title = title;
-        this.description = description;
-        this.publishedDate = publishedDate;
-        this.link = link;
-        this.feedChannel = null;
-    }
 
 
     public Long getId() {

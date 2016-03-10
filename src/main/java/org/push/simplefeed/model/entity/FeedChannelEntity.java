@@ -33,15 +33,6 @@ public class FeedChannelEntity {
     private String url;
     
     
-    public FeedChannelEntity() { }
-    
-    public FeedChannelEntity(String name, String url) {
-        this.id = 0l;
-        this.name = name;
-        this.url = url;
-    }
-
-    
     public Long getId() {
         return id;
     }

@@ -12,9 +12,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.push.simplefeed.model.entity.FeedChannelEntity;
+import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedItemEntity;
-import org.push.simplefeed.model.repository.FeedChannelRepository;
+import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.util.xml.XmlConverter;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,34 +35,38 @@ public class FeedItemServiceTest {
     
     @Before
     public void prepareTestEnvironment() {
-        List<FeedChannelEntity> feedChannelList = new ArrayList<>();
-        FeedChannelEntity feedChannel = new FeedChannelEntity();
-        feedChannel.setName("Хабрахабр / Интересные публикации");
-        feedChannel.setUrl("https://habrahabr.ru/rss/interesting/");
-        feedChannelList.add(feedChannel);
+        List<FeedSourceEntity> feedSourceList = new ArrayList<>();
+        FeedSourceEntity feedSource = new FeedSourceEntity();
+        feedSource.setName("Хабрахабр / Интересные публикации");
+        feedSource.setUrl("https://habrahabr.ru/rss/interesting/");
+        feedSourceList.add(feedSource);
         
-        FeedChannelRepository feedChannelRepository = mock(FeedChannelRepository.class);
-        when(feedChannelRepository.findAll()).thenReturn(feedChannelList);
+        FeedSourceRepository feedSourceRepository = mock(FeedSourceRepository.class);
+        when(feedSourceRepository.findAll()).thenReturn(feedSourceList);
         
         RssService rssService = new RssService();
         rssService.setXmlConverter(xmlConverter);
         
         feedItemService = new FeedItemService();
-        feedItemService.setFeedChannelRespository(feedChannelRepository);
+        feedItemService.setFeedSourceRespository(feedSourceRepository);
         feedItemService.setRssService(rssService);
     }
     
     /**
-     * Test method for {@link org.push.simplefeed.model.service.FeedItemService#findAll()}.
+     * Test method for {@link org.push.simplefeed.model.service.FeedItemService#getAll()}.
      */
     @Test
-    public void testFindAll() {        
-        List<FeedItemEntity> feedItemList = feedItemService.findAll();
+    public void testGetAll() {        
+        List<FeedItemEntity> feedItemList = feedItemService.getAll();
         assertNotNull("Service return null", feedItemList);
         
         for (FeedItemEntity feedItem : feedItemList) {
             assertTrue("Feed Item Link corrupt", feedItem.getLink().matches(itemLinkMatchPattern));
-        }
+            System.out.println("Description: " + feedItem.getDescription());
+            System.out.println("Image URL: " + feedItem.getImageUrl());
+            System.out.println("Brief Description:" + feedItem.getBriefDescription() + 
+                    "\n--------------------------------------------------------------------------------------\n");
+        }        
     }
     
 }

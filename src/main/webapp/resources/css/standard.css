@@ -1,0 +1,113 @@
+/* feed view */
+.feed-item {
+	max-height: 150px;
+	max-width: 600px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #C1C1C1;
+    clear: both;
+/*  cursor: pointer; */
+    overflow: hidden;
+}
+
+.feed-item-title {
+	height: 20px;
+	font-weight: bold;
+}
+
+.feed-item-content {
+	
+}
+
+.feed-item-img {
+	width: 200px;
+	height: 120px;
+	float: left;
+	opacity: 1;
+	background-position: 50% 25%;
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+.feed-item-info {
+	margin-left: 220px;
+}
+
+
+
+/* list view*/
+.new-feed-source-form {
+	margin-top: 50px;
+	margin-bottom: 40px;
+	position: relative;
+	display: block;
+}
+
+.new-feed-source-form b {
+	color: #777777;
+}
+
+.new-feed-source-input {
+	margin-top: 10px;
+}
+
+.new-feed-source-input input {
+	width: 500px;
+	min-width: 300px;
+}
+
+.feed-source-list {
+	
+}
+
+.feed-source-list .item {
+	
+}
+
+.feed-source-list .item .name {
+	
+}
+
+
+
+/* edit view */
+.edit-feed-source-form {
+	margin-top: 50px;
+	width: 500px;
+	min-width: 300px;
+    position: relative;
+    display: block;
+}
+
+.edit-feed-source-form input {
+	min-width: 200px;
+	width: 400px;
+	height: 30px;
+	margin-left: 5px;
+    display: inline-block;
+}
+
+.edit-feed-source-form label {
+	width: 80px;
+	font-weight: normal;
+}
+
+.edit-feed-source-form .required-field-label {
+	font-weight: bold;
+}
+
+.edit-feed-source-form div {
+	margin-bottom: 10px;
+}
+
+.edit-feed-source-form .form-buttons {
+	text-align: right;
+	margin-top: 20px; 
+    border-top: 1px solid #C1C1C1;
+}
+
+.edit-feed-source-form .form-buttons button {
+    width: 100px;
+	margin: 10px 15px 10px 10px;
+}
+
+

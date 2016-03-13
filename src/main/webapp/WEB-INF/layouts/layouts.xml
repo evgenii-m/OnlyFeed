@@ -20,4 +20,12 @@
        <put-attribute name="body" value="/WEB-INF/views/feed.jsp"/>
     </definition>
     
+    <definition name="source/list" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/source/list.jsp"/>
+    </definition>
+    
+    <definition name="source/add" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/source/edit.jsp"/>
+    </definition>
+    
 </tiles-definitions>

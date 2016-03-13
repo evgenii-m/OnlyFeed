@@ -22,7 +22,8 @@ public class FeedItemEntity {
     private Date publishedDate;
     private String author;
     private String imageUrl;
-    private FeedChannelEntity feedChannel;
+    private String briefDescription;
+    private FeedSourceEntity feedSource;
     
     
     public Long getId() {
@@ -78,7 +79,7 @@ public class FeedItemEntity {
         this.author = author;
     }
 
-
+    
     public String getImageUrl() {
         return imageUrl;
     }
@@ -88,12 +89,21 @@ public class FeedItemEntity {
     }
 
 
-    public FeedChannelEntity getFeedChannel() {
-        return feedChannel;
+    public String getBriefDescription() {
+        return briefDescription;
+    }
+    
+    public void setBriefDescription(String briefDescription) {
+        this.briefDescription = briefDescription;
+    }
+    
+
+    public FeedSourceEntity getFeedSource() {
+        return feedSource;
     }
 
-    public void setFeedChannel(FeedChannelEntity feedChannel) {
-        this.feedChannel = feedChannel;
+    public void setFeedSource(FeedSourceEntity feedSource) {
+        this.feedSource = feedSource;
     }
 
     
@@ -103,7 +113,7 @@ public class FeedItemEntity {
         return "FeedItemEntity [id=" + id + ", title=" + title
                 + ", description=" + description + ", link=" + link
                 + ", publishedDate=" + publishedDate + ", author=" + author
-                + ", imageUrl=" + imageUrl + ", feedChannel=" + feedChannel
-                + "]";
+                + ", feedSource=" + feedSource + "]";
     }
+
 }

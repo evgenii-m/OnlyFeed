@@ -30,11 +30,14 @@ public class RssService {
 
     public List<RssChannelItem> getItems(String rssUrl) throws XmlMappingException, IOException {
         List<RssChannelItem> rssItemList = new ArrayList<>();
-        Rss rss = (Rss) xmlConverter.xmlToObject(rssUrl);
-        for (RssChannel rssChannel : rss.getChannel()) {
-            rssItemList.addAll(rssChannel.getItem());
-        }
+        RssChannel rssChannel = getChannel(rssUrl);
+        rssItemList.addAll(rssChannel.getItem());
         return rssItemList;
+    }
+    
+    public RssChannel getChannel(String rssUrl)  throws XmlMappingException, IOException {
+        Rss rss = (Rss) xmlConverter.xmlToObject(rssUrl);
+        return rss.getChannel();
     }
 }
 

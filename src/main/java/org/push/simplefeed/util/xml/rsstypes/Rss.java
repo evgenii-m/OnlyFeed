@@ -45,7 +45,7 @@ import javax.xml.namespace.QName;
 })
 public class Rss {
     @XmlElement(required = true)
-    protected List<RssChannel> channel;
+    protected RssChannel channel;
     @XmlAnyElement(lax = true)
     protected List<Object> any;
     @XmlAttribute(name = "version", required = true)
@@ -75,11 +75,12 @@ public class Rss {
      * 
      * 
      */
-    public List<RssChannel> getChannel() {
-        if (channel == null) {
-            channel = new ArrayList<RssChannel>();
-        }
-        return this.channel;
+    public RssChannel getChannel() {
+        return channel;
+    }
+    
+    public void setChannel(RssChannel channel) {
+        this.channel = channel;
     }
 
     /**

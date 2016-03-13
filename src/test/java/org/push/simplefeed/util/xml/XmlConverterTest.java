@@ -80,13 +80,10 @@ public class XmlConverterTest {
     public void testXmlToObject() throws XmlMappingException, IOException {
         for (int i = 0; i < rssUrlDataSet.size(); ++i) {
             Rss rss = (Rss) xmlConverter.xmlToObject(rssUrlDataSet.get(i));
-            assertTrue("Rss Channel empty", rss.getChannel().size() > 0);
-            for (int j = 0; j < rss.getChannel().size(); ++j) {
-                RssChannel rssChannel = rss.getChannel().get(i);
-                assertEquals("\"title\" not equal", rssChannel.getTitle(), rssChannelDataSet.get(0).getTitle());
-                assertEquals("\"link\" not equal", rssChannel.getLink(), rssChannelDataSet.get(0).getLink());
-                assertEquals("\"description\" not equal", rssChannel.getDescription(), rssChannelDataSet.get(0).getDescription());
-            }
+            RssChannel rssChannel = rss.getChannel();
+            assertEquals("\"title\" not equal", rssChannel.getTitle(), rssChannelDataSet.get(0).getTitle());
+            assertEquals("\"link\" not equal", rssChannel.getLink(), rssChannelDataSet.get(0).getLink());
+            assertEquals("\"description\" not equal", rssChannel.getDescription(), rssChannelDataSet.get(0).getDescription());
         }
     }
     

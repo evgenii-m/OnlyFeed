@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.URL;
 
 
 /**
@@ -16,19 +17,21 @@ import org.hibernate.validator.constraints.NotEmpty;
  *
  */
 @Entity
-@Table(name = "channels")
-public class FeedChannelEntity {
+@Table(name = "feed_sources")
+public class FeedSourceEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
     
     @Column(name = "name")
+    @NotEmpty(message = "{validation.name.NotEmpty.message}")
     @Size(min = 1, max = 100, message = "{validation.name.Size.message}")
     private String name;
     
     @Column(name = "url")
-    @NotEmpty(message = "{validation.lastname.NotEmpty.message}")
+    @NotEmpty(message = "{validation.url.NotEmpty.message}")
+    @URL(message = "{validation.url.URL.message}")
     @Size(max = 255, message = "{validation.url.Size.message}")
     private String url;
     
@@ -40,7 +43,7 @@ public class FeedChannelEntity {
     public void setId(Long id) {
         this.id = id;
     }
-    
+        
     
     public String getName() {
         return name;
@@ -62,7 +65,7 @@ public class FeedChannelEntity {
     
     @Override
     public String toString() {
-        return "FeedChannelEntity [id=" + id + ", name=" + name + ", url=" + url + "]";
+        return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url + "]";
     }
     
 }

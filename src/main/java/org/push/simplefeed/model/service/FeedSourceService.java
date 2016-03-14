@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
+import org.push.simplefeed.util.xml.rsstypes.Image;
 import org.push.simplefeed.util.xml.rsstypes.RssChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.XmlMappingException;
@@ -26,6 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class FeedSourceService implements IFeedSourceService {
+    private static String DEFAULT_LOGO_URL = "https://localhost:8080/SimpleFeed/img/no_logo.gif";
+    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
     private RssService rssService;
@@ -67,7 +70,12 @@ public class FeedSourceService implements IFeedSourceService {
         try {
             RssChannel rssChannel = rssService.getChannel(feedSource.getUrl());
             feedSource.setName(rssChannel.getTitle());
-            feedSource.setLogoUrl(rssChannel.getImage().getUrl());
+            Image rssChannelImage = rssChannel.getImage();
+            if ((rssChannelImage == null) || (rssChannelImage.getUrl() == null)) {
+                feedSource.setLogoUrl(DEFAULT_LOGO_URL);
+            } else {
+                feedSource.setLogoUrl(rssChannelImage.getUrl());
+            }
             feedSource.setDescription(rssChannel.getDescription());
         } catch (XmlMappingException | IOException e) {
             logger.fatal("Exception when form FeedSource from RSS service! RSS source url - " 

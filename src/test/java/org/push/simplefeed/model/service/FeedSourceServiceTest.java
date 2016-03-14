@@ -31,7 +31,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     
     
     @DataProvider
-    public Object[][] testDataSet() {
+    public Object[][] testDataSet1() {
         return new Object[][] {
                 { 
                     "src/test/resources/rss1.xml",              // fileName
@@ -50,7 +50,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     
 
     @DataProvider
-    public Object[][] testWrongDataSet() {
+    public Object[][] testWrongDataSet1() {
         return new Object[][] {
                 { 
                     "src/test/resources/rss1.xml",              // fileName
@@ -81,7 +81,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     }
     
     
-    @Test(dataProvider = "testDataSet")
+    @Test(dataProvider = "testDataSet1")
     public void testFormFeedSource(String testDataFileName, String testNameField, String testLogoUrlField,
             String testDescriptionField) throws XmlMappingException, IOException {
         prepareRssService(testDataFileName);
@@ -90,21 +90,21 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
         feedSourceEntity.setUrl(testDataFileName);
         feedSourceService.formFeedSource(feedSourceEntity);
         
-        assertNotNull(feedSourceEntity.getName(), "Name field is null");
+        assertNotNull(feedSourceEntity.getName(), "Name field is null\n");
         assertEquals(feedSourceEntity.getName(), testNameField, "Names do not match\n"
                 + "feedSourceEntity.name: \"" + feedSourceEntity.getName() + "\"\n");
         
-        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null");
+        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null\n");
         assertEquals(feedSourceEntity.getLogoUrl(), testLogoUrlField, "Logo URLs do not match\n"
                 + "feedSourceEntity.logoUrl: \"" + feedSourceEntity.getLogoUrl() + "\"\n");
         
-        assertNotNull(feedSourceEntity.getDescription(), "Description field is null");
+        assertNotNull(feedSourceEntity.getDescription(), "Description field is null\n");
         assertEquals(feedSourceEntity.getDescription(), testDescriptionField, "Descriptions do not match\n"
                 + "feedSourceEntity.description: \"" + feedSourceEntity.getDescription() + "\"\n");
     }
     
     
-    @Test(dataProvider = "testWrongDataSet")
+    @Test(dataProvider = "testWrongDataSet1")
     public void testWrongFormFeedSource(String testDataFileName, String testNameField, String testLogoUrlField,
             String testDescriptionField) throws XmlMappingException, IOException {
         prepareRssService(testDataFileName);
@@ -113,15 +113,15 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
         feedSourceEntity.setUrl(testDataFileName);
         feedSourceService.formFeedSource(feedSourceEntity);
 
-        assertNotNull(feedSourceEntity.getName(), "Name field is null");
+        assertNotNull(feedSourceEntity.getName(), "Name field is null\n");
         assertNotEquals(feedSourceEntity.getName(), testNameField, "Names must not match\n"
                 + "feedSourceEntity.name: \"" + feedSourceEntity.getName() + "\"\n");
 
-        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null");
+        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null\n");
         assertNotEquals(feedSourceEntity.getLogoUrl(), testLogoUrlField, "Logo URLs must not match\n"
                 + "feedSourceEntity.logoUrl: \"" + feedSourceEntity.getLogoUrl() + "\"\n");
 
-        assertNotNull(feedSourceEntity.getDescription(), "Description field is null");
+        assertNotNull(feedSourceEntity.getDescription(), "Description field is null\n");
         assertNotEquals(feedSourceEntity.getDescription(), testDescriptionField, "Descriptions must not match\n"
                 + "feedSourceEntity.description: \"" + feedSourceEntity.getDescription() + "\"\n");
     }

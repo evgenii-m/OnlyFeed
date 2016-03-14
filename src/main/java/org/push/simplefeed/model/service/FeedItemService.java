@@ -30,10 +30,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FeedItemService implements IFeedItemService {
+    private static String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
+    private static String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
+    private static String BRIEF_DESC_PATTERN = "<.*?(/>|>)";  // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
+    
     private static Logger logger = LogManager.getLogger(FeedItemService.class);
-    private String rssDatePattern = "EEE, dd MMM yyyy HH:mm:ss Z";
-    private String imgTagPattern = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
-    private String briefDescPattern = "<.*?(/>|>)";  // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
     private FeedSourceRepository feedSourceRepository;
     private RssService rssService;
     
@@ -57,7 +58,7 @@ public class FeedItemService implements IFeedItemService {
         feedItem.setDescription(rssItem.getDescription());
         
         // TODO: if no images on description, then set image url from FeedSourceEntity
-        Pattern pattern = Pattern.compile(imgTagPattern);
+        Pattern pattern = Pattern.compile(IMG_TAG_PATTERN);
         Matcher matcher = pattern.matcher(rssItem.getDescription());
         if (matcher.find()) {
             String imgTagStr = matcher.group();
@@ -67,12 +68,12 @@ public class FeedItemService implements IFeedItemService {
             feedItem.setImageUrl(imgUrl);
         }
         
-        String briefDescription = rssItem.getDescription().replaceAll(briefDescPattern , "");
+        String briefDescription = rssItem.getDescription().replaceAll(BRIEF_DESC_PATTERN , "");
         feedItem.setBriefDescription(briefDescription);
         
         Date rssPubDate;
         try {
-            SimpleDateFormat rssDateFormat = new SimpleDateFormat(rssDatePattern, Locale.ENGLISH);
+            SimpleDateFormat rssDateFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
             rssPubDate = rssDateFormat.parse(rssItem.getPubDate());
         } catch (ParseException e) {
             logger.error("RSS published date parse exception! " + rssItem);

@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="default">
+
+    <test name="util">
+        <classes>
+            <class name="org.push.simplefeed.util.xml.XmlConverterTest"/>
+        </classes>
+    </test>
+
+    <test name="service">  
+        <classes>
+            <class name="org.push.simplefeed.model.service.FeedSourceServiceTest"/>
+        </classes>
+    </test>
+
+</suite>

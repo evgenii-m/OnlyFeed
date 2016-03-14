@@ -35,6 +35,13 @@ public class FeedSourceEntity {
     @Size(max = 255, message = "{validation.url.Size.message}")
     private String url;
     
+    @Column(name = "logo_url")
+    private String logoUrl;
+    
+    @Column(name = "description")
+    private String description;
+    
+    
     
     public Long getId() {
         return id;
@@ -62,10 +69,30 @@ public class FeedSourceEntity {
         this.url = url;
     }
 
+
+    public String getLogoUrl() {
+        return logoUrl;
+    }
+
+    public void setLogoUrl(String logoUrl) {
+        this.logoUrl = logoUrl;
+    }
+
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     
     @Override
     public String toString() {
-        return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url + "]";
+        return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
+                + ", logoUrl=" + logoUrl + ", description=" + description
+                + "]";
     }
     
 }

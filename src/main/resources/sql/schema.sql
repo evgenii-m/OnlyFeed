@@ -7,7 +7,8 @@ CREATE TABLE feed_sources (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     url VARCHAR(255) NOT NULL,
-    image_url VARCHAR(512) NOT NULL,
+    logo_url VARCHAR(512) NOT NULL,
+    description VARCHAR(1000),
     UNIQUE uq_source (name, url),
     PRIMARY KEY (id)
 );

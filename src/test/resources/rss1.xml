@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+    <title>Хабрахабр / Интересные публикации</title>
+    <link>https://habrahabr.ru/</link>
+    <description><![CDATA[Интересные публикации на Хабрахабре]]></description>
+    <language>ru</language>
+    <managingEditor>editor@habrahabr.ru</managingEditor>
+    <generator>habrahabr.ru</generator>
+    <pubDate>Mon, 14 Mar 2016 10:22:30 GMT</pubDate>
+    <lastBuildDate></lastBuildDate>
+        <image>
+            <link>https://habrahabr.ru/</link>
+            <url>https://habrahabr.ru/images/logo.png</url>
+            <title>Хабрахабр</title>
+        </image>
+                    <item>
+        <title><![CDATA[Правоохранители взялись за WhatsApp]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279205/</guid>
+        <link>https://habrahabr.ru/post/279205/</link>
+        <description><![CDATA[<br/>После предъявления претензий Apple по поводу невозможности юридически легитимного обоснования разблокировки iOS без знания passcode, спецслужбы США и Британии <a href="http://www.independent.co.uk/life-style/gadgets-and-tech/news/uk-spying-laws-uk-government-introduces-law-requiring-whatsapp-and-imessage-to-be-broken-a6905106.html">взялись</a> за WhatsApp. Аудитория этого мессенджера огромна, количество активных пользователей приближается уже к миллиарду. Несколько лет назад WhatsUp считался небезопасным мессенджером, который вообще не использовал шифрование. <br/>
+<br/>
+<img src="https://habrastorage.org/files/bec/484/77e/bec48477ea76481bac408c01b35a9454.png"/><br/>
+<br/>
+Ситуация с шифрованием изменилась во второй половине 2014 г., когда авторы WhatsApp начали сотрудничать с известной компанией Open Whisper Systems, специализирующейся на разработке защищенного мессенджера Signal. Тогда WhatsApp получил надежное end-to-end шифрование. Т. е. такое шифрование, при котором данные при пересылке не хранятся в расшифрованном виде на сервере. Это существенно усложнило работу спецслужб, которые уже не смогли получать такой беспрепятственный доступ к переписке пользователей. <br/>
+<br/>
+ <a href="https://habrahabr.ru/post/279205/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 09:39:12 GMT</pubDate>
+        <author>esetnod32</author>
+        <category><![CDATA[Блог компании ESET NOD32]]></category>
+        <category><![CDATA[security]]></category><category><![CDATA[whatsapp]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Что читать о перспективных языках программирования]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279193/</guid>
+        <link>https://habrahabr.ru/post/279193/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/getpro/habr/post_images/2d4/d34/99f/2d4d3499f285b0963d38c26c7dfe34e8.jpg" alt="image"/><br/>
+<br/>
+Начнем с важной информации: совсем не обязательно перспективные языки являются новыми. Им не так много лет, как вашим любимым Python или Ruby, их нет ни в одной топовой десятке популярных рейтингов (<a href="http://githut.info/">GitHut</a>, <a href="https://redmonk.com/sogrady/category/programming-languages/">RedMonk</a>, <a href="http://www.tiobe.com/tiobe_index?page=index">TIOBE Index</a>), а знание этих языков не дает пока существенной прибавки к зарплате (за исключением, возможно, Swift). Но и назвать их революцией, набирающей обороты в среде избранных, тоже нельзя. Безусловно, у них есть своя ниша, определенная доля рынка (до 2%) и сложившееся комьюнити. Просто в будущем именно они могут посягнуть на лавры топ-5, если не случится событие типа «черный лебедь».<br/>
+<br/>
+За последние годы в рейтингах популярности языков мало что изменилось — одни опускаются, другие поднимаются, но никто не врывается в топ под лозунгом «лучший из лучших». Процесс захвата новых территорий для языка чаще всего занимает годы, и за это время успевает сформироваться необходимая база развития. Поэтому никаких эксклюзивов и написанных за вчерашний вечер уникальных языков в обзоре не будет — просто потому, что их время еще не настало. Но в ближайшие годы популярность незыблемых столпов, таких как Java (вся), JavaScript или PHP, будет снижаться, а их место постепенно займут «новички».<br/>
+ <a href="https://habrahabr.ru/post/279193/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 09:46:53 GMT</pubDate>
+        <author>randall</author>
+        <category><![CDATA[Разработка]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[Блог компании Mail.Ru Group]]></category>
+        <category><![CDATA[языки программирования]]></category><category><![CDATA[книги]]></category><category><![CDATA[книги по программированию]]></category><category><![CDATA[Swift]]></category><category><![CDATA[Scala]]></category><category><![CDATA[Lua]]></category><category><![CDATA[Go]]></category><category><![CDATA[Rust]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Из песочницы] Конечное поле GF(256) и немного магии]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279197/</guid>
+        <link>https://habrahabr.ru/post/279197/</link>
+        <description><![CDATA[<br/><h2>Введение</h2><br/>
+Будучи студентом я посещаю занятия по криптографии. И разумеется этот курс не мог обойти вниманием стандарт <a href="https://ru.wikipedia.org/wiki/Advanced_Encryption_Standard">AES</a>.<br/>
+<br/>
+При реализации данного алгоритма встает вопрос о реализации полей GF(2^8), что будет освещено в данной статье. Будут рассмотрены: битовая магия для умножения элементов поля, шаблоны для генерации таблиц замен на этапе компиляции.<br/>
+<br/>
+Вторая часть предполагает, что читатель имеет доступ к компилятору с поддержкой C++14. Первая часть будет написана в стиле Си.<br/>
+ <a href="https://habrahabr.ru/post/279197/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 08:52:11 GMT</pubDate>
+        <author>tefion</author>
+        <category><![CDATA[Ненормальное программирование]]></category><category><![CDATA[C++]]></category>
+        <category>поля галуа</category><category>aes</category><category>битовая алхимия</category><category>шаблоны c++</category>
+    </item>
+
+        <item>
+        <title><![CDATA[Реализация грида для работы с большими таблицами. Часть 1]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/278773/</guid>
+        <link>https://habrahabr.ru/post/278773/</link>
+        <description><![CDATA[<br/>Таблица (грид) с вертикальной полосой прокрутки — наиболее распространённый элемент пользовательского интерфейса для работы с данными реляционной БД. Однако известны сложности, с которыми приходится сталкиваться, когда таблица содержит так много записей, что тактика их полной вычитки и сохранения в оперативной памяти становится неразумной.<br/>
+<br/>
+Какие-то приложения на большие таблицы не рассчитаны и «зависают» при попытке открыть на просмотр/редактирование таблицу с миллионами записей. Иные отказываются от использования грида с вертикальной полосой прокрутки в пользу постраничного отображения или предлагают пользователю лишь иллюзию, что при помощи полосы прокрутки можно быстро перейти к нужной (хотя бы к самой последней) записи.<br/>
+<br/>
+<div style="text-align:center;"><img  src="https://habrastorage.org/files/96f/a46/da1/96fa46da1a724434b1b5aa2c32853d68.png"/></div><br/>
+<br/>
+Мы расскажем об одном из возможных методов реализации табличного элемента управления, обладающего свойствами Log(N)-быстрого 1) первоначального отображения 2) прокрутки на всём диапазоне записей 3) перехода к записи с заданным уникальным ключом. Всё это — при двух ограничениях: 1) записи могут быть отсортированы только по индексированному набору полей и 2) collation-правила базы данных должны быть известны алгоритму. <br/>
+<br/>
+Изложенные в статье принципы были реализованы автором в проекте с его участием на языке Java. <br/>
+<br/>
+ <a href="https://habrahabr.ru/post/278773/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 06:24:05 GMT</pubDate>
+        <author>IvanPonomarev</author>
+        <category><![CDATA[Проектирование и рефакторинг]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[Анализ и проектирование систем]]></category><category><![CDATA[Алгоритмы]]></category>
+        <category><![CDATA[пользовательский интерфейс]]></category><category><![CDATA[грид]]></category><category><![CDATA[таблицы]]></category><category><![CDATA[базы данных]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Декораторы в typescript: оружие против сложности или бесполезная «свистелка»?]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/277847/</guid>
+        <link>https://habrahabr.ru/post/277847/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/files/454/6c4/f7e/4546c4f7eb2245c08cb6336b2ad9e6d0.jpg" align="left"/>Вы, наверное, уже наслышаны о такой странной вещи для js/ts разработчика, как <a href="https://github.com/Microsoft/TypeScript/wiki/What&#39;s-new-in-TypeScript#decorators">декораторы</a>. Вообще это паттерн проектирования, который можно использовать в любом языке. Но некоторые языки программирования, например python, притащили этот паттерн в свой синтаксис, чем вызвали противоречивую реакцию среди разработчиков. TypeScript уже зарекомендовал себя как сорока, тянущая удачный синтаксис из разных языков программирования. Но пойдут ли ему на пользу декораторы?<br/>
+ <a href="https://habrahabr.ru/post/277847/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 06:40:07 GMT</pubDate>
+        <author>irbisadm</author>
+        <category><![CDATA[Разработка]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[Веб-разработка]]></category><category><![CDATA[JavaScript]]></category><category><![CDATA[Блог компании Voximplant]]></category>
+        <category><![CDATA[typescript]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Вторая загадка Марса]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279175/</guid>
+        <link>https://habrahabr.ru/post/279175/</link>
+        <description><![CDATA[<br/><img height="573" src="https://habrastorage.org/getpro/habr/post_images/cc2/6d4/c4c/cc26d4c4c0501be771f2ba953835e2cf.jpg" width="860"/><br/>
+<br/>
+<i>Сегодня в 12:31 с Байконура стартует ракета «Протон-М», которая отправит к Марсу космические аппараты международной исследовательской миссии ExoMars. <a href="https://yandex.ru/search/?text=ЭкзоМарс-2016">Увидеть</a> пуск можно будет на Яндексе, который в 11:45 начнет трансляцию из студии Роскосмоса. Яндекс попросил меня рассказать подробнее о планируемой миссии и ее целях.</i><br/>
+<br/>
+Все знают, что никто не знает есть/была ли жизнь на Марсе. Это первая загадка. Пятнадцать лет назад второй загадкой была вода на Марсе. Сейчас ее уже многократно разгадали — <a href="http://zelenyikot.com/mars-water-mystery/">воду нашли</a>, картографировали, изучили с поверхности. Но к тому времени нашли загадку не менее важную — марсианский метан.<br/>
+ <a href="https://habrahabr.ru/post/279175/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Mon, 14 Mar 2016 06:15:49 GMT</pubDate>
+        <author>Zelenyikot</author>
+        <category><![CDATA[Разработка робототехники]]></category><category><![CDATA[Поисковые технологии]]></category><category><![CDATA[Блог компании Яндекс]]></category>
+        <category><![CDATA[ExoMars]]></category><category><![CDATA[Trace Gas Orbiter]]></category><category><![CDATA[TGO]]></category><category><![CDATA[mars eхpress]]></category><category><![CDATA[Curiosity]]></category><category><![CDATA[Марс]]></category><category><![CDATA[климат]]></category><category><![CDATA[атмосфера]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[PHP-Дайджест № 81 – интересные новости, материалы и инструменты (1 – 13 марта 2016)]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279167/</guid>
+        <link>https://habrahabr.ru/post/279167/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/files/9a6/3c0/5f2/9a63c05f241c415c92f8e6a9ba43acc8.jpg" height="400"/><br/>
+<br/>
+Предлагаем вашему вниманию очередную подборку со ссылками на новости и материалы.<br/>
+<br/>
+Приятного чтения!<br/>
+ <a href="https://habrahabr.ru/post/279167/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 20:32:16 GMT</pubDate>
+        <author>pronskiy</author>
+        <category><![CDATA[Веб-разработка]]></category><category><![CDATA[PHP]]></category><category><![CDATA[Блог компании Zfort Group]]></category>
+        <category><![CDATA[дайджест]]></category><category><![CDATA[новости]]></category><category><![CDATA[подборка]]></category><category><![CDATA[ссылки]]></category><category><![CDATA[веб-разработка]]></category><category><![CDATA[PHP]]></category><category><![CDATA[Symfony]]></category><category><![CDATA[Yii 2]]></category><category><![CDATA[Laravel]]></category><category><![CDATA[Lumen]]></category><category><![CDATA[Composer]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[ВКонтакте запускает третий чемпионат VK Cup]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279145/</guid>
+        <link>https://habrahabr.ru/post/279145/</link>
+        <description><![CDATA[<br/><b>Всем привет!</b> Социальная сеть ВКонтакте возобновляет свой блог на Хабре. <br/>
+<br/>
+Первое, о чём хотим рассказать, – чемпионат по спортивному программированию VK Cup 2016 и разбор нескольких интересных задач с прошлого года. <br/>
+<br/>
+<a href="https://habrahabr.ru/company/vkontakte/blog/279145/"><div style="text-align:center;"><img src="https://habrastorage.org/files/249/731/3cc/2497313ccd604aa1848867d3e831b54d.png" /></div></a><br/>
+Несколько слов о Чемпионате. ВКонтакте проводит <a href="http://codeforces.com/vkcup2016">третий VK Cup</a> — чемпионат по программированию среди русскоязычных молодых специалистов, студентов, школьников и просто любителей алгоритмов и структур данных.<br/>
+ <br/>
+К участию в нём приглашаются команды из двух человек (можно участвовать и индивидуально), чей возраст от 14 до 23 лет. Отборочные этапы пройдут с марта по май, а в финал будут приглашены лучшие 20 команд. Финал пройдет в Санкт-Петербурге в июле, лучшие восемь команд будут награждены призами:<br/>
+ <br/>
+<b>1 место</b> — 1048576 рублей<br/>
+<b>2 местo</b> — 524288 рублей<br/>
+<b>3 местo</b> — 262144 рубля<br/>
+<b>4-8 места</b> — 131072 рубля<br/>
+ <br/>
+Соревнование будет проходить на площадке Codeforces, регистрация уже открыта — <a href="http://codeforces.com/vkcup2016/teams/new">спешите зарегистрировать команду</a>! Начать своё участие необходимо <a href="http://codeforces.com/contests/637,638">с квалификационных этапов</a>, которые будут проходить 13-14 и 20-21 марта. Участвовать можно как в двух, так и в любом из них. Все подробности доступны по ссылке <a href="http://codeforces.com/vkcup2016">на странице Чемпионата</a>.<br/>
+ <a href="https://habrahabr.ru/post/279145/#habracut">Подробности</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:22:51 GMT</pubDate>
+        <author>MikeMirzayanov</author>
+        <category><![CDATA[Спортивное программирование]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[Алгоритмы]]></category><category><![CDATA[Блог компании ВКонтакте]]></category>
+        <category><![CDATA[vkcup]]></category><category><![CDATA[контест]]></category><category><![CDATA[алгоритмы]]></category><category><![CDATA[структуры данных]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Управление операторами колл-центра 3CX]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279159/</guid>
+        <link>https://habrahabr.ru/post/279159/</link>
+        <description><![CDATA[<br/>IP АТС 3CX Phone System имеет встроенный колл-центр с возможностями, достаточными для большинства небольших и средних компаний. Важно отметить, что колл-центр уже интегрирован в систему и не требует отдельного приобретения.<br/>
+<br/>
+В данный момент колл-центр работает на входящие вызовы и реализуется через функционал Очередей вызовов. К каждой Очереди вызовов подключена группа операторов, при этом отдельный оператор может быть подключен к одной и более очередям. Входящие вызовы распределяются между операторами по мере их доступности. Если все операторы заняты, абонент будет ожидать на линии (при этом можно указать предельное время ожидания, превышение которого будет считаться нарушением качества предоставления услуги). Во время ожидания время абонентам можно проигрывать приветственное сообщение, музыку, либо предложить заказать обратный вызов из Очереди.<br/>
+<br/>
+В этом руководстве мы рассмотрим различные способы подключения и отключения операторов колл-центра в Очередь вызовов. <a href="https://habrahabr.ru/post/279159/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 19:00:59 GMT</pubDate>
+        <author>snezhko</author>
+        <category><![CDATA[Системное администрирование]]></category><category><![CDATA[Разработка систем связи]]></category><category><![CDATA[ИТ-инфраструктура]]></category><category><![CDATA[Asterisk]]></category><category><![CDATA[Блог компании 3CX Ltd.]]></category>
+        <category><![CDATA[колл-центр]]></category><category><![CDATA[операторы]]></category><category><![CDATA[очереди вызовов]]></category><category><![CDATA[статусы]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] Декодирование типа данных JSON MySQL]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279155/</guid>
+        <link>https://habrahabr.ru/post/279155/</link>
+        <description><![CDATA[<br/>В этом посте мы собираемся исследовать тип данных JSON в MySQL 5.7 и во время погружения будем использовать фреймворк Laravel для построения запросов.<br/>
+<br/>
+<img src="https://habrastorage.org/getpro/habr/post_images/c31/ef8/f59/c31ef8f59e3f505f0341980f834a7686.png" alt="image"/><br/>
+ <a href="https://habrahabr.ru/post/279155/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:36:03 GMT</pubDate>
+        <author>Helldar</author>
+        <category><![CDATA[MySQL]]></category><category><![CDATA[Laravel]]></category>
+        <category>Laravel</category><category>laravel 5.2.23</category><category>MySQL 5.7</category><category>json</category>
+    </item>
+
+        <item>
+        <title><![CDATA[Дайджест интересных материалов из мира веб-разработки и IT за последнюю неделю №202 (6 — 13 марта 2016)]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279163/</guid>
+        <link>https://habrahabr.ru/post/279163/</link>
+        <description><![CDATA[<br/>Предлагаем вашему вниманию подборку с ссылками на полезные ресурсы, интересные материалы и IT-новости<br/>
+<br/>
+<img src="https://habrastorage.org/files/c14/b18/657/c14b186574bf42f69e6ff1c47fa0aa1d.png"/><br/>
+ <a href="https://habrahabr.ru/post/279163/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 19:25:57 GMT</pubDate>
+        <author>alexzfort</author>
+        <category><![CDATA[Веб-разработка]]></category><category><![CDATA[Веб-дизайн]]></category><category><![CDATA[JavaScript]]></category><category><![CDATA[CSS]]></category><category><![CDATA[Блог компании Zfort Group]]></category>
+        <category><![CDATA[дайджест]]></category><category><![CDATA[новости]]></category><category><![CDATA[css]]></category><category><![CDATA[js]]></category><category><![CDATA[es6]]></category><category><![CDATA[svg]]></category><category><![CDATA[анимация]]></category><category><![CDATA[react]]></category><category><![CDATA[angular]]></category><category><![CDATA[html5]]></category><category><![CDATA[браузеры]]></category><category><![CDATA[ссылки]]></category><category><![CDATA[веб-дизайн]]></category><category><![CDATA[веб-разработка]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Краткий курс компьютерной графики: задание карт нормалей в касательном пространстве]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279143/</guid>
+        <link>https://habrahabr.ru/post/279143/</link>
+        <description><![CDATA[<br/>Дошли руки написать очередное дополнение к <a href="https://habrahabr.ru/post/249139/">моему краткому курсу компьютерной графики.</a> Итак, тема для очередного разговора — использование <a href="https://en.wikipedia.org/wiki/Normal_mapping">карт нормалей</a>. В чём основное отличие использования карт нормалей от затенения Фонга? Основная разница в плотности задания информации. Для затенения Фонга мы использовали нормальные вектора, заданные к каждой вершине нашей полигональной сетки, интерполируя нормали внутри треугольников. Использование же карт нормалей позволяет задавать нормали для каждой точки нашей поверхности, а не лишь изредка, что просто драматическим образом влияет на детализацию изображений.<br/>
+<br/>
+В принципе, в <a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-6:-Shaders-for-the-software-renderer">лекции про шейдеры</a> мы уже использовали карту нормалей, но только заданную в глобальной системе координат. Сейчас же разговор пойдёт про <a href="https://en.wikipedia.org/wiki/Darboux_frame">касательное пространство</a>. Итак, вот две текстуры, левая задана в глобальном пространстве (RGB напрямую превращается в вектор XYZ), а правая — в касательном.<br/>
+<img src="https://raw.githubusercontent.com/ssloy/tinyrenderer/gh-pages/img/06b-tangent-space/nm_textures.jpg"/><br/>
+ <a href="https://habrahabr.ru/post/279143/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:52:03 GMT</pubDate>
+        <author>haqreu</author>
+        <category><![CDATA[Работа с анимацией и 3D-графикой]]></category><category><![CDATA[Программирование]]></category><category><![CDATA[Game Development]]></category><category><![CDATA[C++]]></category>
+        <category><![CDATA[геометрия для пятого класса]]></category><category><![CDATA[normal mapping]]></category><category><![CDATA[tangent space]]></category><category><![CDATA[компьютерная графика]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] С++ exception handling под капотом. Часть 2]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279151/</guid>
+        <link>https://habrahabr.ru/post/279151/</link>
+        <description><![CDATA[<br/>Продолжаем перевод серии статей об обработки исключений в С++<br/>
+<br/>
+<a href="https://habrahabr.ru/post/279111/">1 часть</a><br/>
+<a href="https://habrahabr.ru/post/279149/">3 часть</a><br/>
+<br/>
+<h1>C++ exceptions под капотом: милая персональность</h1><br/>
+Наша поездка в удивительном путешествии изучения работы исключений еще далека от конца, нам еще предстоит изучить что-то называемое &quot;call frame information&quot;, помогающая библиотеке Unwind делать разворачивание стэка, а так же что компилятор пишет в чем-то, называемом LSDA, в которой определяется, какие ошибки метод может обрабатывать. А так же мы уже узнали, что большинство магии происходит в персональной функции, которую мы пока еще не видели в действии. Давай те резюмируем, что мы уже знаем о пробросе и отлове ошибок (или, точнее, что мы уже знаем о том, как брошенное будет перехвачено):<br/>
+<br/>
+<ul>
+<li>компилятор транслирует throw объявление в пару <strong><strong>cxa_allocate_exception/</strong>xca_throw</strong></li>
+<li><strong>__cxa_allocate_exception</strong> создает исключение в памяти</li>
+<li><strong>__cxa_throw</strong> запускает работу разворачивания и передает исключение в низко-уровневую библиотеку разворачивания, вызывая <em>_Unwind_RaiseException</em></li>
+<li>Разворачивание стэка использует CFI, чтобы узнать, какая сейчас функция в стеке </li>
+<li>Каждая функция имеет LSDA, добавляя что-то, называемое <strong>.gcc_except_table</strong></li>
+<li>Разворачивание вызывает персональную функцию с текущим фреймом стэка и LSDA, которая должна продолжить разворачивать стэк, если текущая функция не имеет обработчиков исключения данного типа.</li>
+</ul> <a href="https://habrahabr.ru/post/279151/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:07:28 GMT</pubDate>
+        <author>kahi4</author>
+        <category><![CDATA[Алгоритмы]]></category><category><![CDATA[C++]]></category><category><![CDATA[Assembler]]></category>
+        <category>C++</category><category>exception</category><category>assembler</category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] SFML и Xcode (Mac OS X)]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279147/</guid>
+        <link>https://habrahabr.ru/post/279147/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/files/bc7/94a/b37/bc794ab377be444f8090426e56ae38bd.png"/><br/>
+<br/>
+<i>От переводчика: данная статья является четвертой в цикле переводов официального руководства по библиотеке SFML. Прошлую статью можно найти <a href="https://habrahabr.ru/post/279107/#first_unread" title="SFML и Linux">тут.</a> Данный цикл статей ставит своей целью предоставить людям, не знающим язык оригинала, возможность ознакомится с этой библиотекой. SFML — это простая и кроссплатформенная мультимедиа библиотека. SFML обеспечивает простой интерфейс для разработки игр и прочих мультимедийных приложений. Оригинал статьи можно найти <a href="http://www.sfml-dev.org/tutorials/2.3/" title="Оригинальная документация по SFML">тут</a>. Начнем.</i><br/>
+ <a href="https://habrahabr.ru/post/279147/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 17:36:56 GMT</pubDate>
+        <author>HighMem</author>
+        <category><![CDATA[Программирование]]></category><category><![CDATA[Локализация продуктов]]></category><category><![CDATA[Xcode]]></category><category><![CDATA[Game Development]]></category><category><![CDATA[C++]]></category>
+        <category>SFML</category><category>установка</category><category>перевод</category><category>документация</category><category>mac os x</category><category>clang</category><category>c++</category>
+    </item>
+
+        <item>
+        <title><![CDATA[Приглашаем всех на первый хакатон в истории Ставропольского края]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279139/</guid>
+        <link>https://habrahabr.ru/post/279139/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/files/feb/a0f/a5c/feba0fa5ca634c28976a172aa2ba022b.JPG"/><br/>
+<br/>
+Добрый день, друзья! Поздравляем всех с Масленицей!<br/>
+<br/>
+Мы хотим пригласить всех заинтересованных посетителей Хабра на <b>&lt;hackathon_weekend/&gt;</b> — <a href="https://vk.com/it_26?w=wall-111639906_29">первый хакатон</a> в истории Ставропольского края! Тема: «<i>Разработка мобильного или web приложения</i>». Хакатон состоится <b>с 18 по 20 марта 2016 </b>года в здании <a href="https://ru.wikipedia.org/wiki/%D0%A1%D0%B5%D0%B2%D0%B5%D1%80%D0%BE-%D0%9A%D0%B0%D0%B2%D0%BA%D0%B0%D0%B7%D1%81%D0%BA%D0%B8%D0%B9_%D1%84%D0%B5%D0%B4%D0%B5%D1%80%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9_%D1%83%D0%BD%D0%B8%D0%B2%D0%B5%D1%80%D1%81%D0%B8%D1%82%D0%B5%D1%82">СКФУ</a> в <b>г. Ставрополь</b> по адресу ул. Пушкина 1.<br/>
+<br/>
+Разрабатывать можно на любой ныне существующей мобильной или web платформе, однако вы должны быть готовы предоставить мобильное устройство (или устройства) с прототипом в кратковременное распоряжение судей для оценки, само приложение, а так же предъявить исходные тексты и материалы. Более узкая тема соревнования будет оглашена в день начала хакатона.  <a href="https://habrahabr.ru/post/279139/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 13:58:09 GMT</pubDate>
+        <author>Jeditobe</author>
+        <category><![CDATA[Разработка под iOS]]></category><category><![CDATA[Разработка под Windows Phone]]></category><category><![CDATA[Разработка под Android]]></category><category><![CDATA[Разработка мобильных приложений]]></category><category><![CDATA[Блог компании Фонд ReactOS]]></category>
+        <category><![CDATA[хакатон]]></category><category><![CDATA[мобильные приложения]]></category><category><![CDATA[webos]]></category><category><![CDATA[ios]]></category><category><![CDATA[windows mobile]]></category><category><![CDATA[android]]></category><category><![CDATA[metro ui]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[Дайджест интересных материалов для мобильного разработчика #144 (9-13 марта)]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279133/</guid>
+        <link>https://habrahabr.ru/post/279133/</link>
+        <description><![CDATA[<br/>Несмотря на нашу короткую неделю, за это время случилось много интересных событий – Google выпустил превью-версию Android N, Apple объявила дату новой конференции, Facebook купил MSQRD, наконец, проанализировав профили GitHub, исследователи выяснили, что Swift-разработчики самые бородатые, а Java – самые грустные. Все это и многое другое в новом дайджесте!<br/>
+<br/>
+<img src="https://habrastorage.org/files/486/0e7/1ff/4860e71ff73b4bf8bf92d7f6ca1bc4f0.png"/> <a href="https://habrahabr.ru/post/279133/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 12:41:55 GMT</pubDate>
+        <author>RoboForm</author>
+        <category><![CDATA[Разработка под iOS]]></category><category><![CDATA[Разработка под Android]]></category><category><![CDATA[Разработка мобильных приложений]]></category>
+        <category><![CDATA[разработка приложений]]></category><category><![CDATA[Android]]></category><category><![CDATA[iOS]]></category><category><![CDATA[Windows Phone]]></category><category><![CDATA[маркетинг]]></category><category><![CDATA[монетизация]]></category><category><![CDATA[мобильные устройства]]></category><category><![CDATA[мобильные приложения]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[К вопросу о погрешностях]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279129/</guid>
+        <link>https://habrahabr.ru/post/279129/</link>
+        <description><![CDATA[<br/><h1>Когда б Вы знали, из какого сора<br/>
+ растут стихи, не ведая стыда ...</h1><br/>
+Тема данного поста возникла совершенно неожиданно, в процессе чтения книги «Real-Time C++», более конкретно в процессе чтения раздела 6.13, в котором рассматривалось построение делителя измеряемого напряжения таким образом, чтобы получившийся результат легко (с применением только операции сдвига) масштабировался. Так вот, в конце раздела на странице 121 приводилась формула для оценки погрешности получаемой величины, которая привела меня в некоторое замешательство. Поскольку данную книгу «могут увидеть дети» и получить непоправимую травму психики, если некритично отнесутся к написанному, мною и создан настоящий пост с целью привнести определенный порядок в понимание методики оценки погрешностей измерений молодыми инженерами.<br/>
+<br/>
+<img src="https://habrastorage.org/files/a9a/7df/af9/a9a7dfaf906349e1bc428a335cedc47f.png"/><br/>
+ <a href="https://habrahabr.ru/post/279129/#habracut">Что мне тут не понравилось?</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 11:17:02 GMT</pubDate>
+        <author>GarryC</author>
+        <category><![CDATA[Разработка]]></category>
+        <category><![CDATA[разработка электроники]]></category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] С++ exception handling под капотом. Часть 3]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279149/</guid>
+        <link>https://habrahabr.ru/post/279149/</link>
+        <description><![CDATA[<br/>Продолжаем перевод серии статей об обработки исключений в C++<br/>
+<br/>
+<a href="https://habrahabr.ru/post/279111/">1 часть</a><br/>
+<a href="https://habrahabr.ru/post/279151/">2 часть</a><br/>
+<br/>
+<h1>C++ exceptions под капотом: поиск верного landing pad</h1><br/>
+Это уже 15-я глава в нашей длинной истории. Мы уже изучили достаточно много о том, как работают исключения, и даже имеем написанную работающую собственную персональную функцию с небольшим количеством рефлексии, определяющей где находится catch-блок (landing pad в терминах исключений). В прошлой главе мы написали персональную функцию, которая может обрабатывать исключения, но она всегда подставляет только первый landing pad (т.е. первый же catch-блок). Давайте улучшим нашу персональную функцию, добавив возможность выбирать правильный landing pad в функции с несколькими catch-блоками.<br/>
+ <a href="https://habrahabr.ru/post/279149/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:07:43 GMT</pubDate>
+        <author>kahi4</author>
+        <category><![CDATA[Алгоритмы]]></category><category><![CDATA[C++]]></category><category><![CDATA[Assembler]]></category>
+        <category>C++</category><category>exception</category><category>assembler</category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] С++ exception handling под капотом или как же работают исключения в C++]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279111/</guid>
+        <link>https://habrahabr.ru/post/279111/</link>
+        <description><![CDATA[<br/><img src="https://habrastorage.org/files/bae/cb7/772/baecb77727fa49619830c84649d3ab3e.jpg"/><br/>
+<h3>От переводчика</h3><br/>
+В мире победили языки высокого уровня и в мирах руби-питон-js разработчиков остается только разглагольствовать, что в плюсах не стоит использовать то или иное. Например, исключения, потому что они медленные и генерируют много лишнего кода. Стоило спросить &quot;и какой же код он генерирует&quot;, как в ответ получил мямленье и мычание. А и правда — как же они работают? Ну что ж, компилируем в g++ с флагом -S, смотрим что получилось. Поверхностно разобраться не сложно, однако то, что остались недопонимания — не давали мне спать. К счастью, готовая статья нашлась.<br/>
+<br/>
+На хабре есть несколько статей, <a href="https://habrahabr.ru/post/208006/">подробных</a> и <a href="https://habrahabr.ru/post/119016/">не очень</a> (при этом все равно хороших), посвященных тому, как работают exceptions в C++. Однако нет ни одной по-настоящему глубокой, поэтому я решил восполнить этот пробел, благо есть подходящий материал. Кому интересно как работают исключения в C++ на примере gcc — запаситесь pocket-ом или evernot, свободным временем и добро пожаловать под кат.<br/>
+ <a href="https://habrahabr.ru/post/279111/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Sun, 13 Mar 2016 18:07:17 GMT</pubDate>
+        <author>kahi4</author>
+        <category><![CDATA[Алгоритмы]]></category><category><![CDATA[C++]]></category><category><![CDATA[Accessibility]]></category>
+        <category>C++</category><category>exception</category><category>assembler</category>
+    </item>
+
+        <item>
+        <title><![CDATA[[Перевод] Саморегулирование биткойна]]></title>
+        <guid isPermaLink="true">https://habrahabr.ru/post/279087/</guid>
+        <link>https://habrahabr.ru/post/279087/</link>
+        <description><![CDATA[<br/>Небольшой фрагмент лекции из <a href="https://class.coursera.org/bitcointech-001">курса Принстонского университета</a>, лектор — <a href="http://randomwalker.info">Arvind Narayanan</a><br/>
+<br/>
+Сейчас я хочу продемонстрировать вам еще одну тонкую мысль, довольно сложную, это очень четкая идея саморегулирования, которая захватила меня в первый раз, когда я с ней встретился. Я хочу поделиться ей с вами. <br/>
+<br/>
+Что я имею в виду под саморегулированием? Я говорю о сложном взаимодействии между тремя вещами в биткойне. Что это за три вещи? <br/>
+ <a href="https://habrahabr.ru/post/279087/#habracut">Читать дальше &rarr;</a>]]></description>
+        
+        <pubDate>Fri, 11 Mar 2016 22:22:31 GMT</pubDate>
+        <author>hippus</author>
+        <category><![CDATA[Платежные системы]]></category><category><![CDATA[Криптография]]></category><category><![CDATA[Peer-to-Peer]]></category>
+        <category>биткойн</category><category>как это работает</category><category>парадоксы</category>
+    </item>
+
+
+
+</channel>
+</rss>

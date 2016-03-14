@@ -67,6 +67,8 @@ public class FeedSourceService implements IFeedSourceService {
         try {
             RssChannel rssChannel = rssService.getChannel(feedSource.getUrl());
             feedSource.setName(rssChannel.getTitle());
+            feedSource.setLogoUrl(rssChannel.getImage().getUrl());
+            feedSource.setDescription(rssChannel.getDescription());
         } catch (XmlMappingException | IOException e) {
             logger.fatal("Exception when form FeedSource from RSS service! RSS source url - " 
                     + feedSource.getUrl() + ". " + rssService);

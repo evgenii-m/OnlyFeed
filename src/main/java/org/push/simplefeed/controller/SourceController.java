@@ -8,18 +8,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 
-
-import javax.validation.Valid;
-
-//import org.apache.commons.validator.UrlValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.service.IFeedSourceService;
+import org.push.simplefeed.validator.FeedSourceFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -33,12 +32,20 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class SourceController {
     private static Logger logger = LogManager.getLogger(SourceController.class);
     private IFeedSourceService feedSourceService;
+    @Autowired
+    private FeedSourceFormValidator feedSourceFromValidator;
     
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setValidator(feedSourceFromValidator);
+    }
+    
     @Autowired
     public void setFeedSourceService(IFeedSourceService feedSourceService) {
         this.feedSourceService = feedSourceService;
     }
+
     
 
     @RequestMapping(method = GET)
@@ -53,12 +60,22 @@ public class SourceController {
     
     
     @RequestMapping(method = POST)
-    public String addFeedSource(@ModelAttribute("newFeedSource") @Valid FeedSourceEntity newFeedSource, 
+    public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
             BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
-            logger.error("Error when bind newFeedSource - " + newFeedSource + ".\n" + bindingResult.toString());
-            return "redirect:/source";
+            logger.error("Error when bind newFeedSource - \"" + newFeedSource + "\".\n" 
+                    + bindingResult.toString());
+            // TODO: add an error message on view
+            return "source/list";
         }
+        
+        feedSourceFromValidator.validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
+        if (bindingResult.hasErrors()) {
+            logger.info("Error when validate Feed Source URL - \"" + newFeedSource.getUrl() + "\".\n"
+                    + bindingResult.toString());
+            return "source/list";
+        }
+        
         feedSourceService.formFeedSource(newFeedSource);
         redirectAttributes.addFlashAttribute("feedSource", newFeedSource);
         return "redirect:/source/add";

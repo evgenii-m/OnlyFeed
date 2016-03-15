@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class FeedSourceService implements IFeedSourceService {
-    private static String DEFAULT_LOGO_URL = "https://localhost:8080/SimpleFeed/img/no_logo.gif";
+    static String DEFAULT_LOGO_URL = "https://localhost:8080/SimpleFeed/img/no_logo.gif";
     
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
@@ -82,6 +82,11 @@ public class FeedSourceService implements IFeedSourceService {
                     + feedSource.getUrl() + ". " + rssService);
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isSupported(String feedSourceUrl) {
+        return rssService.isRssSource(feedSourceUrl);
     }
     
 }

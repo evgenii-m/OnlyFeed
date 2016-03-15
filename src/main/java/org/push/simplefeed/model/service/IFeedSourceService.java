@@ -17,4 +17,5 @@ public interface IFeedSourceService {
     FeedSourceEntity findById(Long id);
     List<FeedSourceEntity> getAll();
     void formFeedSource(FeedSourceEntity feedSource);
+    boolean isSupported(String feedSourceUrl);
 }

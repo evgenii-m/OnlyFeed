@@ -35,9 +35,21 @@ public class RssService {
         return rssItemList;
     }
     
-    public RssChannel getChannel(String rssUrl)  throws XmlMappingException, IOException {
+    public RssChannel getChannel(String rssUrl) throws XmlMappingException, IOException {
         Rss rss = (Rss) xmlConverter.xmlToObject(rssUrl);
         return rss.getChannel();
+    }
+    
+    public boolean isRssSource(String sourceUrl) {
+        try {
+            Rss rss = (Rss) xmlConverter.xmlToObject(sourceUrl);
+            if (rss.getChannel() == null) {
+                return false;
+            }
+            return true;
+        } catch (XmlMappingException | IOException ex) {
+            return false;
+        }
     }
 }
 

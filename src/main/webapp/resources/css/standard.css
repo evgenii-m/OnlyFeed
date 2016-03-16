@@ -1,113 +1,186 @@
-/* feed view */
-.feed-item {
-	max-height: 150px;
-	max-width: 600px;
-	margin-bottom: 20px;
-	border-bottom: 1px solid #C1C1C1;
-    clear: both;
-/*  cursor: pointer; */
-    overflow: hidden;
+
+.content-container {
+    width: 600px;
+    position: relative;
+    display: block; 
 }
 
-.feed-item-title {
-	height: 20px;
-	font-weight: bold;
+.feed-form-title {
+	font-size: 24px;
+    font-weight: bold;	
+    color: #777777;
+    margin-bottom: 15px;
 }
 
-.feed-item-content {
-	
+.feed-form-row {
+    margin-bottom: 15px;
 }
 
-.feed-item-img {
-	width: 200px;
-	height: 120px;
-	float: left;
-	opacity: 1;
-	background-position: 50% 25%;
-	background-size: cover;
-	background-repeat: no-repeat;
+.feed-logo {
+    width: 200px;
+    height: 120px;
+    opacity: 1;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: inline-block;
+    border: 1px solid #888;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 
-.feed-item-info {
-	margin-left: 220px;
-}
+/*************************************************************************************************/
 
 
 
 /* list view */
 .new-feed-source-form {
-	margin-top: 50px;
-	margin-bottom: 40px;
-	position: relative;
-	display: block;
+	margin-top: 35px;
+	margin-bottom: 35px;
 }
 
-.new-feed-source-form b {
-	color: #777777;
+.new-feed-source-form .error {
+    width: 250px;
+    height: 35px;
+    padding: 7px 15px;
+    font-weight: bold;
 }
 
-.new-feed-source-input {
-	margin-top: 10px;
+.new-feed-source-form input {
+	width: 530px;
+    height: 30px;
+    display: inline-block;
 }
 
-.new-feed-source-input input {
-	width: 500px;
-	min-width: 300px;
+.new-feed-source-form button {
+	width: 58px;
+	height: 28px;
+	margin-top: -2px;
+	margin-left: 7px;
 }
 
 .feed-source-list {
-	
+	margin-top: 50px;
 }
 
 .feed-source-list .item {
-	
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #CCC;
+/*  cursor: pointer; */
+    overflow: hidden;	
+}
+
+.feed-source-list .item .feed-logo {
+    width: 167px;
+    height: 100px;
+	float: left;
+	margin-right: 15px;
 }
 
 .feed-source-list .item .name {
-	
+    height: 25px;
+    font-weight: bold;  
 }
+
+.feed-source-list .item .description {
+	height: 55px;
+}
+
+.feed-source-list .item .action-links {
+	float: right;
+	margin-right: 20px;
+}
+/*************************************************************************************************/
 
 
 
 /* edit view */
 .edit-feed-source-form {
-	margin-top: 50px;
-	width: 500px;
-	min-width: 300px;
-    position: relative;
-    display: block;
-}
-
-.edit-feed-source-form input {
-	min-width: 200px;
-	width: 400px;
-	height: 30px;
-	margin-left: 5px;
-    display: inline-block;
+	margin-top: 35px;
+    margin-bottom: 35px;
 }
 
 .edit-feed-source-form label {
-	width: 80px;
-	font-weight: normal;
+    width: 100px;
+    font-weight: normal;
+    padding-top: 4px;
+    margin-right: 10px;
+    float: left;
 }
 
 .edit-feed-source-form .required-field-label {
-	font-weight: bold;
+    font-weight: bold;
 }
 
-.edit-feed-source-form div {
-	margin-bottom: 10px;
+.edit-feed-source-form input {
+	width: 480px;
+	height: 30px;
+    display: inline-block;
+}
+
+.edit-feed-source-form textarea {
+    width: 480px;
+    height: 74px;
+    min-height: 52px;
+    resize: vertical;
+    display: inline-block;
+}
+
+.edit-feed-source-form .error {
+    width: 400px;
+    height: 35px;
+    padding: 7px 15px;
+    margin-top: 7px;
+    margin-left: 110px;
+    font-weight: bold;
 }
 
 .edit-feed-source-form .form-buttons {
 	text-align: right;
 	margin-top: 20px; 
-    border-top: 1px solid #C1C1C1;
+    border-top: 1px solid #CCC;
 }
 
 .edit-feed-source-form .form-buttons button {
     width: 100px;
 	margin: 10px 15px 10px 10px;
 }
+/*************************************************************************************************/
 
 
+
+/* feed view */
+.feed-item {
+    max-height: 150px;
+    max-width: 600px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #C1C1C1;
+    clear: both;
+/*  cursor: pointer; */
+    overflow: hidden;
+}
+
+.feed-item-title {
+    height: 20px;
+    font-weight: bold;
+}
+
+.feed-item-content {
+    
+}
+
+.feed-item-img {
+    width: 200px;
+    height: 120px;
+    float: left;
+    opacity: 1;
+    background-position: 50% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.feed-item-info {
+    margin-left: 220px;
+}
+/*************************************************************************************************/

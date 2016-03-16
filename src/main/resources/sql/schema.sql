@@ -9,6 +9,6 @@ CREATE TABLE feed_sources (
     url VARCHAR(255) NOT NULL,
     logo_url VARCHAR(512) NOT NULL,
     description VARCHAR(1000),
-    UNIQUE uq_source (name, url),
+--    UNIQUE uq_source (name, url),
     PRIMARY KEY (id)
 );

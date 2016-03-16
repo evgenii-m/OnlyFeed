@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Service
 public class FeedSourceService implements IFeedSourceService {
-    static String DEFAULT_LOGO_URL = "https://localhost:8080/SimpleFeed/img/no_logo.gif";
+    static final String DEFAULT_LOGO_URL = "http://localhost:8080/SimpleFeed/resources/img/no_logo.gif";
     
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
@@ -58,12 +58,21 @@ public class FeedSourceService implements IFeedSourceService {
         return feedSourceRepository.findOne(id);
     }
 
+    
+    @Override
+    public FeedSourceEntity getBlankFeedSource() {
+        FeedSourceEntity blankFeedSource = new FeedSourceEntity();
+        blankFeedSource.setLogoUrl(DEFAULT_LOGO_URL);
+        return blankFeedSource;
+    }
+
 
     @Override
     @Transactional(readOnly = true)
     public List<FeedSourceEntity> getAll() {
         return feedSourceRepository.findAll();
     }
+    
     
     @Override
     public void formFeedSource(FeedSourceEntity feedSource) {

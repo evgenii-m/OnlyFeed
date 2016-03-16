@@ -3,13 +3,14 @@
  */
 package org.push.simplefeed.validator;
 
+import static org.push.simplefeed.model.entity.FeedSourceEntity.*;
+
 import org.apache.commons.validator.routines.UrlValidator;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 /**
@@ -18,10 +19,8 @@ import org.springframework.validation.Validator;
  */
 @Component
 public class FeedSourceFormValidator implements Validator {
-    static String ERROR_CODE_INVALID_URL = "validation.InvalidURL.FeedSourceForm.url.message";
-    static String ERROR_CODE_UNSUPPORTED = "validation.UnsupportedFeedSource.FeedSourceForm.url.message";
     private IFeedSourceService feedSourceService;
-    
+
 
     @Autowired
     public void setFeedSourceService(IFeedSourceService feedSourceService) {
@@ -37,15 +36,15 @@ public class FeedSourceFormValidator implements Validator {
     
     
     public void validateFeedSourceUrl(String feedSourceUrl, Errors errors) {
-        UrlValidator urlValidator = new UrlValidator();
-                
-        if (!urlValidator.isValid(feedSourceUrl)) {
-            errors.rejectValue("url", ERROR_CODE_INVALID_URL);
-            return;
-        }
-        
-        if (!feedSourceService.isSupported(feedSourceUrl)) {
-            errors.rejectValue("url", ERROR_CODE_UNSUPPORTED);            
+        UrlValidator urlValidator = new UrlValidator();    
+        if ((feedSourceUrl == null) || (feedSourceUrl.trim().length() == 0)) {
+            errors.rejectValue("url", URL_EMPTY_ERROR_CODE);
+        } else if (!urlValidator.isValid(feedSourceUrl)) {
+            errors.rejectValue("url", URL_INVALID_ERROR_CODE);
+        } else if (feedSourceUrl.length() > URL_MAX_SIZE) {
+            errors.rejectValue("url", URL_SIZE_ERROR_CODE);            
+        } else if (!feedSourceService.isSupported(feedSourceUrl)) {
+            errors.rejectValue("url", URL_UNSUPPORTED_ERROR_CODE);            
         }
     }
     
@@ -54,11 +53,28 @@ public class FeedSourceFormValidator implements Validator {
     public void validate(Object target, Errors errors) {
         FeedSourceEntity feedSource = (FeedSourceEntity) target;
         
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "url", "validation.InvalidURL.FeedSourceForm.url.message");
+        String name = feedSource.getName();
+        if ((name == null) || (name.trim().length() == 0)) {
+            errors.rejectValue("name", NAME_EMPTY_ERROR_CODE);
+        } else if ((name.length() < NAME_MIN_SIZE) || (name.length() > NAME_MAX_SIZE)) {
+            errors.rejectValue("name", NAME_SIZE_ERROR_CODE);
+        }
         
-        UrlValidator urlValidator = new UrlValidator();
-        if (!urlValidator.isValid(feedSource.getUrl())) {
-            errors.rejectValue("url", "validation.InvalidURL.FeedSourceForm.url.message");
+        validateFeedSourceUrl(feedSource.getUrl(), errors);
+        
+        String logoUrl = feedSource.getLogoUrl();
+        // TODO: uncomment URL validation for logoUrl after debug
+//        UrlValidator urlValidator = new UrlValidator();  
+        if ((logoUrl == null) || (logoUrl.trim().length() == 0)) {
+            errors.rejectValue("logoUrl", LOGO_URL_EMPTY_ERROR_CODE);            
+//        } else if (!urlValidator.isValid(logoUrl)) {
+//            errors.rejectValue("logoUrl", LOGO_URL_INVALID_ERROR_CODE);
+        } else if (logoUrl.length() > LOGO_URL_MAX_SIZE) {
+            errors.rejectValue("logoUrl", LOGO_URL_SIZE_ERROR_CODE);            
+        }
+        
+        if (feedSource.getDescription().length() > DESCRIPTION_MAX_SIZE) {
+            errors.rejectValue("description", DESCRIPTION_SIZE_ERROR_CODE);
         }
     }
     

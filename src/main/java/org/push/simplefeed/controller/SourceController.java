@@ -6,7 +6,7 @@ package org.push.simplefeed.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -49,12 +50,9 @@ public class SourceController {
     
 
     @RequestMapping(method = GET)
-    public String showFeedSourceList(Model uiModel) {
-        FeedSourceEntity newFeedSource = new FeedSourceEntity();
-        uiModel.addAttribute("newFeedSource", newFeedSource);
-        List<FeedSourceEntity> feedSourceList = feedSourceService.getAll();
-        uiModel.addAttribute("feedSourceList", feedSourceList);
-        logger.debug("Feed Sources count = " + feedSourceList.size());
+    public String showFeedSourceList(Model uiModel) {     
+        uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
+        uiModel.addAttribute("feedSourceList", feedSourceService.getAll());
         return "source/list";
     }
     
@@ -62,17 +60,11 @@ public class SourceController {
     @RequestMapping(method = POST)
     public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
             BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) {
-            logger.error("Error when bind newFeedSource - \"" + newFeedSource + "\".\n" 
-                    + bindingResult.toString());
-            // TODO: add an error message on view
-            return "source/list";
-        }
-        
         feedSourceFromValidator.validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {
-            logger.info("Error when validate Feed Source URL - \"" + newFeedSource.getUrl() + "\".\n"
+            logger.error("Error when validate Feed Source URL - \"" + newFeedSource.getUrl() + "\".\n"
                     + bindingResult.toString());
+            uiModel.addAttribute("feedSourceList", feedSourceService.getAll());
             return "source/list";
         }
         
@@ -85,11 +77,35 @@ public class SourceController {
     @RequestMapping(value = "/add", method = GET)
     public String showAddFeedSourceForm(Model uiModel) {
         if (!uiModel.containsAttribute("feedSource")) {
-            FeedSourceEntity feedSource = new FeedSourceEntity();
+            FeedSourceEntity feedSource = feedSourceService.getBlankFeedSource();
             uiModel.addAttribute("feedSource", feedSource);
             logger.debug("Added blank feedSource to uiModel");
         }
-        return "source/add";
+        return "source/edit";
     }
+    
+    
+    @RequestMapping(value = "/edit/{id}", method = GET)
+    public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel) {
+        uiModel.addAttribute("feedSource", feedSourceService.findById(id));
+        return "source/edit";
+    }
+        
+    
+    @RequestMapping(value = {"/add", "/edit/{id}"}, method = POST)
+    public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
+            BindingResult bindingResult, Model uiModel) {
+        if (bindingResult.hasErrors()) {
+            logger.error("Error when validate Feed Source - \"" + feedSource + "\".\n"
+                    + bindingResult.toString());
+            return "source/edit";
+        }
+        
+        feedSourceService.save(feedSource);
+        logger.debug("Added/updated feedSource - \"" + feedSource + "\"");
+        return "redirect:/source";
+    }
+    
+    
     
 }

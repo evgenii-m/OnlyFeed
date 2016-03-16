@@ -6,10 +6,10 @@ package org.push.simplefeed.validator;
 import static org.testng.Assert.*;
 import static org.mockito.Mockito.*;
 
+import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.service.FeedSourceService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -30,13 +30,13 @@ public class FeedSourceFormValidatorTest extends AbstractTestNGSpringContextTest
     @DataProvider
     public Object[][] testDataSet1() {
         return new Object[][] {
-                { null, FeedSourceFormValidator.ERROR_CODE_INVALID_URL},  
-                { "asd", FeedSourceFormValidator.ERROR_CODE_INVALID_URL },
+                { null, FeedSourceEntity.URL_INVALID_ERROR_CODE},  
+                { "asd", FeedSourceEntity.URL_INVALID_ERROR_CODE },
                 { "https://habrahabr.ru/rss/interesting/", null },
                 { "https://habrahabr.ru/rss/", null },
-                { "https://habrahabr.ru/", FeedSourceFormValidator.ERROR_CODE_UNSUPPORTED },
+                { "https://habrahabr.ru/", FeedSourceEntity.URL_UNSUPPORTED_ERROR_CODE },
                 { "https://tjournal.ru/rss", null },
-                { "https://tjournal.ru/", FeedSourceFormValidator.ERROR_CODE_UNSUPPORTED }
+                { "https://tjournal.ru/", FeedSourceEntity.URL_UNSUPPORTED_ERROR_CODE }
         };
     }
     

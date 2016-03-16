@@ -21,17 +21,8 @@
 	</head>
 
 	<body>
-        <div class="container">
-			<div id="headerWrapper">
-	            <tiles:insertAttribute name="header" ignore="true"/>
-			</div>
-			<div id="wrapper">
-	            <tiles:insertAttribute name="menu" ignore="true"/>
-				<div id="main">
-					<tiles:insertAttribute name="body"/>
-					<tiles:insertAttribute name="footer" ignore="true"/>
-				</div>
-			</div>
+		<div class="container">
+			<tiles:insertAttribute name="body"/>
 		</div>
 	</body>
 </html>

@@ -6,10 +6,6 @@ package org.push.simplefeed.model.entity;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
 
 
 /**
@@ -19,25 +15,33 @@ import org.hibernate.validator.constraints.URL;
 @Entity
 @Table(name = "feed_sources")
 public class FeedSourceEntity {
+    public static final int NAME_MIN_SIZE = 5;
+    public static final int NAME_MAX_SIZE = 100;
+    public static final int URL_MAX_SIZE = 255;
+    public static final int LOGO_URL_MAX_SIZE = 512;
+    public static final int DESCRIPTION_MAX_SIZE = 1000;
+
+    public static final String NAME_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.name.NotEmpty";
+    public static final String NAME_SIZE_ERROR_CODE = "validation.FeedSourceEntity.name.Size";
+    public static final String URL_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.url.NotEmpty";
+    public static final String URL_INVALID_ERROR_CODE = "validation.FeedSourceEntity.url.InvalidURL";
+    public static final String URL_SIZE_ERROR_CODE = "validation.FeedSourceEntity.url.Size";
+    public static final String URL_UNSUPPORTED_ERROR_CODE = "validation.FeedSourceEntity.url.UnsupportedFeedSource";
+    public static final String LOGO_URL_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.NotEmpty";
+    public static final String LOGO_URL_INVALID_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.InvalidURL";
+    public static final String LOGO_URL_SIZE_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.Size";
+    public static final String DESCRIPTION_SIZE_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.NotEmpty";
+    
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
-    
     @Column(name = "name")
-    @NotEmpty(message = "{validation.name.NotEmpty.message}")
-    @Size(min = 1, max = 100, message = "{validation.name.Size.message}")
     private String name;
-    
     @Column(name = "url")
-    @NotEmpty(message = "{validation.url.NotEmpty.message}")
-    @URL(message = "{validation.url.URL.message}")
-    @Size(max = 255, message = "{validation.url.Size.message}")
     private String url;
-    
     @Column(name = "logo_url")
     private String logoUrl;
-    
     @Column(name = "description")
     private String description;
     

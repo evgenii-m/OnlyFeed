@@ -29,9 +29,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class FeedItemService implements IFeedItemService {
-    private static String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
-    private static String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
-    private static String BRIEF_DESC_PATTERN = "<.*?(/>|>)";  // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
+    private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
+    private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
+    // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
+    private static final String BRIEF_DESC_PATTERN = "<.*?(/>|>)";
     
     private static Logger logger = LogManager.getLogger(FeedItemService.class);
     private FeedSourceRepository feedSourceRepository;

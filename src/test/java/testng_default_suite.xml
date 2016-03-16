@@ -14,4 +14,10 @@
         </classes>
     </test>
 
+    <test name="validator">  
+        <classes>
+            <class name="org.push.simplefeed.validator.FeedSourceFormValidatorTest"/>
+        </classes>
+    </test>
+
 </suite>

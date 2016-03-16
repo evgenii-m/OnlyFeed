@@ -3,19 +3,46 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div class="container">
+<spring:message var="addFormTitle" code="edit.addFormTitle"/>
+<spring:message var="editFormTitle" code="edit.editFormTitle"/>
+<spring:message var="nameLabel" code="edit.nameLabel"/>
+<spring:message var="urlLabel" code="edit.urlLabel"/>
+<spring:message var="logoLabel" code="edit.logoLabel"/>
+<spring:message var="descriptionLabel" code="edit.descriptionLabel"/>
+<spring:message var="cancelButton" code="edit.cancelButton"/>
+<spring:message var="saveButton" code="edit.saveButton"/>
+
+
+<spring:eval var="formTitle" expression="feedSource.id == null ? addFormTitle : editFormTitle"/>
+
+
+<div class="content-container">
     <form:form modelAttribute="feedSource" method="post" class="edit-feed-source-form">
-        <div>
-	        <form:label path="name" class="required-field-label">Name</form:label>
+        <div class="feed-form-title">${formTitle}</div>
+        <div class="feed-form-row">
+	        <form:label path="name" class="required-field-label">${nameLabel}</form:label>
 	        <form:input path="name" class="form-control"/>
+            <form:errors path="name" class="alert alert-danger error" element="div"/>
         </div>
-        <div>
-            <form:label path="url" class="required-field-label">URL</form:label>
+        <div class="feed-form-row">
+            <form:label path="url" class="required-field-label">${urlLabel}</form:label>
             <form:input path="url" class="form-control"/>
+            <form:errors path="url" class="alert alert-danger error" element="div"/>
+        </div>
+        <div class="feed-form-row">
+            <form:label path="description">${descriptionLabel}</form:label>
+            <form:textarea path="description" class="form-control"/>
+            <form:errors path="description" class="alert alert-danger error" element="div"/>
+        </div>
+        <div class="feed-form-row">
+            <form:label path="logoUrl">${logoLabel}</form:label>
+            <form:hidden path="logoUrl" value="${feedSource.logoUrl}"/>
+            <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
+            <form:errors path="logoUrl" class="alert alert-danger error" element="div"/>
         </div>
         <div class="form-buttons">
-            <button type="button" class="btn btn-warning">Close</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="/SimpleFeed/source"><button type="button" class="btn btn-warning">${cancelButton}</button></a>
+            <button type="submit" class="btn btn-primary">${saveButton}</button>
         </div>
     </form:form>
 </div>

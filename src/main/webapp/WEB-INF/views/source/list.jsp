@@ -28,8 +28,8 @@
                 <div class="name">${feedSource.name}</div>
                 <div class="description">${feedSource.description}</div>
                 <div class="action-links">
-                    <a href="${editFeedSourceUrl}/${feedSource.id}">${editLink}</a> | 
-                    <a onclick="submitPostRequest('${deleteFeedSourceUrl}/${feedSource.id}')">${deleteLink}</a>
+                    <span onclick="location.href='${editFeedSourceUrl}/${feedSource.id}'">${editLink}</span> | 
+                    <span onclick="submitPostRequest('${deleteFeedSourceUrl}/${feedSource.id}')">${deleteLink}</span>
                 </div>
 	        </div>
 	    </c:forEach>

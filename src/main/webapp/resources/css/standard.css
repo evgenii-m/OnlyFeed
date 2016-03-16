@@ -43,7 +43,6 @@
     width: 250px;
     height: 35px;
     padding: 7px 15px;
-    font-weight: bold;
 }
 
 .new-feed-source-form input {
@@ -91,11 +90,24 @@
 	float: right;
 	margin-right: 20px;
 }
+
+.action-links span {
+    cursor: pointer;
+}
 /*************************************************************************************************/
 
 
 
 /* edit view */
+.not-found-alert {
+	margin-top: 35px;
+	font-size: 24px;
+}
+
+.not-found-alert span {
+    font-weight: bold;
+}
+
 .edit-feed-source-form {
 	margin-top: 35px;
     margin-bottom: 35px;
@@ -133,7 +145,6 @@
     padding: 7px 15px;
     margin-top: 7px;
     margin-left: 110px;
-    font-weight: bold;
 }
 
 .edit-feed-source-form .form-buttons {

@@ -37,9 +37,7 @@ public class FeedSourceFormValidator implements Validator {
     
     public void validateFeedSourceUrl(String feedSourceUrl, Errors errors) {
         UrlValidator urlValidator = new UrlValidator();    
-        if ((feedSourceUrl == null) || (feedSourceUrl.trim().length() == 0)) {
-            errors.rejectValue("url", URL_EMPTY_ERROR_CODE);
-        } else if (!urlValidator.isValid(feedSourceUrl)) {
+        if (!urlValidator.isValid(feedSourceUrl)) {
             errors.rejectValue("url", URL_INVALID_ERROR_CODE);
         } else if (feedSourceUrl.length() > URL_MAX_SIZE) {
             errors.rejectValue("url", URL_SIZE_ERROR_CODE);            
@@ -60,7 +58,12 @@ public class FeedSourceFormValidator implements Validator {
             errors.rejectValue("name", NAME_SIZE_ERROR_CODE);
         }
         
-        validateFeedSourceUrl(feedSource.getUrl(), errors);
+        String feedSourceUrl = feedSource.getUrl();
+        if ((feedSourceUrl == null) || (feedSourceUrl.trim().length() == 0)) {
+            errors.rejectValue("url", URL_EMPTY_ERROR_CODE);
+        } else {
+            validateFeedSourceUrl(feedSourceUrl, errors);
+        }
         
         String logoUrl = feedSource.getLogoUrl();
         // TODO: uncomment URL validation for logoUrl after debug

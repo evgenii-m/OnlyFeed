@@ -6,6 +6,7 @@
 
 <spring:url var="bootstrapCssUrl" value="/resources/css/bootstrap.css"/>
 <spring:url var="standardCssUrl" value="/resources/css/standard.css"/>
+<spring:url var="scriptsUrl" value="/resources/js/scripts.js"/>
 
 
 <!DOCTYPE HTML>
@@ -17,6 +18,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="${bootstrapCssUrl}" type="text/css" media="screen"/>
         <link rel="stylesheet" href="${standardCssUrl}" type="text/css" media="screen"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="${scriptsUrl}"></script>
         <title>${applicationName}</title>
 	</head>
 

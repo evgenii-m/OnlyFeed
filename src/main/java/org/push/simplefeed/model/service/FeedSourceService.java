@@ -51,6 +51,11 @@ public class FeedSourceService implements IFeedSourceService {
         feedSourceRepository.save(feedSource);
     }
 
+    @Override
+    public void delete(Long id) {
+        feedSourceRepository.delete(id);
+    }
+    
 
     @Override
     @Transactional(readOnly = true)
@@ -60,7 +65,7 @@ public class FeedSourceService implements IFeedSourceService {
 
     
     @Override
-    public FeedSourceEntity getBlankFeedSource() {
+    public FeedSourceEntity getBlank() {
         FeedSourceEntity blankFeedSource = new FeedSourceEntity();
         blankFeedSource.setLogoUrl(DEFAULT_LOGO_URL);
         return blankFeedSource;
@@ -75,7 +80,7 @@ public class FeedSourceService implements IFeedSourceService {
     
     
     @Override
-    public void formFeedSource(FeedSourceEntity feedSource) {
+    public void fillBlank(FeedSourceEntity feedSource) {
         try {
             RssChannel rssChannel = rssService.getChannel(feedSource.getUrl());
             feedSource.setName(rssChannel.getTitle());

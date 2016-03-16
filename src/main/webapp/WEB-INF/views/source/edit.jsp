@@ -12,6 +12,7 @@
 <spring:message var="cancelButton" code="edit.cancelButton"/>
 <spring:message var="saveButton" code="edit.saveButton"/>
 
+<spring:url var="listFeedSourceUrl" value="/source"/>
 
 <spring:eval var="formTitle" expression="feedSource.id == null ? addFormTitle : editFormTitle"/>
 
@@ -41,7 +42,7 @@
             <form:errors path="logoUrl" class="alert alert-danger error" element="div"/>
         </div>
         <div class="form-buttons">
-            <a href="/SimpleFeed/source"><button type="button" class="btn btn-warning">${cancelButton}</button></a>
+            <button type="button" onclick="location.href='${listFeedSourceUrl}'" class="btn btn-warning">${cancelButton}</button>
             <button type="submit" class="btn btn-primary">${saveButton}</button>
         </div>
     </form:form>

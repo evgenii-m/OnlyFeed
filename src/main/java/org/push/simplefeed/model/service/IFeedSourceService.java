@@ -14,9 +14,10 @@ import org.push.simplefeed.model.entity.FeedSourceEntity;
  */
 public interface IFeedSourceService {
     void save(FeedSourceEntity feedSource);
+    void delete(Long id);
     FeedSourceEntity findById(Long id);
     List<FeedSourceEntity> getAll();
-    FeedSourceEntity getBlankFeedSource();
-    void formFeedSource(FeedSourceEntity feedSource);
+    FeedSourceEntity getBlank();
+    void fillBlank(FeedSourceEntity feedSource);
     boolean isSupported(String feedSourceUrl);
 }

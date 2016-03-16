@@ -9,7 +9,7 @@
 <spring:message var="deleteLink" code="list.deleteLink"/>
 
 <spring:url var="editFeedSourceUrl" value="/source/edit"/>
-
+<spring:url var="deleteFeedSourceUrl" value="/source/delete"/>
 
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" class="new-feed-source-form">
@@ -29,7 +29,7 @@
                 <div class="description">${feedSource.description}</div>
                 <div class="action-links">
                     <a href="${editFeedSourceUrl}/${feedSource.id}">${editLink}</a> | 
-                    <a href="#">${deleteLink}</a>
+                    <a onclick="submitPostRequest('${deleteFeedSourceUrl}/${feedSource.id}')">${deleteLink}</a>
                 </div>
 	        </div>
 	    </c:forEach>

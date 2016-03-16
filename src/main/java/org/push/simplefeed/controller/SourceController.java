@@ -68,7 +68,7 @@ public class SourceController {
             return "source/list";
         }
         
-        feedSourceService.formFeedSource(newFeedSource);
+        feedSourceService.fillBlank(newFeedSource);
         redirectAttributes.addFlashAttribute("feedSource", newFeedSource);
         return "redirect:/source/add";
     }
@@ -77,7 +77,7 @@ public class SourceController {
     @RequestMapping(value = "/add", method = GET)
     public String showAddFeedSourceForm(Model uiModel) {
         if (!uiModel.containsAttribute("feedSource")) {
-            FeedSourceEntity feedSource = feedSourceService.getBlankFeedSource();
+            FeedSourceEntity feedSource = feedSourceService.getBlank();
             uiModel.addAttribute("feedSource", feedSource);
             logger.debug("Added blank feedSource to uiModel");
         }
@@ -107,5 +107,11 @@ public class SourceController {
     }
     
     
+    @RequestMapping(value = "/delete/{id}", method = POST)
+    public String deleteFeedSource(@PathVariable("id") Long id) {
+        feedSourceService.delete(id);
+        logger.debug("Delete feed source witd id - " + id);
+        return "redirect:/source";
+    }
     
 }

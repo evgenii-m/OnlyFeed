@@ -42,7 +42,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
                 { 
                     "src/test/resources/rss2.xml",              // fileName
                     "TJ: популярное",                           // name
-                    "https://localhost:8080/SimpleFeed/img/no_logo.gif",   // logoUrl
+                    FeedSourceService.DEFAULT_LOGO_URL,         // logoUrl
                     ""                                          // description
                 }  
         };
@@ -82,48 +82,48 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     
     
     @Test(dataProvider = "testDataSet1")
-    public void testFormFeedSource(String testDataFileName, String testNameField, String testLogoUrlField,
+    public void testFillBlank(String testDataFileName, String testNameField, String testLogoUrlField,
             String testDescriptionField) throws XmlMappingException, IOException {
         prepareRssService(testDataFileName);
         
-        FeedSourceEntity feedSourceEntity = new FeedSourceEntity();
-        feedSourceEntity.setUrl(testDataFileName);
-        feedSourceService.formFeedSource(feedSourceEntity);
+        FeedSourceEntity feedSource = new FeedSourceEntity();
+        feedSource.setUrl(testDataFileName);
+        feedSourceService.fillBlank(feedSource);
         
-        assertNotNull(feedSourceEntity.getName(), "Name field is null\n");
-        assertEquals(feedSourceEntity.getName(), testNameField, "Names do not match\n"
-                + "feedSourceEntity.name: \"" + feedSourceEntity.getName() + "\"\n");
+        assertNotNull(feedSource.getName(), "Name field is null\n");
+        assertEquals(feedSource.getName(), testNameField, "Names do not match\n"
+                + "feedSource.name: \"" + feedSource.getName() + "\"\n");
         
-        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null\n");
-        assertEquals(feedSourceEntity.getLogoUrl(), testLogoUrlField, "Logo URLs do not match\n"
-                + "feedSourceEntity.logoUrl: \"" + feedSourceEntity.getLogoUrl() + "\"\n");
+        assertNotNull(feedSource.getLogoUrl(), "LogoUrl field is null\n");
+        assertEquals(feedSource.getLogoUrl(), testLogoUrlField, "Logo URLs do not match\n"
+                + "feedSource.logoUrl: \"" + feedSource.getLogoUrl() + "\"\n");
         
-        assertNotNull(feedSourceEntity.getDescription(), "Description field is null\n");
-        assertEquals(feedSourceEntity.getDescription(), testDescriptionField, "Descriptions do not match\n"
-                + "feedSourceEntity.description: \"" + feedSourceEntity.getDescription() + "\"\n");
+        assertNotNull(feedSource.getDescription(), "Description field is null\n");
+        assertEquals(feedSource.getDescription(), testDescriptionField, "Descriptions do not match\n"
+                + "feedSource.description: \"" + feedSource.getDescription() + "\"\n");
     }
     
     
     @Test(dataProvider = "testWrongDataSet1")
-    public void testWrongFormFeedSource(String testDataFileName, String testNameField, String testLogoUrlField,
+    public void testWrongFillBlank(String testDataFileName, String testNameField, String testLogoUrlField,
             String testDescriptionField) throws XmlMappingException, IOException {
         prepareRssService(testDataFileName);
         
-        FeedSourceEntity feedSourceEntity = new FeedSourceEntity();
-        feedSourceEntity.setUrl(testDataFileName);
-        feedSourceService.formFeedSource(feedSourceEntity);
+        FeedSourceEntity feedSource = new FeedSourceEntity();
+        feedSource.setUrl(testDataFileName);
+        feedSourceService.fillBlank(feedSource);
 
-        assertNotNull(feedSourceEntity.getName(), "Name field is null\n");
-        assertNotEquals(feedSourceEntity.getName(), testNameField, "Names must not match\n"
-                + "feedSourceEntity.name: \"" + feedSourceEntity.getName() + "\"\n");
+        assertNotNull(feedSource.getName(), "Name field is null\n");
+        assertNotEquals(feedSource.getName(), testNameField, "Names must not match\n"
+                + "feedSource.name: \"" + feedSource.getName() + "\"\n");
 
-        assertNotNull(feedSourceEntity.getLogoUrl(), "LogoUrl field is null\n");
-        assertNotEquals(feedSourceEntity.getLogoUrl(), testLogoUrlField, "Logo URLs must not match\n"
-                + "feedSourceEntity.logoUrl: \"" + feedSourceEntity.getLogoUrl() + "\"\n");
+        assertNotNull(feedSource.getLogoUrl(), "LogoUrl field is null\n");
+        assertNotEquals(feedSource.getLogoUrl(), testLogoUrlField, "Logo URLs must not match\n"
+                + "feedSource.logoUrl: \"" + feedSource.getLogoUrl() + "\"\n");
 
-        assertNotNull(feedSourceEntity.getDescription(), "Description field is null\n");
-        assertNotEquals(feedSourceEntity.getDescription(), testDescriptionField, "Descriptions must not match\n"
-                + "feedSourceEntity.description: \"" + feedSourceEntity.getDescription() + "\"\n");
+        assertNotNull(feedSource.getDescription(), "Description field is null\n");
+        assertNotEquals(feedSource.getDescription(), testDescriptionField, "Descriptions must not match\n"
+                + "feedSource.description: \"" + feedSource.getDescription() + "\"\n");
     }
     
 }

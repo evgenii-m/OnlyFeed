@@ -92,6 +92,7 @@ public class FeedItemEntity {
 
     
     public String getImageUrl() {
+        System.out.println("getImageUrl\n");
         if (imageUrl == null) {
             imageUrl = feedSource.getLogoUrl();
         }
@@ -99,6 +100,7 @@ public class FeedItemEntity {
     }
 
     public void setImageUrl(String imageUrl) {
+        System.out.println("setImageUrl\n");
         this.imageUrl = imageUrl;
     }
     

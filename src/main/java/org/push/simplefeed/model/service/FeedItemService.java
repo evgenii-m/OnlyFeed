@@ -32,7 +32,7 @@ public class FeedItemService implements IFeedItemService {
     // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
 //    private static final String BRIEF_DESC_PATTERN = "<.*?(/>|>)";
     
-    private static Logger logger = LogManager.getLogger(FeedSourceService.class);
+    private static Logger logger = LogManager.getLogger(FeedItemService.class);
     private FeedItemRepository feedItemRepository;
     
     

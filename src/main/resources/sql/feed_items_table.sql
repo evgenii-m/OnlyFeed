@@ -11,5 +11,7 @@ CREATE TABLE feed_items (
     image_url VARCHAR(256),
     feed_source_id INT NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (feed_source_id) REFERENCES feed_sources(id)
+    INDEX (feed_source_id)
 );
+
+SELECT * FROM feed_items JOIN feed_sources USING(id);

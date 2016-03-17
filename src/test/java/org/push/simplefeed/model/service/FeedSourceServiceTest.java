@@ -7,14 +7,12 @@ import static org.testng.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.FileReader;
-import java.io.IOException;
 
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.util.xml.XmlConverter;
 import org.push.simplefeed.util.xml.rsstypes.Rss;
 import org.push.simplefeed.util.xml.rsstypes.RssChannel;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.XmlMappingException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.*;
@@ -62,15 +60,9 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     }
     
     
-        
-    @BeforeMethod()
-    public void setUpMethod() throws Exception {
-        feedSourceService = new FeedSourceService();        
-    }
-    
-    
 
-    public void prepareRssService(String testDataFileName) throws XmlMappingException, IOException {
+    public void prepareEnvironment(String testDataFileName) throws Exception {
+        feedSourceService = new FeedSourceService();
         RssService rssService = mock(RssService.class);
         FileReader testDataFileReader = new FileReader(testDataFileName);
         Rss rss = (Rss) xmlConverter.xmlToObject(testDataFileReader);
@@ -83,8 +75,8 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     
     @Test(dataProvider = "testDataSet1")
     public void testFillBlank(String testDataFileName, String testNameField, String testLogoUrlField,
-            String testDescriptionField) throws XmlMappingException, IOException {
-        prepareRssService(testDataFileName);
+            String testDescriptionField) throws Exception {
+        prepareEnvironment(testDataFileName);
         
         FeedSourceEntity feedSource = new FeedSourceEntity();
         feedSource.setUrl(testDataFileName);
@@ -106,8 +98,8 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
     
     @Test(dataProvider = "testWrongDataSet1")
     public void testWrongFillBlank(String testDataFileName, String testNameField, String testLogoUrlField,
-            String testDescriptionField) throws XmlMappingException, IOException {
-        prepareRssService(testDataFileName);
+            String testDescriptionField) throws Exception {
+        prepareEnvironment(testDataFileName);
         
         FeedSourceEntity feedSource = new FeedSourceEntity();
         feedSource.setUrl(testDataFileName);

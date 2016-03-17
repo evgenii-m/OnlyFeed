@@ -5,6 +5,8 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -44,6 +46,8 @@ public class FeedSourceEntity {
     private String logoUrl;
     @Column(name = "description")
     private String description;
+    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FeedItemEntity> feedItemList;
     
     
     
@@ -90,13 +94,22 @@ public class FeedSourceEntity {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+    
+    public List<FeedItemEntity> getFeedItemList() {
+        return feedItemList;
+    }
+    
+    public void setFeedItemList(List<FeedItemEntity> feedItemList) {
+        this.feedItemList = feedItemList;
+    }
 
     
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
                 + ", logoUrl=" + logoUrl + ", description=" + description
-                + "]";
+                + ", feedItemList.size=" + feedItemList.size() + "]";
     }
     
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
@@ -100,8 +101,8 @@ public class FeedSourceService implements IFeedSourceService {
             }
             feedSource.setDescription(rssChannel.getDescription());
         } catch (XmlMappingException | IOException e) {
-            logger.fatal("Exception when form Feed Source from RSS service! RSS source url - " 
-                    + feedSource.getUrl());
+            logger.fatal("Exception when form Feed Source from RSS service! (url=" 
+                    + feedSource.getUrl() + ")");
             e.printStackTrace();
         }
     }
@@ -115,12 +116,17 @@ public class FeedSourceService implements IFeedSourceService {
     
     @Override
     public void refresh(FeedSourceEntity feedSource) {
+        logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" + feedSource.getName()
+                + ", url=" + feedSource.getUrl() + ")");
         try {
             List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
             feedItemService.save(rssItemList, feedSource);
+            List<FeedItemEntity> feedItemList = feedItemService.getFromSource(feedSource);
+            feedSource.setFeedItemList(feedItemList);
         } catch (XmlMappingException | IOException e) {
-            logger.fatal("Exception when fetch Feed Items from RSS service! RSS source url - " 
-                    + feedSource.getUrl());
+            logger.fatal("Exception when fetch Feed Items from RSS service! RSS source url " 
+                    + "(id=" + feedSource.getId() + ", name=" + feedSource.getName() 
+                    + ", url=" + feedSource.getUrl() + ")");
             e.printStackTrace();
         }
     }

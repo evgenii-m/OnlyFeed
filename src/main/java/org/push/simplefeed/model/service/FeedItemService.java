@@ -55,7 +55,7 @@ public class FeedItemService implements IFeedItemService {
             SimpleDateFormat rssDateFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
             rssPubDate = rssDateFormat.parse(rssItem.getPubDate());
         } catch (ParseException e) {
-            logger.error("RSS published date parse exception! " + rssItem);
+            logger.error("RSS published date parse exception! (" + rssItem + ")");
             e.printStackTrace();
             rssPubDate = new Date();
         }
@@ -76,27 +76,34 @@ public class FeedItemService implements IFeedItemService {
     
     
     @Override
-    public void save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource) {
-        logger.debug("Rss items count - " + rssItemList.size());
-        ArrayList<FeedItemEntity> feedItemList = new ArrayList<>();
+    public List<FeedItemEntity> save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource) {
+        logger.debug("Save feed items form: " + feedSource.getUrl());
+        logger.debug("Source items count: " + rssItemList.size());
+        List<FeedItemEntity> feedItemList = new ArrayList<>();
         for (RssChannelItem rssItem : rssItemList) {
             if (feedItemRepository.findByFeedSourceAndLink(feedSource, rssItem.getLink()) == null) {
                 FeedItemEntity feedItem = formFeedItem(rssItem);
                 feedItem.setFeedSource(feedSource);
                 feedItemList.add(feedItem);
             } else {
-                logger.debug("Feed item (FeedSource: " + feedSource.getId() + ", " + 
-                        feedSource.getName() + ", " + feedSource.getUrl() + "; ItemLink: " + 
-                        rssItem.getLink() + ") already saved");
+                logger.debug("Feed item already saved (feedSource.id=" + feedSource.getId()
+                        + ", feedSource.url=" + feedSource.getUrl()
+                        + ", feedItem.link=" + rssItem.getLink() + ")");
             }
         }
-        logger.debug("Feed items count - " + feedItemList.size());
-        feedItemRepository.save(feedItemList);
+        feedItemList = feedItemRepository.save(feedItemList);
+        return feedItemList;
     } 
     
 
     @Override
     public List<FeedItemEntity> getAll() {
         return feedItemRepository.findAll();
+    }
+
+
+    @Override
+    public List<FeedItemEntity> getFromSource(FeedSourceEntity feedSource) {
+        return feedItemRepository.findByFeedSource(feedSource);
     }
 }

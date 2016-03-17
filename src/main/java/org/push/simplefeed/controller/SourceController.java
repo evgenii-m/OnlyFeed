@@ -6,10 +6,13 @@ package org.push.simplefeed.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.validator.FeedSourceFormValidator;
@@ -62,7 +65,7 @@ public class SourceController {
             BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
         feedSourceFromValidator.validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {
-            logger.error("Error when validate Feed Source URL - \"" + newFeedSource.getUrl() + "\".\n"
+            logger.error("Error when validate feed source (url=" + newFeedSource.getUrl() + ")\n"
                     + bindingResult.toString());
             uiModel.addAttribute("feedSourceList", feedSourceService.getAll());
             return "source/list";
@@ -96,13 +99,20 @@ public class SourceController {
     public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
             BindingResult bindingResult, Model uiModel) {
         if (bindingResult.hasErrors()) {
-            logger.error("Error when validate Feed Source - \"" + feedSource + "\".\n"
+            logger.error("Error when validate feed source (" + feedSource + ")\n"
                     + bindingResult.toString());
             return "source/edit";
         }
         
         feedSourceService.save(feedSource);
-        logger.debug("Added/updated feedSource - \"" + feedSource + "\"");
+        logger.debug("Added/updated feed source (" + feedSource + ")");
+        
+        List<FeedItemEntity> feedItemList = feedSource.getFeedItemList();
+        logger.debug(feedItemList);
+        if (feedItemList != null) {
+            logger.debug(feedItemList.get(0));
+        }
+        
         return "redirect:/source";
     }
     
@@ -110,7 +120,7 @@ public class SourceController {
     @RequestMapping(value = "/delete/{id}", method = POST)
     public String deleteFeedSource(@PathVariable("id") Long id) {
         feedSourceService.delete(id);
-        logger.debug("Delete feed source witd id - " + id);
+        logger.debug("Delete feed source (id=" + id + ")");
         return "redirect:/source";
     }
     

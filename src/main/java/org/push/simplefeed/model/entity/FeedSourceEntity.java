@@ -103,7 +103,11 @@ public class FeedSourceEntity {
     public void setFeedItemList(List<FeedItemEntity> feedItemList) {
         this.feedItemList = feedItemList;
     }
-
+    
+//    public void addFeedItems(List<FeedItemEntity> feedItems) {
+//        feedItemList.addAll(feedItems);
+//    }
+    
     
     @Override
     public String toString() {

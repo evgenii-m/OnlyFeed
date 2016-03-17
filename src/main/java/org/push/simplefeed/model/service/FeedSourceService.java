@@ -13,6 +13,7 @@ import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.util.xml.rsstypes.Image;
 import org.push.simplefeed.util.xml.rsstypes.RssChannel;
+import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.oxm.XmlMappingException;
 import org.springframework.stereotype.*;
@@ -32,6 +33,7 @@ public class FeedSourceService implements IFeedSourceService {
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
     private RssService rssService;
+    private IFeedItemService feedItemService;
 
     
     @Autowired
@@ -44,11 +46,17 @@ public class FeedSourceService implements IFeedSourceService {
         this.rssService = rssService;
     }
     
-    
+    @Autowired
+    public void setFeedItemService(IFeedItemService feedItemService) {
+        this.feedItemService = feedItemService;
+    }
+ 
+
 
     @Override
     public void save(FeedSourceEntity feedSource) {
         feedSourceRepository.save(feedSource);
+        refresh(feedSource);
     }
 
     @Override
@@ -92,15 +100,38 @@ public class FeedSourceService implements IFeedSourceService {
             }
             feedSource.setDescription(rssChannel.getDescription());
         } catch (XmlMappingException | IOException e) {
-            logger.fatal("Exception when form FeedSource from RSS service! RSS source url - " 
-                    + feedSource.getUrl() + ". " + rssService);
+            logger.fatal("Exception when form Feed Source from RSS service! RSS source url - " 
+                    + feedSource.getUrl());
             e.printStackTrace();
         }
     }
+    
 
     @Override
     public boolean isSupported(String feedSourceUrl) {
         return rssService.isRssSource(feedSourceUrl);
+    }
+
+    
+    @Override
+    public void refresh(FeedSourceEntity feedSource) {
+        try {
+            List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
+            feedItemService.save(rssItemList, feedSource);
+        } catch (XmlMappingException | IOException e) {
+            logger.fatal("Exception when fetch Feed Items from RSS service! RSS source url - " 
+                    + feedSource.getUrl());
+            e.printStackTrace();
+        }
+    }
+
+    
+    @Override
+    public void refreshAll() {
+        List<FeedSourceEntity> feedSourceList = feedSourceRepository.findAll();
+        for (FeedSourceEntity feedSource : feedSourceList) {
+            refresh(feedSource);
+        }
     }
     
 }

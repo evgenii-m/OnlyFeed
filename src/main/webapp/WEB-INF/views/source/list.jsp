@@ -8,6 +8,7 @@
 <spring:message var="editLink" code="list.editLink"/>
 <spring:message var="deleteLink" code="list.deleteLink"/>
 
+<spring:url var="showFeedUrl" value="/feed"/>
 <spring:url var="editFeedSourceUrl" value="/source/edit"/>
 <spring:url var="deleteFeedSourceUrl" value="/source/delete"/>
 
@@ -20,13 +21,17 @@
         </div>
         <form:errors path="url" class="alert alert-danger error" element="div"/>
     </form:form>
-	
+
 	<div class="feed-source-list">
 	    <c:forEach items="${feedSourceList}" var="feedSource">
 	        <div class="item">
                 <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
-                <div class="name">${feedSource.name}</div>
-                <div class="description">${feedSource.description}</div>
+                <div class="name">
+                    <span onclick="location.href='${showFeedUrl}'/${feedSource.id}">${feedSource.name}</span>
+                </div>
+                <div class="description">
+                    ${feedSource.description}
+                </div>
                 <div class="action-links">
                     <span onclick="location.href='${editFeedSourceUrl}/${feedSource.id}'">${editLink}</span> | 
                     <span onclick="submitPostRequest('${deleteFeedSourceUrl}/${feedSource.id}')">${deleteLink}</span>

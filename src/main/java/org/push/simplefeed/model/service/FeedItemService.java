@@ -3,7 +3,6 @@
  */
 package org.push.simplefeed.model.service;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -17,10 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
-import org.push.simplefeed.model.repository.FeedSourceRepository;
+import org.push.simplefeed.model.repository.FeedItemRepository;
 import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.XmlMappingException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,45 +30,26 @@ public class FeedItemService implements IFeedItemService {
     private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
     private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
     // TODO: modify for block only HTML tags ( strings as "< str >" musn't block)
-    private static final String BRIEF_DESC_PATTERN = "<.*?(/>|>)";
+//    private static final String BRIEF_DESC_PATTERN = "<.*?(/>|>)";
     
-    private static Logger logger = LogManager.getLogger(FeedItemService.class);
-    private FeedSourceRepository feedSourceRepository;
-    private RssService rssService;
+    private static Logger logger = LogManager.getLogger(FeedSourceService.class);
+    private FeedItemRepository feedItemRepository;
     
-
+    
     @Autowired
-    public void setFeedSourceRespository(FeedSourceRepository feedSourceRepository) {
-        this.feedSourceRepository = feedSourceRepository;
-    }
-
-    @Autowired
-    public void setRssService(RssService rssService) {
-        this.rssService = rssService;
+    public void setFeedItemRepository(FeedItemRepository feedItemRepository) {
+        this.feedItemRepository = feedItemRepository;
     }
     
+
     
     private FeedItemEntity formFeedItem(RssChannelItem rssItem) {
         FeedItemEntity feedItem = new FeedItemEntity();
         feedItem.setTitle(rssItem.getTitle());
+        feedItem.setDescription(rssItem.getDescription());
         feedItem.setLink(rssItem.getLink());
         feedItem.setAuthor(rssItem.getAuthor());
-        feedItem.setDescription(rssItem.getDescription());
-        
-        // TODO: if no images on description, then set image url from FeedSourceEntity
-        Pattern pattern = Pattern.compile(IMG_TAG_PATTERN);
-        Matcher matcher = pattern.matcher(rssItem.getDescription());
-        if (matcher.find()) {
-            String imgTagStr = matcher.group();
-            int imgUrlBeginIndex = imgTagStr.indexOf("src=\"") + 5;
-            int imgUrlEndIndex = imgTagStr.indexOf("\"", imgUrlBeginIndex);
-            String imgUrl = imgTagStr.substring(imgUrlBeginIndex, imgUrlEndIndex);
-            feedItem.setImageUrl(imgUrl);
-        }
-        
-        String briefDescription = rssItem.getDescription().replaceAll(BRIEF_DESC_PATTERN , "");
-        feedItem.setBriefDescription(briefDescription);
-        
+
         Date rssPubDate;
         try {
             SimpleDateFormat rssDateFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
@@ -82,37 +61,42 @@ public class FeedItemService implements IFeedItemService {
         }
         feedItem.setPublishedDate(rssPubDate);
         
+        Pattern pattern = Pattern.compile(IMG_TAG_PATTERN);
+        Matcher matcher = pattern.matcher(rssItem.getDescription());
+        if (matcher.find()) {
+            String imgTagStr = matcher.group();
+            int imgUrlBeginIndex = imgTagStr.indexOf("src=\"") + 5;
+            int imgUrlEndIndex = imgTagStr.indexOf("\"", imgUrlBeginIndex);
+            String imgUrl = imgTagStr.substring(imgUrlBeginIndex, imgUrlEndIndex);
+            feedItem.setImageUrl(imgUrl);
+        }
+        
         return feedItem;
     }
     
     
     @Override
-    public List<FeedItemEntity> getAll() {
-        List<FeedItemEntity> feedItemList = new ArrayList<>();
-        List<FeedSourceEntity> feedSourceList = feedSourceRepository.findAll();
-        for (FeedSourceEntity feedSource : feedSourceList) {
-            feedItemList.addAll(getFromSource(feedSource));
-        }
-        return feedItemList;
-    }
-    
-    
-    @Override
-    public List<FeedItemEntity> getFromSource(FeedSourceEntity feedSource) {
-        List<FeedItemEntity> feedItemList = new ArrayList<>();
-        try {
-            List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
-            for (RssChannelItem rssItem : rssItemList) {
+    public void save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource) {
+        logger.debug("Rss items count - " + rssItemList.size());
+        ArrayList<FeedItemEntity> feedItemList = new ArrayList<>();
+        for (RssChannelItem rssItem : rssItemList) {
+            if (feedItemRepository.findByFeedSourceAndLink(feedSource, rssItem.getLink()) == null) {
                 FeedItemEntity feedItem = formFeedItem(rssItem);
                 feedItem.setFeedSource(feedSource);
-                feedItemList.add(feedItem);                    
+                feedItemList.add(feedItem);
+            } else {
+                logger.debug("Feed item (FeedSource: " + feedSource.getId() + ", " + 
+                        feedSource.getName() + ", " + feedSource.getUrl() + "; ItemLink: " + 
+                        rssItem.getLink() + ") already saved");
             }
-        } catch (XmlMappingException | IOException e1) {
-            logger.fatal("Exception when get items from RSS service! RSS source url - " 
-                    + feedSource.getUrl() + ". " + rssService);
-            e1.printStackTrace();
         }
-        return feedItemList;
-    }
+        logger.debug("Feed items count - " + feedItemList.size());
+        feedItemRepository.save(feedItemList);
+    } 
     
+
+    @Override
+    public List<FeedItemEntity> getAll() {
+        return feedItemRepository.findAll();
+    }
 }

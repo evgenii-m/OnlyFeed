@@ -17,8 +17,8 @@ import javax.persistence.*;
 public class FeedSourceEntity {
     public static final int NAME_MIN_SIZE = 5;
     public static final int NAME_MAX_SIZE = 100;
-    public static final int URL_MAX_SIZE = 255;
-    public static final int LOGO_URL_MAX_SIZE = 512;
+    public static final int URL_MAX_SIZE = 256;
+    public static final int LOGO_URL_MAX_SIZE = 256;
     public static final int DESCRIPTION_MAX_SIZE = 1000;
 
     public static final String NAME_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.name.NotEmpty";

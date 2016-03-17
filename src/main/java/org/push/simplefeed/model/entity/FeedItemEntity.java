@@ -3,26 +3,37 @@
  */
 package org.push.simplefeed.model.entity;
 
+import static javax.persistence.GenerationType.IDENTITY;
+
 import java.util.Date;
 
-//import javax.persistence.*;
+import javax.persistence.*;
 
 /**
  * @author push
  *
  */
-//@Entity
+@Entity
+@Table(name = "feed_items")
 public class FeedItemEntity {
-//    @Id
-//    @GeneratedValue
+    @Id
+    @GeneratedValue(strategy = IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @Column(name = "title")
     private String title;
+    @Column(name = "description")
     private String description;
+    @Column(name = "link")
     private String link;
+    @Column(name = "published_date")
     private Date publishedDate;
+    @Column(name = "author")
     private String author;
+    @Column(name = "image_url")
     private String imageUrl;
-    private String briefDescription;
+    @ManyToOne
+    @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
     
     
@@ -81,20 +92,14 @@ public class FeedItemEntity {
 
     
     public String getImageUrl() {
+        if (imageUrl == null) {
+            imageUrl = feedSource.getLogoUrl();
+        }
         return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-
-    public String getBriefDescription() {
-        return briefDescription;
-    }
-    
-    public void setBriefDescription(String briefDescription) {
-        this.briefDescription = briefDescription;
     }
     
 
@@ -106,14 +111,13 @@ public class FeedItemEntity {
         this.feedSource = feedSource;
     }
 
-    
 
     @Override
     public String toString() {
         return "FeedItemEntity [id=" + id + ", title=" + title
                 + ", description=" + description + ", link=" + link
                 + ", publishedDate=" + publishedDate + ", author=" + author
-                + ", feedSource=" + feedSource + "]";
+                + ", imageUrl=" + imageUrl + ", feedSource=" + feedSource + "]";
     }
 
 }

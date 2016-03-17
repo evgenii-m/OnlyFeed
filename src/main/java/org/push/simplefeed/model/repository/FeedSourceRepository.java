@@ -12,7 +12,5 @@ import org.push.simplefeed.model.entity.FeedSourceEntity;
  *
  */
 public interface FeedSourceRepository extends JpaRepository<FeedSourceEntity, Long> {
-    
-    FeedSourceEntity findByName(String name);
-    
+        
 }

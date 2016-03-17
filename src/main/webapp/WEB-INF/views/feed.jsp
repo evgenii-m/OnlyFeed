@@ -11,7 +11,7 @@
                 <div class="feed-item-content">
                     <div style="background-image: url(${feedItem.imageUrl});" class="feed-item-img"></div>
                     <div class="feed-item-info">
-                        <p>${feedItem.briefDescription}</p>
+                        <p>${feedItem.description}</p>
                         <span>${feedItem.publishedDate}</span>
                     </div>
                 </div>

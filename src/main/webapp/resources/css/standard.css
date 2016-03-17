@@ -79,7 +79,15 @@
 
 .feed-source-list .item .name {
     height: 25px;
-    font-weight: bold;  
+    font-weight: bold;
+}
+
+.feed-source-list .item .name span {
+    cursor: pointer;
+}
+
+.feed-source-list .item .name span:hover {
+    color: #88B;
 }
 
 .feed-source-list .item .description {

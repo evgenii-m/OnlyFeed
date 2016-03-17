@@ -21,32 +21,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * @author push
  *
+ * TODO: add script for display brief description on feed item view
+ * 
  */
 @Controller
 @RequestMapping("/feed")
 public class FeedController {
     private static Logger logger = LogManager.getLogger(FeedController.class);
     private IFeedItemService feedItemService;
-    private FeedSourceRepository feedSourceRepository;
 
-    
-    @Autowired
-    public void setFeedSourceRespository(FeedSourceRepository feedSourceRepository) {
-        this.feedSourceRepository = feedSourceRepository;
-    }
-    
+
     @Autowired
     public void setFeedItemService(IFeedItemService feedItemService) {
         this.feedItemService = feedItemService;
     }
-    
-    
+
+
     @RequestMapping(method = GET)
     public String showFeed(Model uiModel) {
-//        List<FeedItemEntity> feedItemList = feedItemService.getAll();
-        FeedSourceEntity feedSource = feedSourceRepository.findByName("Хабрахабр / Интересные публикации");
-        List<FeedItemEntity> feedItemList = feedItemService.getFromSource(feedSource);
+        List<FeedItemEntity> feedItemList = feedItemService.getAll();
         uiModel.addAttribute("feedItemList", feedItemList);
         return "feed";
     }
+
 }

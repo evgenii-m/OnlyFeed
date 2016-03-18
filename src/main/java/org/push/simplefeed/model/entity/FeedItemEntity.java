@@ -5,9 +5,13 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.*;
+
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 /**
  * @author push
@@ -27,6 +31,7 @@ public class FeedItemEntity {
     @Column(name = "link")
     private String link;
     @Column(name = "published_date")
+    @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date publishedDate;
     @Column(name = "author")
     private String author;
@@ -58,6 +63,11 @@ public class FeedItemEntity {
     public String getDescription() {
         return description;
     }
+    
+    public String getSummary() {
+        // TODO: modify for block only HTML tags (strings as "< str >" musn't block)
+        return description.replaceAll("<.*?(/>|>)", "");
+    }
 
     public void setDescription(String description) {
         this.description = description;
@@ -75,6 +85,11 @@ public class FeedItemEntity {
 
     public Date getPublishedDate() {
         return publishedDate;
+    }
+    
+    public String getPublishedDateString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy 'at' HH:mm");
+        return dateFormat.format(publishedDate);
     }
 
     public void setPublishedDate(Date publishedDate) {

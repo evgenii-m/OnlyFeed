@@ -5,6 +5,7 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -46,7 +47,8 @@ public class FeedSourceEntity {
     private String logoUrl;
     @Column(name = "description")
     private String description;
-    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    // TODO: replace FetchType.EAGER on FetchType.LAZY
+    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<FeedItemEntity> feedItemList;
     
     

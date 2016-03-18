@@ -9,3 +9,12 @@ function submitPostRequest(url) {
 	document.body.appendChild(form);
 	form.submit();
 }
+
+$(document).ready(function() {
+	
+//	$('.summary').each(function(i, elem) {
+//		var descSummary = $(elem).text();
+//		$(elem).text(descSummary);
+//	});
+
+});

@@ -71,8 +71,6 @@
 }
 
 .feed-source-list .item .feed-logo {
-    width: 167px;
-    height: 100px;
 	float: left;
 	margin-right: 15px;
 }
@@ -91,7 +89,8 @@
 }
 
 .feed-source-list .item .description {
-	height: 55px;
+	height: 75px;
+	overflow: hidden;
 }
 
 .feed-source-list .item .action-links {
@@ -171,36 +170,59 @@
 
 
 /* feed view */
-.feed-item {
-    max-height: 150px;
-    max-width: 600px;
+.feed-item-list {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.feed-item-list .header-panel {
+	
+}
+
+.feed-item-list .header-panel .title {
+    font-size: 18px;
+    font-weight: bold;  
+    color: #9F9F9F;
+    margin-bottom: 15px;
+}
+
+.feed-item-list .item {
     margin-bottom: 20px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #C1C1C1;
-    clear: both;
-/*  cursor: pointer; */
     overflow: hidden;
 }
 
-.feed-item-title {
-    height: 20px;
-    font-weight: bold;
-}
-
-.feed-item-content {
-    
-}
-
-.feed-item-img {
-    width: 200px;
-    height: 120px;
+.feed-item-list .item .feed-logo {
     float: left;
-    opacity: 1;
-    background-position: 50% 25%;
-    background-size: cover;
-    background-repeat: no-repeat;
+    margin-right: 15px;
 }
 
-.feed-item-info {
-    margin-left: 220px;
+.feed-item-list .item .feed-content {
+    width: 385px;
+    float: left;
+    line-height: 16px;
+}
+
+
+.feed-item-list .item .feed-info {
+    height: 100px;
+    overflow: hidden;
+}
+
+.feed-item-list .item .title {
+    margin-bottom: 5px;
+	font-weight: bold;
+}
+
+.feed-item-list .item .summary {
+    color: #5E5E5E;
+}
+
+.feed-item-list .item .pub-info {
+	margin-top: 5px;
+	color: #3A3A3A;
 }
 /*************************************************************************************************/
+
+

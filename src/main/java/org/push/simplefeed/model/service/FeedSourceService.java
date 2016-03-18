@@ -25,9 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author push
  *
  */
-@Repository
-@Transactional
 @Service
+@Transactional
 public class FeedSourceService implements IFeedSourceService {
     static final String DEFAULT_LOGO_URL = "http://localhost:8080/SimpleFeed/resources/img/no_logo.gif";
     
@@ -121,8 +120,6 @@ public class FeedSourceService implements IFeedSourceService {
         try {
             List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
             feedItemService.save(rssItemList, feedSource);
-            List<FeedItemEntity> feedItemList = feedItemService.getFromSource(feedSource);
-            feedSource.setFeedItemList(feedItemList);
         } catch (XmlMappingException | IOException e) {
             logger.fatal("Exception when fetch Feed Items from RSS service! RSS source url " 
                     + "(id=" + feedSource.getId() + ", name=" + feedSource.getName() 
@@ -139,5 +136,6 @@ public class FeedSourceService implements IFeedSourceService {
             refresh(feedSource);
         }
     }
+
     
 }

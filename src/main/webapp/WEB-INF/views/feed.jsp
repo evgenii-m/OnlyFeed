@@ -3,19 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<div class="container">
-    <c:if test="${not empty feedItemList}">
-        <c:forEach items="${feedItemList}" var="feedItem">
-            <div class="feed-item">
-                <span class="feed-item-title">${feedItem.title}</span>
-                <div class="feed-item-content">
-                    <div style="background-image: url(${feedItem.imageUrl});" class="feed-item-img"></div>
-                    <div class="feed-item-info">
-                        <p>${feedItem.description}</p>
-                        <span>${feedItem.publishedDate}</span>
+<div class="content-container">
+    <div class="feed-item-list">
+        <div class="header-panel">
+            <div class="title">Title</div>
+        </div>
+	    <c:if test="${not empty feedItemList}">
+	        <c:forEach items="${feedItemList}" var="feedItem">
+	            <div class="item">
+		            <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
+		            <div class="feed-content">
+			            <div class="feed-info">
+			                <div class="title">
+			                    <span>${feedItem.title}</span>
+			                </div>
+				            <div class="summary">
+				                ${feedItem.summary}
+				            </div>
+	                    </div>
+	                    <div class="pub-info">
+	                        ${feedItem.author} / ${feedItem.publishedDateString}
+	                    </div>
                     </div>
-                </div>
-            </div>
-        </c:forEach>
-    </c:if>
+	            </div>
+	        </c:forEach>
+	    </c:if>
+    </div>
 </div>

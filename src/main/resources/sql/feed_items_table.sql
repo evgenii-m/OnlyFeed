@@ -6,7 +6,7 @@ CREATE TABLE feed_items (
     title VARCHAR(1000) NOT NULL,
     description VARCHAR(10000),
     link VARCHAR(256) NOT NULL,
-    published_date DATE NOT NULL,
+    published_date DATETIME NOT NULL,
     author VARCHAR(100),
     image_url VARCHAR(256),
     feed_source_id INT NOT NULL,

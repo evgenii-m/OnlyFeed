@@ -5,9 +5,6 @@
 
 <div class="content-container">
     <div class="feed-item-list">
-        <div class="header-panel">
-            <div class="title">Title</div>
-        </div>
 	    <c:if test="${not empty feedItemList}">
 	        <c:forEach items="${feedItemList}" var="feedItem">
 	            <div class="item">
@@ -22,11 +19,19 @@
 				            </div>
 	                    </div>
 	                    <div class="pub-info">
-	                        ${feedItem.author} / ${feedItem.publishedDateString}
+                            ${feedItem.feedSource.name} | 
+                            <c:if test="${not empty feedItem.author}">
+                                by <i>${feedItem.author}</i> | 
+                            </c:if>
+	                        ${feedItem.publishedDateString}
 	                    </div>
                     </div>
 	            </div>
 	        </c:forEach>
 	    </c:if>
     </div>
+    
+<!--     <div class="feed-tab-panel"> -->
+    
+<!--     </div> -->
 </div>

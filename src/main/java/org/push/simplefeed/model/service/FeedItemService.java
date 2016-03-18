@@ -19,6 +19,8 @@ import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.repository.FeedItemRepository;
 import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +76,7 @@ public class FeedItemService implements IFeedItemService {
         return feedItem;
     }
     
+
     
     @Override
     public List<FeedItemEntity> save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource) {
@@ -94,16 +97,28 @@ public class FeedItemService implements IFeedItemService {
         feedItemList = feedItemRepository.save(feedItemList);
         return feedItemList;
     } 
-    
+
+
 
     @Override
-    public List<FeedItemEntity> getAll() {
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findAll() {
         return feedItemRepository.findAll();
     }
 
 
     @Override
-    public List<FeedItemEntity> getFromSource(FeedSourceEntity feedSource) {
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findByFeedSource(FeedSourceEntity feedSource) {
         return feedItemRepository.findByFeedSource(feedSource);
     }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(int count) {
+        PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
+        return feedItemRepository.findAll(pageRequest).getContent();
+    }
+    
 }

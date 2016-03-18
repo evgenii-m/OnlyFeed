@@ -65,11 +65,19 @@ public class FeedSourceService implements IFeedSourceService {
     }
     
 
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedSourceEntity> findAll() {
+        return feedSourceRepository.findAll();
+    }
+    
     @Override
     @Transactional(readOnly = true)
     public FeedSourceEntity findById(Long id) {
         return feedSourceRepository.findOne(id);
     }
+
 
     
     @Override
@@ -77,13 +85,6 @@ public class FeedSourceService implements IFeedSourceService {
         FeedSourceEntity blankFeedSource = new FeedSourceEntity();
         blankFeedSource.setLogoUrl(DEFAULT_LOGO_URL);
         return blankFeedSource;
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedSourceEntity> getAll() {
-        return feedSourceRepository.findAll();
     }
     
     

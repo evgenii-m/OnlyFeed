@@ -5,7 +5,6 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -48,7 +47,7 @@ public class FeedSourceEntity {
     @Column(name = "description")
     private String description;
     // TODO: replace FetchType.EAGER on FetchType.LAZY
-    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL)
     private List<FeedItemEntity> feedItemList;
     
     
@@ -98,13 +97,13 @@ public class FeedSourceEntity {
     }
     
     
-    public List<FeedItemEntity> getFeedItemList() {
-        return feedItemList;
-    }
-    
-    public void setFeedItemList(List<FeedItemEntity> feedItemList) {
-        this.feedItemList = feedItemList;
-    }
+//    public List<FeedItemEntity> getFeedItemList() {
+//        return feedItemList;
+//    }
+//    
+//    public void setFeedItemList(List<FeedItemEntity> feedItemList) {
+//        this.feedItemList = feedItemList;
+//    }
     
 //    public void addFeedItems(List<FeedItemEntity> feedItems) {
 //        feedItemList.addAll(feedItems);
@@ -114,8 +113,7 @@ public class FeedSourceEntity {
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
-                + ", logoUrl=" + logoUrl + ", description=" + description
-                + ", feedItemList.size=" + feedItemList.size() + "]";
+                + ", logoUrl=" + logoUrl + ", description=" + description + "]";
     }
     
 }

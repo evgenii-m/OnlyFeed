@@ -7,17 +7,12 @@
 <tiles-definitions>
 
     <definition name="default" template="/WEB-INF/layouts/default.jsp">
-<!--         <put-attribute name="header" value="/WEB-INF/layouts/header.jsp"/> -->
-<!--         <put-attribute name="menu" value="/WEB-INF/layouts/menu.jsp"/> -->
-<!--         <put-attribute name="footer" value="/WEB-INF/layouts/footer.jsp"/> -->
-    </definition>
-    
-    <definition name="index" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
+        <put-attribute name="header" value="/WEB-INF/views/header.jsp"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
     </definition>
     
     <definition name="feed" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/feed.jsp"/>
+       <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
     </definition>
     
     <definition name="source/list" extends="default">

@@ -6,13 +6,11 @@ package org.push.simplefeed.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.util.List;
 
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.validator.FeedSourceFormValidator;
@@ -55,7 +53,7 @@ public class SourceController {
     @RequestMapping(method = GET)
     public String showFeedSourceList(Model uiModel) {     
         uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
-        uiModel.addAttribute("feedSourceList", feedSourceService.getAll());
+        uiModel.addAttribute("feedSourceList", feedSourceService.findAll());
         return "source/list";
     }
     
@@ -67,7 +65,7 @@ public class SourceController {
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (url=" + newFeedSource.getUrl() + ")\n"
                     + bindingResult.toString());
-            uiModel.addAttribute("feedSourceList", feedSourceService.getAll());
+            uiModel.addAttribute("feedSourceList", feedSourceService.findAll());
             return "source/list";
         }
         
@@ -106,13 +104,6 @@ public class SourceController {
         
         feedSourceService.save(feedSource);
         logger.debug("Added/updated feed source (" + feedSource + ")");
-        
-        List<FeedItemEntity> feedItemList = feedSource.getFeedItemList();
-        logger.debug(feedItemList);
-        if (feedItemList != null) {
-            logger.debug(feedItemList.get(0));
-        }
-        
         return "redirect:/source";
     }
     

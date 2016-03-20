@@ -15,6 +15,9 @@
        <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
     </definition>
     
+    <definition name="feed/tab" template="/WEB-INF/views/feed/tab.jsp">
+    </definition>
+    
     <definition name="source/list" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/source/list.jsp"/>
     </definition>

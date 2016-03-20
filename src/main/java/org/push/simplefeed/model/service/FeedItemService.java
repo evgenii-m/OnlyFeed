@@ -109,6 +109,13 @@ public class FeedItemService implements IFeedItemService {
 
     @Override
     @Transactional(readOnly = true)
+    public FeedItemEntity findById(Long id) {
+        return feedItemRepository.findOne(id);
+    }
+    
+
+    @Override
+    @Transactional(readOnly = true)
     public List<FeedItemEntity> findByFeedSource(FeedSourceEntity feedSource) {
         return feedItemRepository.findByFeedSource(feedSource);
     }

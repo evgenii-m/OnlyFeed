@@ -11,6 +11,10 @@
         <put-attribute name="footer" value="/WEB-INF/views/footer.jsp"/>
     </definition>
     
+    <definition name="index" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
+    </definition>
+    
     <definition name="feed" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
     </definition>

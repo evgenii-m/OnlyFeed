@@ -42,6 +42,26 @@ body {
 
 
 
+/* index view */
+.index-container {
+	
+}
+
+.index-container .welcome-panel {
+	
+}
+
+.index-container .login-form {
+
+}
+
+.index-container .signup-form {
+	
+}
+/*************************************************************************************************/
+
+
+
 /* list view */
 .new-feed-source-form {
 	margin-top: 35px;

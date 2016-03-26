@@ -8,24 +8,6 @@
 	<name>Simple Feed Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-		    <groupId>org.testng</groupId>
-		    <artifactId>testng</artifactId>
-		    <version>6.9.10</version>
-		    <scope>test</scope>
-		</dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-        </dependency>
 	    <dependency>
 	        <groupId>javax.servlet</groupId>
 	        <artifactId>servlet-api</artifactId>
@@ -38,40 +20,35 @@
 	        <version>4.1.9.RELEASE</version>
 	    </dependency>
 	    <dependency>
-	        <groupId>org.springframework.data</groupId>
-	        <artifactId>spring-data-jpa</artifactId>
-	        <version>1.9.2.RELEASE</version>
-	    </dependency>
-	    <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-oxm</artifactId>
             <version>4.1.9.RELEASE</version>
         </dependency>
         <dependency>
-		    <groupId>org.springframework</groupId>
-		    <artifactId>spring-test</artifactId>
-		    <version>4.1.9.RELEASE</version>
-		</dependency>
-	    <dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-api</artifactId>
-		    <version>1.7.18</version>
-		</dependency>
-	    <dependency>
-		    <groupId>org.slf4j</groupId>
-		    <artifactId>slf4j-log4j12</artifactId>
-		    <version>1.7.18</version>
-		</dependency>
-	    <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.5</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.1.9.RELEASE</version>
         </dependency>
-	    <dependency>
-		    <groupId>org.apache.logging.log4j</groupId>
-		    <artifactId>log4j-core</artifactId>
-		    <version>2.5</version>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>1.9.2.RELEASE</version>
+        </dependency>
+        <dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>3.2.5.RELEASE</version>
 		</dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>3.2.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>3.2.5.RELEASE</version>
+        </dependency>
 	    <dependency>
 	        <groupId>jstl</groupId>
 	        <artifactId>jstl</artifactId>
@@ -92,11 +69,6 @@
 	        <artifactId>javaee-web-api</artifactId>
 	        <version>7.0</version>
 	    </dependency>
-        <dependency>
-	        <groupId>org.hibernate.javax.persistence</groupId>
-	        <artifactId>hibernate-jpa-2.1-api</artifactId>
-	        <version>1.0.0.Final</version>
-	    </dependency>
 	    <dependency>
 	        <groupId>mysql</groupId>
 	        <artifactId>mysql-connector-java</artifactId>
@@ -108,6 +80,11 @@
 	        <artifactId>commons-dbcp2</artifactId>
 	        <version>2.1.1</version>
 	    </dependency>
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -138,6 +115,44 @@
 		    <artifactId>jackson-databind</artifactId>
 		    <version>2.7.3</version>
 		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.18</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.18</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.5</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
 	<build>
 	    <finalName>SimpleFeed</finalName>

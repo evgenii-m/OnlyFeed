@@ -30,7 +30,7 @@ public class FeedSourceFormValidatorTest extends AbstractTestNGSpringContextTest
     @DataProvider
     public Object[][] testDataSet1() {
         return new Object[][] {
-                { null, FeedSourceEntity.URL_EMPTY_ERROR_CODE},  
+                { null, FeedSourceEntity.URL_INVALID_ERROR_CODE},  
                 { "asd", FeedSourceEntity.URL_INVALID_ERROR_CODE },
                 { "https://habrahabr.ru/rss/interesting/", null },
                 { "https://habrahabr.ru/rss/", null },

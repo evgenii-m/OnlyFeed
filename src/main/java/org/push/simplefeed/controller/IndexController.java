@@ -78,7 +78,7 @@ public class IndexController {
             return "register";
         }
 
-//        userService.save(user);
+        userService.save(user);
         logger.debug("Added user (" + user + ")");
         uiModel.addAttribute("registerSuccessMessage", messageSource.getMessage("index.registerSuccessMessage", 
                 new Object[]{}, locale));

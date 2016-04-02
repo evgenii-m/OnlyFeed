@@ -18,16 +18,7 @@
     </http>
 
     <authentication-manager>
-        <authentication-provider>
-            <jdbc-user-service data-source-ref="dataSource"
-                authorities-by-username-query="
-                    SELECT users.email, roles.role FROM users
-                    JOIN user_roles on users.id = user_roles.user_id
-                    JOIN roles on user_roles.role_id = roles.id
-                    WHERE users.email = ?"
-                users-by-username-query="
-                    SELECT email, password, enabled FROM users WHERE email = ?"
-            />
+        <authentication-provider user-service-ref="customUserDetailService">
         </authentication-provider>
     </authentication-manager>
 

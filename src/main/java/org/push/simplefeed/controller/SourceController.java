@@ -6,8 +6,6 @@ package org.push.simplefeed.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import javax.validation.Valid;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
@@ -17,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -93,7 +92,7 @@ public class SourceController {
         
     
     @RequestMapping(value = {"/add", "/edit/{id}"}, method = POST)
-    public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
+    public String saveFeedSource(@ModelAttribute("feedSource") @Validated FeedSourceEntity feedSource,
             BindingResult bindingResult, Model uiModel) {
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (" + feedSource + ")\n"

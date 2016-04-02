@@ -17,6 +17,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "feed_sources")
 public class FeedSourceEntity {
+    public static final String DEFAULT_LOGO_URL = "http://localhost:8080/SimpleFeed/resources/img/no_logo.gif";
+    
     public static final int NAME_MIN_SIZE = 5;
     public static final int NAME_MAX_SIZE = 100;
     public static final int URL_MAX_SIZE = 256;
@@ -80,6 +82,9 @@ public class FeedSourceEntity {
 
 
     public String getLogoUrl() {
+        if (logoUrl == null) {
+            logoUrl = DEFAULT_LOGO_URL;
+        }
         return logoUrl;
     }
 

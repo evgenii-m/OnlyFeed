@@ -5,13 +5,7 @@ package org.push.simplefeed.model.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author push
@@ -26,7 +20,7 @@ public class RoleEntity {
     private Integer id;
     @Column(name = "role")
     private String role;
-    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "roles")
     private List<UserEntity> users;
     
     

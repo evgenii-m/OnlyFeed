@@ -27,9 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Transactional
-public class FeedSourceService implements IFeedSourceService {
-    static final String DEFAULT_LOGO_URL = "http://localhost:8080/SimpleFeed/resources/img/no_logo.gif";
-    
+public class FeedSourceService implements IFeedSourceService {    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
     private RssService rssService;
@@ -83,7 +81,6 @@ public class FeedSourceService implements IFeedSourceService {
     @Override
     public FeedSourceEntity getBlank() {
         FeedSourceEntity blankFeedSource = new FeedSourceEntity();
-        blankFeedSource.setLogoUrl(DEFAULT_LOGO_URL);
         return blankFeedSource;
     }
     
@@ -95,7 +92,7 @@ public class FeedSourceService implements IFeedSourceService {
             feedSource.setName(rssChannel.getTitle());
             Image rssChannelImage = rssChannel.getImage();
             if ((rssChannelImage == null) || (rssChannelImage.getUrl() == null)) {
-                feedSource.setLogoUrl(DEFAULT_LOGO_URL);
+                feedSource.setLogoUrl(FeedSourceEntity.DEFAULT_LOGO_URL);
             } else {
                 feedSource.setLogoUrl(rssChannelImage.getUrl());
             }

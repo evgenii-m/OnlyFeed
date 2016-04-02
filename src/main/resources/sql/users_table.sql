@@ -5,7 +5,8 @@ CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
     password VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    picture_url VARCHAR(256) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT 1,
     PRIMARY KEY (id)
 );

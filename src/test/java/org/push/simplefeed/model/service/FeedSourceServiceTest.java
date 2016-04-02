@@ -40,7 +40,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
                 { 
                     "src/test/resources/rss2.xml",              // fileName
                     "TJ: популярное",                           // name
-                    FeedSourceService.DEFAULT_LOGO_URL,         // logoUrl
+                    FeedSourceEntity.DEFAULT_LOGO_URL,          // logoUrl
                     ""                                          // description
                 }  
         };

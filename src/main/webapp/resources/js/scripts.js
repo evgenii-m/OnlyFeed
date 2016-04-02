@@ -2,6 +2,11 @@
  * 
  */
 
+$(document).ready(function() {
+	validateRegisterForm();
+});
+
+
 function submitPostRequest(url) {
 	var form = document.createElement("form");
 	form.setAttribute("method", "post");
@@ -31,27 +36,42 @@ function addFeedTab(feedItemId) {
 }
 
 
-$(document).ready(function() {
-//	$.ajax({
-//		url: "feed/tab",
-//		type: "get",
-////		dataType: "html",
-//		success: function(response) {
-//			console.log("success");
-//			console.log(response);
-////			$('div.feed-tab-list').add($(response).html());
-//		},
-//		error: function(error) {
-//			console.log("error");
-//			console.log(error);
-//		}
-//	});
-//	
-//	$('div.feed-tab-list')
-	
-//	$('.summary').each(function(i, elem) {
-//		var descSummary = $(elem).text();
-//		$(elem).text(descSummary);
-//	});
-
-});
+function validateRegisterForm() {
+    $("#register-form").validate({
+    	errorElement: "div",
+    	errorPlacement: function(error, element) {
+    		error.addClass("alert alert-danger");
+    		error.appendTo(element.parent());
+    	},
+    	focusInvalid: true,
+        onkeyup: false,
+        rules: {
+        	pictureUrl: {
+        		required: true,
+        		url: true,
+        		maxlength: 256
+        	},
+            name: {
+                required: true,
+                minlength: 2,
+                maxlength: 100
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength: 100
+            },
+            password: {
+                required: true,
+                minlength: 6,
+                maxlength: 50
+            },
+            confirmPassword: {
+                required: true,
+                minlength: 6,
+                maxlength: 50,
+                equalTo: "#password"
+            }
+        }
+    });
+}

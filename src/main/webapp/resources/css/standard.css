@@ -5,6 +5,7 @@ html {
 body {
     padding-top: 70px;
     height:100%;
+    background-color: #ededed;
 }
 
 
@@ -14,15 +15,58 @@ body {
     display: block; 
 }
 
-.feed-form-title {
-	font-size: 24px;
-    font-weight: bold;	
-    color: #9F9F9F;
+.form-container {
+    width: 600px;
+    position: relative;
+    display: block;
+}
+
+.form-container .form-title {
+    font-size: 24px;
+    font-weight: bold; 
     margin-bottom: 15px;
 }
 
-.feed-form-row {
+.form-container .form-row {
     margin-bottom: 15px;
+}
+
+.form-container .form-row label {
+    width: 140px;
+    font-weight: normal;
+    padding-top: 4px;
+    margin-right: 10px;
+    float: left;
+    color: #6D6D6D;
+}
+
+.form-container .form-row .required-field-label {
+    font-weight: bold;
+}
+
+.form-container .form-row input {
+    width: 440px;
+    height: 30px;
+    display: inline-block;
+}
+
+.form-container .form-row  div.error {
+    width: 400px;
+    height: 35px;
+    padding: 7px 15px;
+    margin-top: 7px;
+    margin-left: 150px;
+}
+
+.form-container .form-buttons {
+    text-align: right;
+    margin-top: 20px; 
+    border-top: 1px solid #AAA;
+}
+
+.form-container .form-buttons button {
+    width: 100px;
+    margin: 10px 15px 10px 10px;
 }
 
 .feed-logo {
@@ -44,19 +88,62 @@ body {
 
 /* index view */
 .index-container {
-	
+	width: 800px;
+	height: 400px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
 }
 
 .index-container .welcome-panel {
-	
+	width: 500px;
+	height: 400px;
+	float: left;
+    padding: 0px 20px;
+    background-color: #ffffff;
+    border: 1px solid #E1E8ED;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 
 .index-container .login-form {
-
+    width: 275px;
+    float: right;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #E1E8ED;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 
-.index-container .signup-form {
-	
+.index-container .login-form input {
+	margin-bottom: 10px;
+}
+
+.index-container .login-form button {
+    margin-bottom: 10px;
+}
+
+.index-container .login-form .error {
+    height: 35px;
+    padding: 7px 15px;
+}
+/*************************************************************************************************/
+
+
+
+/* register view */
+.form-container .form-row .user-picture {
+    width: 180px;
+    height: 150px;
+    opacity: 1;
+    background-position: 50% 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: inline-block;
+    border: 1px solid #AAA;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
 /*************************************************************************************************/
 
@@ -157,10 +244,6 @@ body {
     float: left;
 }
 
-.edit-feed-source-form .required-field-label {
-    font-weight: bold;
-}
-
 .edit-feed-source-form input {
 	width: 480px;
 	height: 30px;
@@ -173,25 +256,6 @@ body {
     min-height: 52px;
     resize: vertical;
     display: inline-block;
-}
-
-.edit-feed-source-form .error {
-    width: 400px;
-    height: 35px;
-    padding: 7px 15px;
-    margin-top: 7px;
-    margin-left: 110px;
-}
-
-.edit-feed-source-form .form-buttons {
-	text-align: right;
-	margin-top: 20px; 
-    border-top: 1px solid #CCC;
-}
-
-.edit-feed-source-form .form-buttons button {
-    width: 100px;
-	margin: 10px 15px 10px 10px;
 }
 /*************************************************************************************************/
 

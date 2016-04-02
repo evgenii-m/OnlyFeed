@@ -8,19 +8,17 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.service.IUserService;
-import org.push.simplefeed.validator.UserFormValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,14 +33,7 @@ public class IndexController {
     private static Logger logger = LogManager.getLogger(IndexController.class);
     private MessageSource messageSource;
     private IUserService userService;
-    @Autowired
-    private UserFormValidator userFormValidator;
-    
-    
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.setValidator(userFormValidator);
-    }
+
     
     @Autowired
     public void setMessageSource(MessageSource messageSource) {
@@ -79,7 +70,7 @@ public class IndexController {
     
     // TODO: add confirm password
     @RequestMapping(value = "/register", method = POST)
-    public String register(@ModelAttribute("user") @Validated UserEntity user, BindingResult bindingResult, 
+    public String register(@ModelAttribute("user") @Valid UserEntity user, BindingResult bindingResult, 
             Model uiModel, Locale locale) {
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate user (" + user + ")\n" 

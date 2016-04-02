@@ -8,6 +8,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.*;
 
 
 /**
@@ -18,43 +21,41 @@ import javax.persistence.*;
 @Table(name = "users")
 public class UserEntity {
     public static final String DEFAULT_PICTURE_URL = "http://localhost:8080/SimpleFeed/resources/img/no_picture.jpg";
-    
-    public static final int NAME_MIN_SIZE = 2;
-    public static final int NAME_MAX_SIZE = 100;
-    public static final int PASSWORD_MIN_SIZE = 6;
-    public static final int PASSWORD_MAX_SIZE = 50;
-    public static final int EMAIL_MAX_SIZE = 100;
-    public static final int PICTURE_URL_MAX_SIZE = 256;
-    
-    public static final String NAME_EMPTY_ERROR_CODE = "validation.UserEntity.name.NotEmpty";
-    public static final String NAME_SIZE_ERROR_CODE = "validation.UserEntity.name.Size";
-    public static final String PASSWORD_EMPTY_ERROR_CODE = "validation.UserEntity.password.NotEmpty";
-    public static final String PASSWORD_SIZE_ERROR_CODE = "validation.UserEntity.password.Size";
-    public static final String EMAIL_EMPTY_ERROR_CODE = "validation.UserEntity.email.NotEmpty";
-    public static final String EMAIL_SIZE_ERROR_CODE = "validation.UserEntity.email.Size";
-    public static final String EMAIL_INVALID_ERROR_CODE = "validation.UserEntity.email.InvalidEmail";
-    public static final String EMAIL_ALREADY_TAKEN_ERROR_CODE = "validation.UserEntity.email.AlreadyTaken";
-    public static final String PICTURE_URL_EMPTY_ERROR_CODE = "validation.UserEntity.pictureUrl.NotEmpty";
-    public static final String PICTURE_URL_INVALID_ERROR_CODE = "validation.UserEntity.pictureUrl.InvalidURL";
-    public static final String PICTURE_URL_SIZE_ERROR_CODE = "validation.UserEntity.pictureUrl.Size";
-    
+        
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
+    
     @Column(name = "name")
+    @Size(min = 2, max = 100, message = "{validation.lengthRange}")
+    @NotNull
     private String name;
+    
     @Column(name = "password")
+    @Size(min = 6, max = 50, message = "{validation.lengthRange}")
+    @NotNull
     private String password;
+    
     @Column(name = "email")
+    @Size(min = 3, max = 100, message = "{validation.lengthRange}")
+    @Email(message = "{validation.email}")
+    @NotNull
     private String email;
+    
     @Column(name = "picture_url")
+    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @URL(message = "{validation.url}")
+    @NotNull
     private String pictureUrl;
+    
     @Column(name = "enabled")
     private boolean enabled;
+    
     @ManyToMany
     @JoinTable(name = "user_roles")
     private List<RoleEntity> roles;
+
     
     
     public Long getId() {

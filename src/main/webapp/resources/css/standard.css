@@ -52,7 +52,7 @@ body {
 
 .form-container .form-row  div.error {
     width: 400px;
-    height: 35px;
+    min-height: 35px;
     padding: 7px 15px;
     margin-top: 7px;
     margin-left: 150px;

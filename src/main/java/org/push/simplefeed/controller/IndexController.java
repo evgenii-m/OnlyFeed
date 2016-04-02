@@ -68,10 +68,13 @@ public class IndexController {
         return "register";
     }
     
-    // TODO: add confirm password
+
     @RequestMapping(value = "/register", method = POST)
     public String register(@ModelAttribute("user") @Valid UserEntity user, BindingResult bindingResult, 
             Model uiModel, Locale locale) {
+        if (userService.findOne(user.getEmail()) != null) {
+            bindingResult.rejectValue("email", "validation.emailAlreadyUsed");
+        }        
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate user (" + user + ")\n" 
                     + bindingResult.toString());

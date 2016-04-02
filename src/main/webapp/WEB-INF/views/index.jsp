@@ -5,7 +5,6 @@
 <spring:message var="projectName" code="projectName"/>
 <spring:message var="welcomeText" code="index.welcomeText" arguments="${projectName}"/>
 <spring:message var="emailPlaceholder" code="index.emailPlaceholder"/>
-<spring:message var="usernamePlaceholder" code="index.usernamePlaceholder"/>
 <spring:message var="passwordPlaceholder" code="index.passwordPlaceholder"/>
 <spring:message var="remembermeCheckbox" code="index.remembermeCheckbox"/>
 <spring:message var="loginButton" code="index.loginButton"/>
@@ -29,7 +28,7 @@
 	    <c:if test="${not empty loginFailMessage}">
 	        <div class="alert alert-danger error">${loginFailMessage}</div>
 	    </c:if>
-	    <input type="text" name="j_username" class="form-control" placeholder="${usernamePlaceholder}" required autofocus>
+	    <input type="text" name="j_username" class="form-control" placeholder="${emailPlaceholder}" required autofocus>
 	    <input type="password" name="j_password" class="form-control" placeholder="${passwordPlaceholder}" required>
 	    <div class="checkbox">
             <label><input type="checkbox" value="remember-me"> ${remembermeCheckbox}</label>

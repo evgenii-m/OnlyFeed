@@ -64,7 +64,7 @@ public class IndexController {
     @RequestMapping(value = "/loginfail")
     public String loginFail(Model uiModel, Locale locale) {
         logger.info("Login fail");
-        uiModel.addAttribute("message", messageSource.getMessage("index.loginFailMessage",
+        uiModel.addAttribute("loginFailMessage", messageSource.getMessage("index.loginFailMessage",
                 new Object[]{}, locale));
         return "index";
     }
@@ -80,7 +80,7 @@ public class IndexController {
     // TODO: add confirm password
     @RequestMapping(value = "/register", method = POST)
     public String register(@ModelAttribute("user") @Validated UserEntity user, BindingResult bindingResult, 
-            Model uiModel) {
+            Model uiModel, Locale locale) {
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate user (" + user + ")\n" 
                     + bindingResult.toString());
@@ -89,7 +89,9 @@ public class IndexController {
 
 //        userService.save(user);
         logger.debug("Added user (" + user + ")");
-        return "redirect:/feed";
+        uiModel.addAttribute("registerSuccessMessage", messageSource.getMessage("index.registerSuccessMessage", 
+                new Object[]{}, locale));
+        return "index";
     }
     
     

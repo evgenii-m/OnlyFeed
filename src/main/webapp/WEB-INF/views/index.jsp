@@ -15,14 +15,19 @@
 <spring:url var="loginUrl" value="/j_spring_security_check"/>
 <spring:url var="registerUrl" value="/register"/>
 
+
 <div class="index-container">
+	<c:if test="${not empty registerSuccessMessage}">
+	    <div class="alert alert-success">${registerSuccessMessage}</div>
+	</c:if>
+	
 	<div class="welcome-panel">
 	    <h1>${welcomeText}</h1>
 	</div>
     
 	<form role="form" action="${loginUrl}" method="post" class="login-form">
-	    <c:if test="${not empty message}">
-	        <div class="alert alert-danger error">${message}</div>
+	    <c:if test="${not empty loginFailMessage}">
+	        <div class="alert alert-danger error">${loginFailMessage}</div>
 	    </c:if>
 	    <input type="text" name="j_username" class="form-control" placeholder="${usernamePlaceholder}" required autofocus>
 	    <input type="password" name="j_password" class="form-control" placeholder="${passwordPlaceholder}" required>

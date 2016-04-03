@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
+import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.util.xml.rsstypes.Image;
@@ -52,7 +53,8 @@ public class FeedSourceService implements IFeedSourceService {
 
 
     @Override
-    public void save(FeedSourceEntity feedSource) {
+    public void save(FeedSourceEntity feedSource, UserEntity user) {
+        feedSource.setUser(user);
         feedSourceRepository.save(feedSource);
         refresh(feedSource);
     }
@@ -69,11 +71,23 @@ public class FeedSourceService implements IFeedSourceService {
     public List<FeedSourceEntity> findAll() {
         return feedSourceRepository.findAll();
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedSourceEntity> findByUser(UserEntity user) {
+        return feedSourceRepository.findByUser(user);
+    }
     
     @Override
     @Transactional(readOnly = true)
     public FeedSourceEntity findById(Long id) {
         return feedSourceRepository.findOne(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public FeedSourceEntity findByUserAndUrl(UserEntity user, String url) {
+        return feedSourceRepository.findByUserAndUrl(user, url);
     }
 
 

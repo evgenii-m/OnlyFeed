@@ -59,6 +59,10 @@ public class UserEntity {
     )
     private List<RoleEntity> roles;
 
+    // TODO: replace FetchType.EAGER on FetchType.LAZY
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<FeedSourceEntity> feedSourceList;
+    
     
     
     public Long getId() {

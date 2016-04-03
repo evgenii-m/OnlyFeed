@@ -13,5 +13,4 @@ CREATE TABLE feed_items (
     PRIMARY KEY (id),
     INDEX (feed_source_id)
 );
-
 SELECT * FROM feed_items JOIN feed_sources USING(id);

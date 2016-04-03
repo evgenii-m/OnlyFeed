@@ -8,6 +8,9 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+
+import org.hibernate.validator.constraints.*;
 
 
 /**
@@ -19,35 +22,35 @@ import javax.persistence.*;
 public class FeedSourceEntity {
     public static final String DEFAULT_LOGO_URL = "http://localhost:8080/SimpleFeed/resources/img/no_logo.gif";
     
-    public static final int NAME_MIN_SIZE = 5;
-    public static final int NAME_MAX_SIZE = 100;
-    public static final int URL_MAX_SIZE = 256;
-    public static final int LOGO_URL_MAX_SIZE = 256;
-    public static final int DESCRIPTION_MAX_SIZE = 1000;
-
-    public static final String NAME_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.name.NotEmpty";
-    public static final String NAME_SIZE_ERROR_CODE = "validation.FeedSourceEntity.name.Size";
-    public static final String URL_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.url.NotEmpty";
-    public static final String URL_INVALID_ERROR_CODE = "validation.FeedSourceEntity.url.InvalidURL";
-    public static final String URL_SIZE_ERROR_CODE = "validation.FeedSourceEntity.url.Size";
-    public static final String URL_UNSUPPORTED_ERROR_CODE = "validation.FeedSourceEntity.url.UnsupportedFeedSource";
-    public static final String LOGO_URL_EMPTY_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.NotEmpty";
-    public static final String LOGO_URL_INVALID_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.InvalidURL";
-    public static final String LOGO_URL_SIZE_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.Size";
-    public static final String DESCRIPTION_SIZE_ERROR_CODE = "validation.FeedSourceEntity.logoUrl.NotEmpty";
-    
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
+    
     @Column(name = "name")
+    @Size(min = 2, max = 100, message = "{validation.lengthRange}")
+    @NotNull
     private String name;
+    
     @Column(name = "url")
+    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @URL(message = "{validation.url}")
+    @NotNull
     private String url;
+    
     @Column(name = "logo_url")
+    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @URL(message = "{validation.url}")
     private String logoUrl;
+    
     @Column(name = "description")
+    @Size(min = 1, max = 1000, message = "{validation.lengthRange}")
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+    
     // TODO: replace FetchType.EAGER on FetchType.LAZY
     @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL)
     private List<FeedItemEntity> feedItemList;
@@ -102,23 +105,20 @@ public class FeedSourceEntity {
     }
     
     
-//    public List<FeedItemEntity> getFeedItemList() {
-//        return feedItemList;
-//    }
-//    
-//    public void setFeedItemList(List<FeedItemEntity> feedItemList) {
-//        this.feedItemList = feedItemList;
-//    }
+    public UserEntity getUser() {
+        return user;
+    }
     
-//    public void addFeedItems(List<FeedItemEntity> feedItems) {
-//        feedItemList.addAll(feedItems);
-//    }
-    
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+        
     
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
-                + ", logoUrl=" + logoUrl + ", description=" + description + "]";
+                + ", logoUrl=" + logoUrl + ", description=" + description
+                + ", user=" + user + "]";
     }
     
 }

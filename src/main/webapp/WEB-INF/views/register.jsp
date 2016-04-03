@@ -9,7 +9,10 @@
 <spring:message var="emailLabel" code="register.emailLabel"/>
 <spring:message var="passwordLabel" code="register.passwordLabel"/>
 <spring:message var="confirmPasswordLabel" code="register.confirmPasswordLabel"/>
+<spring:message var="cancelButton" code="register.cancelButton"/>
 <spring:message var="registerButton" code="register.registerButton"/>
+
+<spring:url var="indexUrl" value="/"/>
 
 
 <form:form modelAttribute="user" method="post" id="register-form" class="form-container">
@@ -40,6 +43,7 @@
         <input type="password" id="confirmPassword" name="confirmPassword" class="form-control"/>
     </div>
     <div class="form-buttons">
+        <button type="button" onclick="location.href='${indexUrl}'" class="btn btn-warning">${cancelButton}</button>
         <button type="submit" onclick="registerUser()" class="btn btn-primary">${registerButton}</button>
     </div>
 </form:form>

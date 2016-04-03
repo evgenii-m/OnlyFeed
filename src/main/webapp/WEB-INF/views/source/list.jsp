@@ -3,8 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<spring:message var="formTitle" code="list.formTitle"/>
-<spring:message var="addButton" code="list.addButton"/>
+<spring:message var="newFeedSourcePlaceholder" code="list.newFeedSourcePlaceholder"/>
+<spring:message var="newFeedSourceButton" code="list.newFeedSourceButton"/>
 <spring:message var="editLink" code="list.editLink"/>
 <spring:message var="deleteLink" code="list.deleteLink"/>
 
@@ -13,11 +13,10 @@
 <spring:url var="deleteFeedSourceUrl" value="/source/delete"/>
 
 <div class="content-container">
-    <form:form modelAttribute="newFeedSource" method="post" class="new-feed-source-form">
-        <div class="feed-form-title">${formTitle}</div>
-        <div class="feed-form-row">
-	        <form:input path="url" class="form-control" value=""/>
-	        <button type="submit" class="btn btn-sm btn-primary">${addButton}</button>
+    <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form">
+	    <div>
+	        <form:input path="url" class="form-control" placeholder="${newFeedSourcePlaceholder}"/>
+	        <button type="submit" class="btn btn-sm btn-primary">${newFeedSourceButton}</button>
         </div>
         <form:errors path="url" class="alert alert-danger error" element="div"/>
     </form:form>

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
+import org.push.simplefeed.model.entity.UserEntity;
 
 
 /**
@@ -14,11 +15,13 @@ import org.push.simplefeed.model.entity.FeedSourceEntity;
  *
  */
 public interface IFeedSourceService {
-    void save(FeedSourceEntity feedSource);
+    void save(FeedSourceEntity feedSource, UserEntity user);
     void delete(Long id);
 
     List<FeedSourceEntity> findAll();
+    List<FeedSourceEntity> findByUser(UserEntity user);
     FeedSourceEntity findById(Long id);
+    FeedSourceEntity findByUserAndUrl(UserEntity user, String url);
     
     FeedSourceEntity getBlank();
     void fillBlank(FeedSourceEntity feedSource);

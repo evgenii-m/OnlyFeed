@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;

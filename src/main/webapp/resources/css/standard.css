@@ -1,3 +1,4 @@
+/* global */
 html {
 	height:100%;
 } 
@@ -7,7 +8,6 @@ body {
     height:100%;
     background-color: #ededed;
 }
-
 
 .content-container {
     width: 600px;
@@ -37,7 +37,7 @@ body {
     padding-top: 4px;
     margin-right: 10px;
     float: left;
-    color: #6D6D6D;
+    color: #4D4D4D;
 }
 
 .form-container .form-row .required-field-label {
@@ -81,7 +81,59 @@ body {
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
 }
+/*************************************************************************************************/
 
+
+
+/* feed list */
+.feed-list {
+    margin-top: 30px;
+}
+
+.feed-list .item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #E1E8ED;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+    color: #4D4D4D;
+}
+
+.feed-list .item .feed-logo {
+    float: left;
+    margin-right: 15px;
+}
+
+.feed-list .item .name {
+    height: 25px;
+    font-weight: bold;
+}
+
+.feed-list .item .name span {
+    cursor: pointer;
+}
+
+.feed-list .item .name span:hover {
+    color: #88B;
+}
+
+.feed-list .item .description {
+    height: 75px;
+    overflow: hidden;
+}
+
+.feed-list .item .action-links {
+    float: right;
+    margin-right: 5px;
+}
+
+.feed-list .item .action-links span {
+    cursor: pointer;
+    color: #6DA3BD;
+}
 /*************************************************************************************************/
 
 
@@ -150,7 +202,6 @@ body {
 
 
 /* list view */
-
 #new-feed-source-form input {
 	margin-top: 15px;
 	width: 530px;
@@ -173,52 +224,7 @@ body {
     margin-top: 10px;
     padding: 7px 15px;
 }
-
-.feed-source-list {
-	margin-top: 50px;
-}
-
-.feed-source-list .item {
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #CCC;
-    overflow: hidden;	
-}
-
-.feed-source-list .item .feed-logo {
-	float: left;
-	margin-right: 15px;
-}
-
-.feed-source-list .item .name {
-    height: 25px;
-    font-weight: bold;
-}
-
-.feed-source-list .item .name span {
-    cursor: pointer;
-}
-
-.feed-source-list .item .name span:hover {
-    color: #88B;
-}
-
-.feed-source-list .item .description {
-	height: 75px;
-	overflow: hidden;
-}
-
-.feed-source-list .item .action-links {
-	float: right;
-	margin-right: 20px;
-}
-
-.action-links span {
-    cursor: pointer;
-    color: #6DA3BD;
-}
 /*************************************************************************************************/
-
 
 
 /* edit view */
@@ -249,78 +255,98 @@ body {
 /*************************************************************************************************/
 
 
-
 /* feed view */
 .feed-container {
+	margin-top: 15px;
 }
 
-.feed-item-list {
+#feed-item-list {
 	width: 50%;
+	margin-top: 0px;
+	margin-bottom: 15px;
 	min-width: 380px;
     float: left;
 }
 
-.feed-item-list .item {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #C1C1C1;
-    overflow: hidden;
-}
-
-.feed-item-list .item .feed-logo {
-    float: left;
-    margin-right: 15px;
-    cursor: pointer;
-}
-
-.feed-item-list .item .feed-content {
+#feed-item-list .item .feed-content {
     line-height: 16px;
 }
 
 
-.feed-item-list .item .feed-info {
+#feed-item-list .item .feed-info {
     height: 100px;
     overflow: hidden;
 }
 
-.feed-item-list .item .title {
+#feed-item-list .item .title {
     margin-bottom: 5px;
 	font-weight: bold;
 }
 
-.feed-item-list .item .title span {
+#feed-item-list .item .title span {
     cursor: pointer;
 }
 
-.feed-item-list .item .title span:hover {
-    color: #88B;
+#feed-item-list .item .title span:hover {
+    color: #26b3ff;
 }
 
-.feed-item-list .item .summary {
+#feed-item-list .item .summary {
     color: #5E5E5E;
 }
 
-.feed-item-list .item .pub-info {
+#feed-item-list .item .pub-info {
 	margin-top: 5px;
 	color: #3A3A3A;
 }
 
 .feed-tab-list {
 	width: 550px;
-    height: 85%;
+    height: 83%;
     position: fixed;
     right: 100px;
-    border: 1px solid #AAA;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #E1E8ED;
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    background-color: #F5FFFA;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+    color: #4D4D4D;
 }
-/*************************************************************************************************/
-
-
 
 .feed-tab {
-	
+    cursor: pointer;
+    height: 30px;
+    margin-bottom: 5px;
+    padding: 4px 7px;
+    background-color: #ebebeb;
+    border: 1px solid #d1d1d1;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.feed-tab:hover {
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    border: 1px solid #26b3ff;
+    box-shadow: 0 0 3px rgba(38,179,255,0.5);
+}
+
+.feed-tab .source-name {
+	max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    display: inline;
+    float: left;
+}
+
+.feed-tab .title {
+    display: inline;
 }
 /*************************************************************************************************/
 

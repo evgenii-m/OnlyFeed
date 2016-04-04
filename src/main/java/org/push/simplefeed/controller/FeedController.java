@@ -62,8 +62,8 @@ public class FeedController {
         uiModel.addAttribute("feedItemList", feedItemList);
         
         if (feedTabList.size() == 0) {
-            feedTabList.add(feedItemService.findById(5l));
-            feedTabList.add(feedItemService.findById(42l));
+            feedTabList.add(feedItemList.get(0));
+            feedTabList.add(feedItemList.get(1));
         }
         uiModel.addAttribute("feedTabList", feedTabList);
         return "feed";

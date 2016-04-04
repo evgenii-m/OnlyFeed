@@ -21,7 +21,7 @@
         <form:errors path="url" class="alert alert-danger error" element="div"/>
     </form:form>
 
-	<div class="feed-source-list">
+	<div class="feed-list" id="feed-source-list">
 	    <c:forEach items="${feedSourceList}" var="feedSource">
 	        <div class="item">
                 <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>

@@ -4,11 +4,11 @@
 
 
 <div class="feed-container">
-	<div class="feed-item-list">
+	<div class="feed-list" id="feed-item-list">
 	    <c:if test="${not empty feedItemList}">
 	        <c:forEach items="${feedItemList}" var="feedItem">
 	            <div class="item">
-	                <div class="feed-logo" style="background-image: url(${feedItem.imageUrl});"></div>
+	                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
 	                <div class="feed-content">
 		                <div class="feed-info">
 		                    <div class="title">
@@ -34,7 +34,11 @@
 	<div class="feed-tab-list">
 	    <c:if test="${not empty feedTabList}">
 	        <c:forEach items="${feedTabList}" var="feedTab">
-	            <%@ include file="tab.jsp" %>
+<%-- 	            <%@ include file="tab.jsp" %> --%>
+                <div class="feed-tab">
+                    <span class="source-name">${feedTab.feedSource.name}</span>
+                    <span class="title">&nbsp;|&nbsp;${feedTab.title}</span>
+                </div>
 	        </c:forEach>
 	    </c:if>
 	</div>

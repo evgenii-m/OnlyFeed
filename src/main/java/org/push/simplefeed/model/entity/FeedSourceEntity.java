@@ -5,12 +5,15 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import org.hibernate.validator.constraints.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 /**
@@ -49,11 +52,13 @@ public class FeedSourceEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private UserEntity user;
     
     // TODO: replace FetchType.EAGER on FetchType.LAZY
-    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL)
-    private List<FeedItemEntity> feedItemList;
+    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<FeedItemEntity> feedItemList = new ArrayList<>();
     
     
     
@@ -112,13 +117,32 @@ public class FeedSourceEntity {
     public void setUser(UserEntity user) {
         this.user = user;
     }
+    
+    
+    public List<FeedItemEntity> getFeedItemList() {
+        return feedItemList;
+    }
+    
+    public void setFeedItemList(List<FeedItemEntity> feedItemList) {
+        this.feedItemList = feedItemList;
+    }
+    
+    public void addFeedItem(FeedItemEntity feedItem) {
+        feedItem.setFeedSource(this);
+        feedItemList.add(feedItem);
+    }
+    
+    public void removeFeedItem(FeedItemEntity feedItem) {
+        feedItemList.remove(feedItem);
+    }
+    
         
     
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
                 + ", logoUrl=" + logoUrl + ", description=" + description
-                + ", user=" + user + "]";
+                + ", user.id=" + user.getId() + "]";
     }
     
 }

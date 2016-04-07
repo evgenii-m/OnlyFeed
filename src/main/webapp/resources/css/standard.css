@@ -297,7 +297,23 @@ body {
 
 #feed-item-list .item .pub-info {
 	margin-top: 5px;
-	color: #3A3A3A;
+	color: #2A2A2A;
+}
+
+#feed-item-list .item .pub-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline;
+    float: left;
+}
+
+#feed-item-list .item .pub-info .source-name {
+    max-width: 150px;
+}
+
+#feed-item-list .item .pub-info .published-date {
+    max-width: 150px;
 }
 
 .feed-tab-list {

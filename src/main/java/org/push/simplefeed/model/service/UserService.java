@@ -11,6 +11,7 @@ import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.RoleRepository;
 import org.push.simplefeed.model.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,11 +54,13 @@ public class UserService implements IUserService {
     
     
     @Override
+    @Transactional(readOnly = true)
     public UserEntity findOne(Long id) {
         return userRepository.findOne(id);
     }
     
     @Override
+    @Transactional(readOnly = true)
     public UserEntity findOne(String email) {
         return userRepository.findByEmail(email);
     }

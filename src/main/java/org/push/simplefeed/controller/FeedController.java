@@ -61,12 +61,20 @@ public class FeedController {
         logger.debug("Feed items count: " + feedItemList.size());
         uiModel.addAttribute("feedItemList", feedItemList);
         
-        if (feedTabList.size() == 0) {
+        if ((feedItemList.size() > 0) && (feedTabList.size() == 0)) {
             feedTabList.add(feedItemList.get(0));
             feedTabList.add(feedItemList.get(1));
         }
-        uiModel.addAttribute("feedTabList", feedTabList);
+//        uiModel.addAttribute("feedTabList", feedTabList);
         return "feed";
+    }
+    
+    
+    @RequestMapping(value = "/tab", method = GET)
+    @ResponseBody
+    public List<FeedItemEntity> getFeedTabs() {
+        logger.debug("getFeedTabs");
+        return feedTabList;
     }
     
 

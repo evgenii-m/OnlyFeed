@@ -4,36 +4,8 @@
 
 $(document).ready(function() {
 	validateRegisterForm();
+	loadFeedTabs();
 });
-
-
-function submitPostRequest(url) {
-	var form = document.createElement("form");
-	form.setAttribute("method", "post");
-	form.setAttribute("action", url);
-	document.body.appendChild(form);
-	form.submit();
-}
-
-
-function addFeedTab(feedItemId) {
-	$.ajax({
-		url: "feed/tab",
-		type: "post",
-		data: { 'id' : feedItemId },
-		success: function(response) {
-			console.log("success");
-			console.log(response);
-			if (response != null) {
-				$("div.feed-tab-list").append(response);
-			}
-		},
-		error: function(error) {
-			console.log("error");
-			console.log(error);
-		}
-	});
-}
 
 
 function validateRegisterForm() {
@@ -75,4 +47,54 @@ function validateRegisterForm() {
         }
     });
 }
+
+
+function loadFeedTabs() {
+	$.ajax({
+		url: "feed/tab",
+		type: "get",
+		success: function(response) {
+			console.log("success");
+			console.log(response);
+//			
+//			if (response != null) {
+//				$("div.feed-tab-list").append(response);
+//			}
+		},
+		error: function(error) {
+			console.log("error");
+			console.log(error);			
+		}
+	});
+} 
+
+
+function submitPostRequest(url) {
+	var form = document.createElement("form");
+	form.setAttribute("method", "post");
+	form.setAttribute("action", url);
+	document.body.appendChild(form);
+	form.submit();
+}
+
+
+function addFeedTab(feedItemId) {
+	$.ajax({
+		url: "feed/tab",
+		type: "post",
+		data: { 'id' : feedItemId },
+		success: function(response) {
+			console.log("success");
+			console.log(response);
+			if (response != null) {
+				$("div.feed-tab-list").append(response);
+			}
+		},
+		error: function(error) {
+			console.log("error");
+			console.log(error);
+		}
+	});
+}
+
 

@@ -19,11 +19,8 @@
 		                    </div>
 		                </div>
 		                <div class="pub-info">
-		                    ${feedItem.feedSource.name} | 
-		                    <c:if test="${not empty feedItem.author}">
-		                        by <i>${feedItem.author}</i> | 
-		                    </c:if>
-		                    ${feedItem.publishedDateString}
+		                    <span class="source-name">${feedItem.feedSource.name}</span>
+		                    <span class="published-date">&nbsp;|&nbsp;${feedItem.publishedDateString}</span>
 		                </div>
 	                </div>
 	            </div>
@@ -32,14 +29,13 @@
 	</div>
 	   
 	<div class="feed-tab-list">
-	    <c:if test="${not empty feedTabList}">
-	        <c:forEach items="${feedTabList}" var="feedTab">
-<%-- 	            <%@ include file="tab.jsp" %> --%>
-                <div class="feed-tab">
-                    <span class="source-name">${feedTab.feedSource.name}</span>
-                    <span class="title">&nbsp;|&nbsp;${feedTab.title}</span>
-                </div>
-	        </c:forEach>
-	    </c:if>
+<%-- 	    <c:if test="${not empty feedTabList}"> --%>
+<%-- 	        <c:forEach items="${feedTabList}" var="feedTab"> --%>
+<!--                 <div class="feed-tab"> -->
+<%--                     <span class="source-name">${feedTab.feedSource.name}</span> --%>
+<%--                     <span class="title">&nbsp;|&nbsp;${feedTab.title}</span> --%>
+<!--                 </div> -->
+<%-- 	        </c:forEach> --%>
+<%-- 	    </c:if> --%>
 	</div>
 </div>

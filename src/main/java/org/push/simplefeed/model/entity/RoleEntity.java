@@ -3,6 +3,7 @@
  */
 package org.push.simplefeed.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -18,10 +19,15 @@ public class RoleEntity {
     @GeneratedValue
     @Column(name = "id")
     private Integer id;
+    
     @Column(name = "role")
     private String role;
-    @ManyToMany(mappedBy = "roles")
-    private List<UserEntity> users;
+    
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+        joinColumns = @JoinColumn(name = "role_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<UserEntity> users = new ArrayList<>();
     
     
     public Integer getId() {
@@ -49,6 +55,11 @@ public class RoleEntity {
     public void setUsers(List<UserEntity> userRoles) {
         this.users = userRoles;
     }
-    
+
+
+    @Override
+    public String toString() {
+        return "RoleEntity [id=" + id + ", role=" + role + "]";
+    }
     
 }

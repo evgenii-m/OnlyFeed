@@ -5,6 +5,7 @@ package org.push.simplefeed.model.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
@@ -54,14 +55,13 @@ public class UserEntity {
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
-    )
-    private List<RoleEntity> roles;
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private List<RoleEntity> roles = new ArrayList<>();
 
     // TODO: replace FetchType.EAGER on FetchType.LAZY
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<FeedSourceEntity> feedSourceList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedSourceEntity> feedSourceList = new ArrayList<>();
     
     
     
@@ -129,7 +129,26 @@ public class UserEntity {
     public void setRoles(List<RoleEntity> roles) {
         this.roles = roles;
     }
+    
+    
+    public List<FeedSourceEntity> getFeedSourceList() {
+        return feedSourceList;
+    }
+    
+    public void setFeedSourceList(List<FeedSourceEntity> feedSourceList) {
+        this.feedSourceList = feedSourceList;
+    }
+    
+    public void addFeedSource(FeedSourceEntity feedSource) {
+        feedSource.setUser(this);
+        feedSourceList.add(feedSource);
+    }
+    
+    public void removeFeedSource(FeedSourceEntity feedSource) {
+        feedSourceList.remove(feedSource);
+    }
 
+    
     
     @Override
     public String toString() {

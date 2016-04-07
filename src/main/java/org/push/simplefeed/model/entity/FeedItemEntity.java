@@ -24,19 +24,26 @@ public class FeedItemEntity {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
+    
     @Column(name = "title")
     private String title;
+    
     @Column(name = "description")
     private String description;
+    
     @Column(name = "link")
     private String link;
+    
     @Column(name = "published_date")
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date publishedDate;
+    
     @Column(name = "author")
     private String author;
+    
     @Column(name = "image_url")
     private String imageUrl;
+    
     @ManyToOne
     @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
@@ -132,7 +139,7 @@ public class FeedItemEntity {
         return "FeedItemEntity [id=" + id + ", title=" + title
                 + ", description=" + description + ", link=" + link
                 + ", publishedDate=" + publishedDate + ", author=" + author
-                + ", imageUrl=" + imageUrl + ", feedSource=" + feedSource + "]";
+                + ", imageUrl=" + imageUrl + ", feedSource.id=" + feedSource.getId() + "]";
     }
 
 }

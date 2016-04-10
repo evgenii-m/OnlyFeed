@@ -18,6 +18,7 @@ import org.push.simplefeed.model.service.IFeedSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,17 +65,34 @@ public class FeedController {
         if ((feedItemList.size() > 0) && (feedTabList.size() == 0)) {
             feedTabList.add(feedItemList.get(0));
             feedTabList.add(feedItemList.get(1));
+            feedTabList.add(feedItemList.get(2));
+            feedTabList.add(feedItemList.get(3));
+            feedTabList.add(feedItemList.get(4));
         }
-//        uiModel.addAttribute("feedTabList", feedTabList);
         return "feed";
     }
     
     
     @RequestMapping(value = "/tab", method = GET)
     @ResponseBody
-    public List<FeedItemEntity> getFeedTabs() {
-        logger.debug("getFeedTabs");
+    public List<FeedItemEntity> getFeedTabList() {
+        logger.debug("Get feed tab list");
         return feedTabList;
+    }
+    
+    
+    @RequestMapping(value = "/tab/{id}", method = GET)
+    @ResponseBody
+    public FeedItemEntity getFeedTab(@PathVariable Long id) {
+        logger.debug("Get feed tab (id=" + id + ")");
+        for (FeedItemEntity feedTab : feedTabList) {
+            if (feedTab.getId() == id) {
+                return feedTab;
+            }
+        }
+        
+        logger.error("Feed tab not found (id=" + id + ")");
+        return null;
     }
     
 

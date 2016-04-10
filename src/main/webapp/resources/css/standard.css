@@ -99,7 +99,7 @@ body {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     overflow: hidden;
     box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
-    color: #4D4D4D;
+    color: #3d3d3d;
 }
 
 .feed-list .item .feed-logo {
@@ -201,7 +201,7 @@ body {
 
 
 
-/* list view */
+/* source list view */
 #new-feed-source-form input {
 	margin-top: 15px;
 	width: 530px;
@@ -297,7 +297,6 @@ body {
 
 #feed-item-list .item .pub-info {
 	margin-top: 5px;
-	color: #2A2A2A;
 }
 
 #feed-item-list .item .pub-info span {
@@ -316,22 +315,45 @@ body {
     max-width: 150px;
 }
 
-.feed-tab-list {
+
+.feed-tab-panel {
 	width: 550px;
     height: 83%;
     position: fixed;
     right: 100px;
-    padding: 10px;
+/*     padding: 10px; */
     background-color: #ffffff;
     border: 1px solid #E1E8ED;
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     overflow: hidden;
     box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
-    color: #4D4D4D;
+    color: #3D3D3D;
 }
 
-.feed-tab {
+.feed-tab-panel .tool-pane {
+	height: 35px;
+	padding: 7px 15px;
+    margin-bottom: 5px;
+    background-color: #d2d2d2;
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.tool-pane .link {
+    display: inline;
+    float: left;
+    cursor: pointer;
+}
+
+.tool-pane .link:hover {
+    color: #26b3ff;
+}
+
+.feed-tab-panel .feed-tab-list {
+	padding: 10px;
+}
+
+.feed-tab-list .feed-tab {
     cursor: pointer;
     height: 30px;
     margin-bottom: 5px;
@@ -345,13 +367,13 @@ body {
     text-overflow: ellipsis;
 }
 
-.feed-tab:hover {
+.feed-tab-list .feed-tab:hover {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     border: 1px solid #26b3ff;
     box-shadow: 0 0 3px rgba(38,179,255,0.5);
 }
 
-.feed-tab .source-name {
+.feed-tab-list .feed-tab .source-name {
 	max-width: 120px;
     white-space: nowrap;
     overflow: hidden;
@@ -361,8 +383,58 @@ body {
     float: left;
 }
 
-.feed-tab .title {
+.feed-tab-list .feed-tab .title {
     display: inline;
+}
+
+.feed-tab-detail {
+	padding: 10px;
+    overflow: auto;
+    height: 90%;
+/*     height: 100%; */
+/*     border: 1px solid #d1d1d1; */
+/*     border-radius: 4px; */
+/*     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; */
+/*     box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5); */
+}
+
+.feed-tab-detail .title {
+	margin-top: 10px;
+	font-size: 22px;
+	font-weight: bold;
+}
+
+.feed-tab-detail .pub-info {
+    height: 25px;
+    color: #5E5E5E;
+    border-bottom: 1px solid #d0cccc;
+}
+
+.feed-tab-detail .pub-info span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline;
+    float: left;
+}
+
+.feed-tab-detail .pub-info .source-name {
+    max-width: 250px;
+}
+
+.feed-tab-detail .pub-info .author {
+    max-width: 150px;
+}
+
+.feed-tab-detail .pub-info .published-date {
+    max-width: 150px;
+}
+
+.feed-tab-detail .description {
+}
+
+.feed-tab-detail .description img {
+    max-width: 100%;
 }
 /*************************************************************************************************/
 

@@ -47,3 +47,45 @@
         <button type="submit" onclick="registerUser()" class="btn btn-primary">${registerButton}</button>
     </div>
 </form:form>
+
+<script type="text/javascript">
+	$(document).ready(function() {        
+	    $("#register-form").validate({
+	        errorElement: "div",
+	        errorPlacement: function(error, element) {
+	            error.addClass("alert alert-danger");
+	            error.appendTo(element.parent());
+	        },
+	        focusInvalid: true,
+	        onkeyup: false,
+	        rules: {
+	            pictureUrl: {
+	                required: true,
+	                url: true,
+	                maxlength: 256
+	            },
+	            name: {
+	                required: true,
+	                minlength: 2,
+	                maxlength: 100
+	            },
+	            email: {
+	                required: true,
+	                email: true,
+	                maxlength: 100
+	            },
+	            password: {
+	                required: true,
+	                minlength: 6,
+	                maxlength: 50
+	            },
+	            confirmPassword: {
+	                required: true,
+	                minlength: 6,
+	                maxlength: 50,
+	                equalTo: "#password"
+	            }
+	        }
+	    });
+	});
+</script>

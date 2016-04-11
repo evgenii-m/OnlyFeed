@@ -72,7 +72,7 @@ public class IndexController {
     @RequestMapping(value = "/register", method = POST)
     public String register(@ModelAttribute("user") @Valid UserEntity user, BindingResult bindingResult, 
             Model uiModel, Locale locale) {
-        if (userService.findOne(user.getEmail()) != null) {
+        if (userService.findByEmail(user.getEmail()) != null) {
             bindingResult.rejectValue("email", "validation.emailAlreadyUsed");
         }        
         if (bindingResult.hasErrors()) {

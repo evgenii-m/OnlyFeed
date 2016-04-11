@@ -6,7 +6,9 @@ package org.push.simplefeed.model.entity;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -55,13 +57,15 @@ public class UserEntity {
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<RoleEntity> roles = new ArrayList<>();
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<RoleEntity> roles = new HashSet<>();
 
-    // TODO: replace FetchType.EAGER on FetchType.LAZY
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedSourceEntity> feedSourceList = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedSourceEntity> feedSources = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FeedTabEntity> feedTabs = new HashSet<>();
     
     
     
@@ -122,30 +126,30 @@ public class UserEntity {
     }
     
     
-    public List<RoleEntity> getRoles() {
+    public Set<RoleEntity> getRoles() {
         return roles;
     }
  
-    public void setRoles(List<RoleEntity> roles) {
+    public void setRoles(Set<RoleEntity> roles) {
         this.roles = roles;
     }
     
     
-    public List<FeedSourceEntity> getFeedSourceList() {
-        return feedSourceList;
+    public List<FeedSourceEntity> getFeedSources() {
+        return feedSources;
     }
     
-    public void setFeedSourceList(List<FeedSourceEntity> feedSourceList) {
-        this.feedSourceList = feedSourceList;
+    public void setFeedSources(List<FeedSourceEntity> feedSources) {
+        this.feedSources = feedSources;
+    }
+        
+    
+    public Set<FeedTabEntity> getFeedTabs() {
+        return feedTabs;
     }
     
-    public void addFeedSource(FeedSourceEntity feedSource) {
-        feedSource.setUser(this);
-        feedSourceList.add(feedSource);
-    }
-    
-    public void removeFeedSource(FeedSourceEntity feedSource) {
-        feedSourceList.remove(feedSource);
+    public void setFeedTabList(Set<FeedTabEntity> feedTabs) {
+        this.feedTabs = feedTabs;
     }
 
     
@@ -155,6 +159,10 @@ public class UserEntity {
         return "UserEntity [id=" + id + ", name=" + name + ", password="
                 + password + ", email=" + email + ", pictureUrl=" + pictureUrl + 
                 ", enabled=" + enabled + ", roles=" + roles + "]";
-    } 
+    }
+    
+    public boolean equals(UserEntity e) {
+        return (this.id == e.getId());
+    }
        
 }

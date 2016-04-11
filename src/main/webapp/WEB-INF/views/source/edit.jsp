@@ -52,3 +52,38 @@
 		</form:form>
 	</c:otherwise>
 </c:choose>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {        
+        $("#edit-feed-source-form").validate({
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("alert alert-danger");
+                error.appendTo(element.parent());
+            },
+            focusInvalid: true,
+            onkeyup: false,
+            rules: {
+            	name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100
+                },
+                url: {
+                    required: true,
+                    url: true,
+                    maxlength: 256
+                },
+                description: {
+                    maxlength: 1000
+                },
+                logoUrl: {
+                    required: true,
+                    url: true,
+                    maxlength: 256
+                }
+            }
+        });
+    });
+</script>

@@ -37,6 +37,26 @@ function displayFeedTabList() {
 	        console.log(error);         
 	    }
     });
+    
+    $(".add-feed-tab-link").click(function() {
+    	var feedItemId = $(this).parents(".item").attr("id");
+    	$.ajax({
+    		url: "feed/tab",
+    		type: "post",
+    		data: { 'id' : feedItemId },
+    		success: function(response) {
+    			console.log("success");
+    			console.log(response);
+//    			if (response != null) {
+//    				$("div.feed-tab-panel").append(response);
+//    			}
+    		},
+    		error: function(error) {
+    			console.log("error");
+    			console.log(error);
+    		}
+    	});    	
+    });
 
     $("#back-link").click(function() {
     	$(".feed-tab-detail").hide();
@@ -77,25 +97,4 @@ function submitPostRequest(url) {
 	document.body.appendChild(form);
 	form.submit();
 }
-
-
-function addFeedTab(feedItemId) {
-	$.ajax({
-		url: "feed/tab",
-		type: "post",
-		data: { 'id' : feedItemId },
-		success: function(response) {
-			console.log("success");
-			console.log(response);
-			if (response != null) {
-				$("div.feed-tab-panel").append(response);
-			}
-		},
-		error: function(error) {
-			console.log("error");
-			console.log(error);
-		}
-	});
-}
-
 

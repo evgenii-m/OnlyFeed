@@ -13,6 +13,6 @@ public interface IUserService {
     void save(UserEntity user);
     void delete(Long id);
     
-    UserEntity findOne(Long id);
-    UserEntity findOne(String email);
+    UserEntity findById(Long id);
+    UserEntity findByEmail(String email);
 }

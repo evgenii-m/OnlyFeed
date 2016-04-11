@@ -55,11 +55,16 @@ public class FeedSourceService implements IFeedSourceService {
     public void save(FeedSourceEntity feedSource, UserEntity user) {
         feedSource.setUser(user);
         feedSourceRepository.save(feedSource);
-        refresh(feedSource);
+        if (user.getFeedSources().contains(feedSource) != true) {
+            user.getFeedSources().add(feedSource);
+        }
+//        refresh(feedSource);
     }
 
     @Override
     public void delete(Long id) {
+        FeedSourceEntity feedSource = feedSourceRepository.findOne(id);
+        feedSource.getUser().getFeedSources().remove(feedSource);
         feedSourceRepository.delete(id);
     }
     

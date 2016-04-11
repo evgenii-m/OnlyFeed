@@ -13,12 +13,12 @@
 <spring:url var="deleteFeedSourceUrl" value="/source/delete"/>
 
 <div class="content-container">
-    <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form">
-	    <div>
+    <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
+	    <div class="form-row">
 	        <form:input path="url" class="form-control" placeholder="${newFeedSourcePlaceholder}"/>
 	        <button type="submit" class="btn btn-sm btn-primary">${newFeedSourceButton}</button>
+            <form:errors path="url" class="alert alert-danger error" element="div"/>
         </div>
-        <form:errors path="url" class="alert alert-danger error" element="div"/>
     </form:form>
 
 	<div class="feed-list" id="feed-source-list">
@@ -39,3 +39,25 @@
 	    </c:forEach>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {        
+        $("#new-feed-source-form").validate({
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("alert alert-danger");
+                error.appendTo(element.parent());
+            },
+            focusInvalid: true,
+            onkeyup: false,
+            rules: {
+            	url: {
+                    required: true,
+                    url: true,
+                    maxlength: 256
+            	}
+            }
+        });
+    });
+</script>

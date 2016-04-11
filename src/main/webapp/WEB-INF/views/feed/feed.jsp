@@ -8,12 +8,12 @@
 	<div class="feed-list" id="feed-item-list">
 	    <c:if test="${not empty feedItemList}">
 	        <c:forEach items="${feedItemList}" var="feedItem">
-	            <div class="item">
+	            <div class="item" id="${feedItem.id}">
 	                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
 	                <div class="feed-content">
 		                <div class="feed-info">
 		                    <div class="title">
-		                        <span onclick="addFeedTab(${feedItem.id})">${feedItem.title}</span>
+		                        <span class="add-feed-tab-link">${feedItem.title}</span>
 		                    </div>
 		                    <div class="summary">
 		                        ${feedItem.summary}
@@ -35,7 +35,7 @@
 	   </div>
 	   <div class="feed-tab-list">
 	   </div>
-	   <div class="feed-tab-detail">
+	   <div class="feed-tab-detail" style="display: none;">
            <div class="pub-info">
                <span class="source-name"></span>
                <span class="author"></span>

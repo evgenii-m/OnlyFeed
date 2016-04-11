@@ -55,8 +55,7 @@ public class FeedSourceEntity {
     @JsonIgnore
     private UserEntity user;
     
-    // TODO: replace FetchType.EAGER on FetchType.LAZY
-    @OneToMany(mappedBy = "feedSource", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "feedSource", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<FeedItemEntity> feedItemList = new ArrayList<>();
     
@@ -141,8 +140,7 @@ public class FeedSourceEntity {
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url
-                + ", logoUrl=" + logoUrl + ", description=" + description
-                + ", user.id=" + user.getId() + "]";
+                + ", logoUrl=" + logoUrl + ", description=" + description + "]";
     }
     
 }

@@ -62,17 +62,19 @@ public class SourceController {
     
 
     @RequestMapping(method = GET)
-    public String showFeedSourceList(Model uiModel, Principal principal) {
-        // TODO: add test (user == null)
-        UserEntity user = userService.findOne(principal.getName());
-        List<FeedSourceEntity> feedSourceList = feedSourceService.findByUser(user);
-        uiModel.addAttribute("feedSourceList", feedSourceList);
+    public String showSources(Model uiModel, Principal principal) {
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (user == null) {
+            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
+            return "redirect:/loginfail";
+        }
+        uiModel.addAttribute("feedSourceList", user.getFeedSources());
         if (!uiModel.containsAttribute("newFeedSource")) {
             uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
         }
         return "source/list";
     }
-
+    
 
     @RequestMapping(method = POST)
     public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
@@ -105,8 +107,18 @@ public class SourceController {
     
     
     @RequestMapping(value = "/edit/{id}", method = GET)
-    public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel) {
-        uiModel.addAttribute("feedSource", feedSourceService.findById(id));
+    public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel, Principal principal) {
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (user == null) {
+            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
+            return "redirect:/loginfail";
+        }
+        FeedSourceEntity feedSource = feedSourceService.findById(id);
+        if ((feedSource != null) && (feedSource.getUser().equals(user))) {
+            uiModel.addAttribute("feedSource", feedSource);
+        } else {
+            logger.error("Feed source (feedSource.id=" + id + ") not found for user (user.id=" + user.getId() + ")");
+        }
         return "source/edit";
     }
         
@@ -121,8 +133,11 @@ public class SourceController {
             return "source/edit";
         }
 
-        // TODO: add test (user == null)
-        UserEntity user = userService.findOne(principal.getName());
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (user == null) {
+            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
+            return "redirect:/loginfail";
+        }
         feedSourceService.save(feedSource, user);
         logger.debug("Added/updated feed source (" + feedSource + ")");
         return "redirect:/source";

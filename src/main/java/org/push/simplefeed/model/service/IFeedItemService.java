@@ -15,7 +15,6 @@ import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
  */
 public interface IFeedItemService {
     List<FeedItemEntity> save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource);
-    
     List<FeedItemEntity> findAll();
     FeedItemEntity findById(Long id);
     List<FeedItemEntity> findByFeedSource(FeedSourceEntity feedSource);

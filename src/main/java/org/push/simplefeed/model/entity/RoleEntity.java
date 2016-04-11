@@ -3,8 +3,8 @@
  */
 package org.push.simplefeed.model.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -23,11 +23,11 @@ public class RoleEntity {
     @Column(name = "role")
     private String role;
     
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.REMOVE)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "role_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<UserEntity> users = new ArrayList<>();
+    private Set<UserEntity> users = new HashSet<>();
     
     
     public Integer getId() {
@@ -48,12 +48,12 @@ public class RoleEntity {
     }
     
     
-    public List<UserEntity> getUsers() {
+    public Set<UserEntity> getUsers() {
         return users;
     }
     
-    public void setUsers(List<UserEntity> userRoles) {
-        this.users = userRoles;
+    public void setUsers(Set<UserEntity> users) {
+        this.users = users;
     }
 
 

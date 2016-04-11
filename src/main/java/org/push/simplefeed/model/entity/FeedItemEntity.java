@@ -9,9 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author push
@@ -26,27 +31,46 @@ public class FeedItemEntity {
     private Long id;
     
     @Column(name = "title")
+    @Size(min = 1, max = 1000, message = "{validation.lengthRange}")
+    @NotNull
     private String title;
     
     @Column(name = "description")
+    @Size(min = 1, max = 10000, message = "{validation.lengthRange}")
+    @NotNull
     private String description;
     
     @Column(name = "link")
+    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @URL(message = "{validation.url}")
+    @NotNull
     private String link;
     
     @Column(name = "published_date")
     @DateTimeFormat(iso = ISO.DATE_TIME)
+    @NotNull
     private Date publishedDate;
     
     @Column(name = "author")
+    @Size(min = 1, max = 100, message = "{validation.lengthRange}")
     private String author;
+
+    @Column(name = "viewed")
+    private boolean viewed;
     
     @Column(name = "image_url")
+    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @URL(message = "{validation.url}")
     private String imageUrl;
     
     @ManyToOne
     @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
+
+    @OneToOne(mappedBy = "feedItem", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private FeedTabEntity feedTab;
+    
     
     
     public Long getId() {
@@ -111,6 +135,15 @@ public class FeedItemEntity {
     public void setAuthor(String author) {
         this.author = author;
     }
+    
+    
+    public boolean getViewed() {
+        return viewed;
+    }
+    
+    public void setViewed(boolean viewed) {
+        this.viewed = viewed;
+    }
 
     
     public String getImageUrl() {
@@ -132,6 +165,15 @@ public class FeedItemEntity {
     public void setFeedSource(FeedSourceEntity feedSource) {
         this.feedSource = feedSource;
     }
+    
+    
+    public FeedTabEntity getFeedTab() {
+        return feedTab;
+    }
+    
+    public void setFeedTab(FeedTabEntity feedTab) {
+        this.feedTab = feedTab;
+    }
 
 
     @Override
@@ -139,7 +181,8 @@ public class FeedItemEntity {
         return "FeedItemEntity [id=" + id + ", title=" + title
                 + ", description=" + description + ", link=" + link
                 + ", publishedDate=" + publishedDate + ", author=" + author
-                + ", imageUrl=" + imageUrl + ", feedSource.id=" + feedSource.getId() + "]";
+                + ", viewed=" + viewed + ", imageUrl=" + imageUrl
+                + ", feedSource.id=" + feedSource.getId() + "]";
     }
 
 }

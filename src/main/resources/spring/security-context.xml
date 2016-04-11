@@ -11,8 +11,8 @@
 
     <http use-expressions="true">
         <intercept-url pattern="/" access="permitAll"/>
-        <intercept-url pattern="/feed" access="hasRole('ROLE_USER')"/>
-        <intercept-url pattern="/source" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/feed/**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/source/**" access="hasRole('ROLE_USER')"/>
         <form-login login-page="/" default-target-url="/feed" authentication-failure-url="/loginfail"/>
         <logout logout-success-url="/"/>
     </http>

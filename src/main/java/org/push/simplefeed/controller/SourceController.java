@@ -5,8 +5,10 @@ package org.push.simplefeed.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 
 import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -24,6 +26,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -108,7 +111,8 @@ public class SourceController {
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
             uiModel.addAttribute("feedSource", feedSource);
         } else {
-            logger.error("Feed source (feedSource.id=" + id + ") not found for user (user.id=" + user.getId() + ")");
+            logger.error("Feed source (feedSource.id=" + id + ") not found for user (user.id=" + 
+                    user.getId() + ")");
         }
         return "source/edit";
     }
@@ -131,11 +135,11 @@ public class SourceController {
     }
 
     
-    @RequestMapping(value = "/delete/{id}", method = POST)
-    public String deleteFeedSource(@PathVariable("id") Long id) {
-        feedSourceService.delete(id);
+    @RequestMapping(value = "/delete/{id}", method = DELETE)
+    @ResponseBody
+    public boolean deleteFeedSource(@PathVariable("id") Long id) {
         logger.debug("Delete feed source (id=" + id + ")");
-        return "redirect:/source";
+        return feedSourceService.delete(id);
     }
     
 }

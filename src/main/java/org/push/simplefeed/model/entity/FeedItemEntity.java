@@ -67,7 +67,7 @@ public class FeedItemEntity {
     @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
 
-//    @OneToOne(mappedBy = "feedItem", cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @OneToOne(mappedBy = "feedItem", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JsonIgnore
 //    private FeedTabEntity feedTab;
     

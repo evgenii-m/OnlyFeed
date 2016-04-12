@@ -8,9 +8,9 @@
 <spring:message var="editLink" code="list.editLink"/>
 <spring:message var="deleteLink" code="list.deleteLink"/>
 
-<spring:url var="showFeedUrl" value="/feed"/>
-<spring:url var="editFeedSourceUrl" value="/source/edit"/>
-<spring:url var="deleteFeedSourceUrl" value="/source/delete"/>
+<spring:url var="showFeedsUrl" value="/feed"/>
+<spring:url var="editUrl" value="/source/edit"/>
+<spring:url var="deleteUrl" value="/source/delete"/>
 
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
@@ -23,17 +23,17 @@
 
 	<div class="feed-list" id="feed-source-list">
 	    <c:forEach items="${feedSources}" var="feedSource">
-	        <div class="item">
+	        <div class="item" id="${feedSource.id}">
                 <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
                 <div class="name">
-                    <span onclick="location.href='${showFeedUrl}'/${feedSource.id}">${feedSource.name}</span>
+                    <span class="show-feeds-link">${feedSource.name}</span>
                 </div>
                 <div class="description">
                     ${feedSource.description}
                 </div>
                 <div class="action-links">
-                    <span onclick="location.href='${editFeedSourceUrl}/${feedSource.id}'">${editLink}</span> | 
-                    <span onclick="submitPostRequest('${deleteFeedSourceUrl}/${feedSource.id}')">${deleteLink}</span>
+                    <span class="edit-link">${editLink}</span> | 
+                    <span class="delete-link">${deleteLink}</span>
                 </div>
 	        </div>
 	    </c:forEach>
@@ -58,6 +58,34 @@
                     maxlength: 256
             	}
             }
+        });
+        
+        $(".show-feeds-link").click(function() {
+        	window.location.href = "${showFeedsUrl}/" + $(this).parents(".item").attr("id");
+        });
+        
+        $(".edit-link").click(function() {
+            window.location.href = "${editUrl}/" + $(this).parents(".item").attr("id");
+        });
+        
+        $(".delete-link").click(function() {
+        	var item = $(this).parents(".item");
+        	$.ajax({
+        		url: "${deleteUrl}/" + item.attr("id"),
+        		type: "delete",
+        		success: function(response) {
+                    console.log("success");
+                    console.log(response);
+        			if (response == true) {
+        				console.log("ololo!");
+        				item.remove();
+        			}
+        		},
+                error: function(error) {
+                    console.log("error");
+                    console.log(error);
+                }
+        	});
         });
     });
 </script>

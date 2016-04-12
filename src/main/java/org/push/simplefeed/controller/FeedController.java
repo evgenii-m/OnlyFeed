@@ -64,9 +64,26 @@ public class FeedController {
         logger.debug("showFeed");
         UserEntity user = userService.findByEmail(principal.getName());
         feedSourceService.refresh(user.getFeedSources());
-        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources(), 6);
+        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources(), 10);
         uiModel.addAttribute("feedItems", feedItems);
         return "feed";
+    }
+    
+    @RequestMapping(value = "/{feedSourceId}", method = GET)
+    public String showFeedsFromSource(Model uiModel, Principal principal, @PathVariable Long feedSourceId) {
+        logger.debug("showFeedsFromSource");
+        UserEntity user = userService.findByEmail(principal.getName());
+        FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
+        if ((feedSource != null) && (feedSource.getUser().equals(user))) {
+            feedSourceService.refresh(feedSource);
+            List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource, 10);
+            uiModel.addAttribute("feedItems", feedItems);
+            return "feed";
+        } else {
+            logger.error("Feed source (feedSource.id=" + feedSourceId + ") not found for user (user.id=" + 
+                    user.getId() + ")");
+            return "redirect:/feed";
+        }
     }
     
     

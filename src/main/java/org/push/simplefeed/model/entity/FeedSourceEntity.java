@@ -55,7 +55,7 @@ public class FeedSourceEntity {
     @JsonIgnore
     private UserEntity user;
     
-    @OneToMany(mappedBy = "feedSource", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "feedSource", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonIgnore
     private List<FeedItemEntity> feedItemList = new ArrayList<>();
     
@@ -134,4 +134,7 @@ public class FeedSourceEntity {
                 + ", logoUrl=" + logoUrl + ", description=" + description + "]";
     }
     
+    public boolean equals(FeedSourceEntity e) {
+        return (this.id == e.getId());
+    }
 }

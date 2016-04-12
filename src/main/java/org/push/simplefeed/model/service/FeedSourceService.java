@@ -9,6 +9,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
+import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
@@ -32,6 +33,7 @@ public class FeedSourceService implements IFeedSourceService {
     private FeedSourceRepository feedSourceRepository;
     private RssService rssService;
     private IFeedItemService feedItemService;
+    private IFeedTabService feedTabService;
 
     
     @Autowired
@@ -48,7 +50,12 @@ public class FeedSourceService implements IFeedSourceService {
     public void setFeedItemService(IFeedItemService feedItemService) {
         this.feedItemService = feedItemService;
     }
- 
+    
+    @Autowired
+    public void setFeedTabService(IFeedTabService feedTabService) {
+        this.feedTabService = feedTabService;
+    }
+    
 
 
     @Override
@@ -62,10 +69,20 @@ public class FeedSourceService implements IFeedSourceService {
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         FeedSourceEntity feedSource = feedSourceRepository.findOne(id);
-        feedSource.getUser().getFeedSources().remove(feedSource);
-        feedSourceRepository.delete(id);
+        if (feedSource != null) {
+            List<FeedTabEntity> feedTabs = feedTabService.findByUser(feedSource.getUser());
+            for (FeedTabEntity feedTab : feedTabs) {
+                if (feedTab.getFeedItem().getFeedSource().equals(feedSource)) {
+                    feedTabService.delete(feedTab.getId());
+                }
+            }
+            feedSource.getUser().getFeedSources().remove(feedSource);
+            feedSourceRepository.delete(id);
+            return true;
+        }
+        return false;
     }
     
 

@@ -15,7 +15,7 @@ import org.push.simplefeed.model.entity.UserEntity;
  */
 public interface IFeedSourceService {
     void save(FeedSourceEntity feedSource, UserEntity user);
-    void delete(Long id);
+    boolean delete(Long id);
     List<FeedSourceEntity> findAll();
     List<FeedSourceEntity> findByUser(UserEntity user);
     FeedSourceEntity findById(Long id);

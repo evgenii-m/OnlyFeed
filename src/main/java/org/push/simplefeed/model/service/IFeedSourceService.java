@@ -24,5 +24,5 @@ public interface IFeedSourceService {
     void fillBlank(FeedSourceEntity feedSource);
     boolean isSupported(String feedSourceUrl);
     void refresh(FeedSourceEntity feedSource);
-    void refreshAll();
+    void refresh(List<FeedSourceEntity> feedSources);
 }

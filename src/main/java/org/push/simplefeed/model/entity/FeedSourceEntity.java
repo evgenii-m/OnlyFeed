@@ -125,18 +125,9 @@ public class FeedSourceEntity {
     public void setFeedItemList(List<FeedItemEntity> feedItemList) {
         this.feedItemList = feedItemList;
     }
-    
-    public void addFeedItem(FeedItemEntity feedItem) {
-        feedItem.setFeedSource(this);
-        feedItemList.add(feedItem);
-    }
-    
-    public void removeFeedItem(FeedItemEntity feedItem) {
-        feedItemList.remove(feedItem);
-    }
-    
-        
-    
+
+
+
     @Override
     public String toString() {
         return "FeedSourceEntity [id=" + id + ", name=" + name + ", url=" + url

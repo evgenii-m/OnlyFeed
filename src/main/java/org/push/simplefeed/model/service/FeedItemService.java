@@ -12,6 +12,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.criteria.*;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
@@ -21,6 +23,7 @@ import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,7 +48,7 @@ public class FeedItemService implements IFeedItemService {
     
 
     
-    private FeedItemEntity formFeedItem(RssChannelItem rssItem) {
+    private FeedItemEntity formFeedItem(RssChannelItem rssItem, FeedSourceEntity feedSource) {
         FeedItemEntity feedItem = new FeedItemEntity();
         feedItem.setTitle(rssItem.getTitle());
         feedItem.setDescription(rssItem.getDescription());
@@ -73,38 +76,31 @@ public class FeedItemService implements IFeedItemService {
             feedItem.setImageUrl(imgUrl);
         }
         
+        feedItem.setFeedSource(feedSource);
         return feedItem;
     }
     
 
     
     @Override
-    public List<FeedItemEntity> save(List<RssChannelItem> rssItemList, FeedSourceEntity feedSource) {
+    public List<FeedItemEntity> save(List<RssChannelItem> rssItems, FeedSourceEntity feedSource) {
         logger.debug("Save feed items form: " + feedSource.getUrl());
-        logger.debug("Source items count: " + rssItemList.size());
-        List<FeedItemEntity> feedItemList = new ArrayList<>();
-        for (RssChannelItem rssItem : rssItemList) {
+        logger.debug("Source items count: " + rssItems.size());
+        List<FeedItemEntity> feedItems = new ArrayList<>();        
+        for (RssChannelItem rssItem : rssItems) {
             if (feedItemRepository.findByFeedSourceAndLink(feedSource, rssItem.getLink()) == null) {
-                FeedItemEntity feedItem = formFeedItem(rssItem);
-                feedItem.setFeedSource(feedSource);
-                feedItemList.add(feedItem);
+                FeedItemEntity feedItem = formFeedItem(rssItem, feedSource);
+                feedItems.add(feedItem);
             } else {
                 logger.debug("Feed item already saved (feedSource.id=" + feedSource.getId()
                         + ", feedSource.url=" + feedSource.getUrl()
                         + ", feedItem.link=" + rssItem.getLink() + ")");
             }
         }
-        feedItemList = feedItemRepository.save(feedItemList);
-        return feedItemList;
+        feedItems = feedItemRepository.save(feedItems);
+        return feedItems;
     } 
 
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findAll() {
-        return feedItemRepository.findAll();
-    }
 
 
     @Override
@@ -116,16 +112,43 @@ public class FeedItemService implements IFeedItemService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findByFeedSource(FeedSourceEntity feedSource) {
+    public List<FeedItemEntity> findAll(FeedSourceEntity feedSource) {
+        logger.debug("findAll");
         return feedItemRepository.findByFeedSource(feedSource);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findAll(List<FeedSourceEntity> feedSources) {
+        List<FeedItemEntity> feedItems = new ArrayList<>();
+        for (FeedSourceEntity feedSource : feedSources) {
+            feedItems.addAll(findAll(feedSource));
+        }
+        return feedItems;
+    }
+    
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(int count) {
+    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource, int count) {
+        logger.debug("findLatest");
         PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
-        return feedItemRepository.findAll(pageRequest).getContent();
+        return feedItemRepository.findByFeedSource(feedSource, pageRequest);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources, int count) {
+        logger.debug("findLatest");
+        Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
+            @Override
+            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {              
+                Expression<FeedSourceEntity> exp = root.get("feedSource");
+                return exp.in(feedSources);
+            }
+        }; 
+        PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
+        return feedItemRepository.findAll(sp, pageRequest).getContent();
     }
     
 }

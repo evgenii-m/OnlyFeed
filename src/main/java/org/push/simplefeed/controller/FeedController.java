@@ -14,6 +14,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
+import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.service.IFeedItemService;
@@ -59,12 +60,12 @@ public class FeedController {
 
 
     @RequestMapping(method = GET)
-    public String showFeeds(Model uiModel) {
+    public String showFeeds(Model uiModel, Principal principal) {        
         logger.debug("showFeed");
-        feedSourceService.refreshAll();
-        List<FeedItemEntity> feedItemList = feedItemService.findLatest(10);
-        logger.debug("Feed items count: " + feedItemList.size());
-        uiModel.addAttribute("feedItemList", feedItemList);
+        UserEntity user = userService.findByEmail(principal.getName());
+        feedSourceService.refresh(user.getFeedSources());
+        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources(), 6);
+        uiModel.addAttribute("feedItems", feedItems);
         return "feed";
     }
     

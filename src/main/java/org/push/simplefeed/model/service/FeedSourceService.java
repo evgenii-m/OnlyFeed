@@ -143,15 +143,13 @@ public class FeedSourceService implements IFeedSourceService {
             e.printStackTrace();
         }
     }
-
+    
     
     @Override
-    public void refreshAll() {
-        List<FeedSourceEntity> feedSourceList = feedSourceRepository.findAll();
-        for (FeedSourceEntity feedSource : feedSourceList) {
+    public void refresh(List<FeedSourceEntity> feedSources) {
+        for (FeedSourceEntity feedSource : feedSources) {
             refresh(feedSource);
         }
     }
 
-    
 }

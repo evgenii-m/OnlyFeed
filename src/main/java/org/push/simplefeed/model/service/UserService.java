@@ -3,11 +3,6 @@
  */
 package org.push.simplefeed.model.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.RoleEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.RoleRepository;

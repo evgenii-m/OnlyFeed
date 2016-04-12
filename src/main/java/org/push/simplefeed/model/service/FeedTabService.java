@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeedTabService implements IFeedTabService {
     private FeedTabRepository feedTabRepository;
-    private IFeedItemService feedItemService;
+//    private IFeedItemService feedItemService;
     
     
     @Autowired
@@ -29,18 +29,18 @@ public class FeedTabService implements IFeedTabService {
         this.feedTabRepository = feedTabRepository;
     }
 
-    @Autowired
-    public void setFeedItemService(IFeedItemService feedItemService) {
-        this.feedItemService = feedItemService;
-    }
+//    @Autowired
+//    public void setFeedItemService(IFeedItemService feedItemService) {
+//        this.feedItemService = feedItemService;
+//    }
     
     
     @Override
     public void save(UserEntity user, FeedItemEntity feedItem) {
         FeedTabEntity feedTab = feedTabRepository.save(new FeedTabEntity(user, feedItem));
-        if (feedItem.getFeedTab() == null) {
-            feedItem.setFeedTab(feedTab);
-        }
+//        if (feedItem.getFeedTab() == null) {
+//            feedItem.setFeedTab(feedTab);
+//        }
         if (user.getFeedTabs().contains(feedTab) != true) {
             user.getFeedTabs().add(feedTab);
         }
@@ -50,7 +50,7 @@ public class FeedTabService implements IFeedTabService {
     @Override
     public void delete(Long id) {
         FeedTabEntity feedTab = feedTabRepository.findOne(id);
-        feedTab.getFeedItem().setFeedTab(null);
+//        feedTab.getFeedItem().setFeedTab(null);
         feedTab.getUser().getFeedTabs().remove(feedTab);
         feedTabRepository.delete(id);
     }

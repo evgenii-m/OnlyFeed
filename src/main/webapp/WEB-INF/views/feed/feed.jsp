@@ -6,27 +6,25 @@
 
 <div class="feed-container">
 	<div class="feed-list" id="feed-item-list">
-	    <c:if test="${not empty feedItemList}">
-	        <c:forEach items="${feedItemList}" var="feedItem">
-	            <div class="item" id="${feedItem.id}">
-	                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
-	                <div class="feed-content">
-		                <div class="feed-info">
-		                    <div class="title">
-		                        <span class="add-feed-tab-link">${feedItem.title}</span>
-		                    </div>
-		                    <div class="summary">
-		                        ${feedItem.summary}
-		                    </div>
-		                </div>
-		                <div class="pub-info">
-		                    <span class="source-name">${feedItem.feedSource.name}</span>
-		                    <span class="published-date">&nbsp;|&nbsp;${feedItem.publishedDateString}</span>
-		                </div>
+        <c:forEach items="${feedItems}" var="feedItem">
+            <div class="item" id="${feedItem.id}">
+                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
+                <div class="feed-content">
+	                <div class="feed-info">
+	                    <div class="title">
+	                        <span class="add-feed-tab-link">${feedItem.title}</span>
+	                    </div>
+	                    <div class="summary">
+	                        ${feedItem.summary}
+	                    </div>
 	                </div>
-	            </div>
-	        </c:forEach>
-	    </c:if>
+	                <div class="pub-info">
+	                    <span class="source-name">${feedItem.feedSource.name}</span>
+	                    <span class="published-date">&nbsp;|&nbsp;${feedItem.publishedDateString}</span>
+	                </div>
+                </div>
+            </div>
+        </c:forEach>
 	</div>
 	   
 	<div class="feed-tab-panel">

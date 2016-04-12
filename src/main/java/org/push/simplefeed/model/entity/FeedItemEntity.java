@@ -67,9 +67,9 @@ public class FeedItemEntity {
     @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
 
-    @OneToOne(mappedBy = "feedItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonIgnore
-    private FeedTabEntity feedTab;
+//    @OneToOne(mappedBy = "feedItem", cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @JsonIgnore
+//    private FeedTabEntity feedTab;
     
     
     
@@ -167,13 +167,13 @@ public class FeedItemEntity {
     }
     
     
-    public FeedTabEntity getFeedTab() {
-        return feedTab;
-    }
-    
-    public void setFeedTab(FeedTabEntity feedTab) {
-        this.feedTab = feedTab;
-    }
+//    public FeedTabEntity getFeedTab() {
+//        return feedTab;
+//    }
+//    
+//    public void setFeedTab(FeedTabEntity feedTab) {
+//        this.feedTab = feedTab;
+//    }
 
 
     @Override

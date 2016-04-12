@@ -7,7 +7,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.security.Principal;
-import java.util.List;
 import javax.validation.Valid;
 
 import org.apache.commons.validator.routines.UrlValidator;
@@ -64,11 +63,7 @@ public class SourceController {
     @RequestMapping(method = GET)
     public String showSources(Model uiModel, Principal principal) {
         UserEntity user = userService.findByEmail(principal.getName());
-        if (user == null) {
-            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
-            return "redirect:/loginfail";
-        }
-        uiModel.addAttribute("feedSourceList", user.getFeedSources());
+        uiModel.addAttribute("feedSources", user.getFeedSources());
         if (!uiModel.containsAttribute("newFeedSource")) {
             uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
         }
@@ -109,10 +104,6 @@ public class SourceController {
     @RequestMapping(value = "/edit/{id}", method = GET)
     public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel, Principal principal) {
         UserEntity user = userService.findByEmail(principal.getName());
-        if (user == null) {
-            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
-            return "redirect:/loginfail";
-        }
         FeedSourceEntity feedSource = feedSourceService.findById(id);
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
             uiModel.addAttribute("feedSource", feedSource);
@@ -134,10 +125,6 @@ public class SourceController {
         }
 
         UserEntity user = userService.findByEmail(principal.getName());
-        if (user == null) {
-            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
-            return "redirect:/loginfail";
-        }
         feedSourceService.save(feedSource, user);
         logger.debug("Added/updated feed source (" + feedSource + ")");
         return "redirect:/source";

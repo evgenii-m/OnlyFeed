@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  */
 @Entity
 @Table(name = "user_feed_tabs")
-public class FeedTabEntity implements Comparable<FeedTabEntity> {
+public class FeedTabEntity {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
@@ -30,9 +30,9 @@ public class FeedTabEntity implements Comparable<FeedTabEntity> {
     @NotNull
     private FeedItemEntity feedItem;
     
-    @Column(name = "position")
+    @Column(name = "prev_tab_id")
     @NotNull
-    private Integer position;
+    private Long prevTabId;
 
     
     public FeedTabEntity() { }
@@ -40,7 +40,6 @@ public class FeedTabEntity implements Comparable<FeedTabEntity> {
     public FeedTabEntity(UserEntity user, FeedItemEntity feedItem){
         this.user = user;
         this.feedItem = feedItem;
-        this.position = user.getFeedTabs().size();
     }
     
     
@@ -71,12 +70,12 @@ public class FeedTabEntity implements Comparable<FeedTabEntity> {
     }
 
     
-    public Integer getPosition() {
-        return position;
+    public Long getPrevTabId() {
+        return prevTabId;
     }
 
-    public void setPosition(Integer position) {
-        this.position = position;
+    public void setPrevTabId(Long prevTabId) {
+        this.prevTabId = prevTabId;
     }
 
     
@@ -84,12 +83,10 @@ public class FeedTabEntity implements Comparable<FeedTabEntity> {
     @Override
     public String toString() {
         return "FeedTabEntity [id=" + id + ", user.id=" + user.getId() + ", feedItem.id="
-                + feedItem.getId() + ", position=" + position + "]";
+                + feedItem.getId() + ", prevTabId=" + prevTabId + "]";
     }
 
-    @Override
-    public int compareTo(FeedTabEntity e) {
-        return this.position.compareTo(e.getPosition());
+    public boolean equals(FeedTabEntity e) {
+        return (this.id.equals(e.getId()));
     }
-    
 }

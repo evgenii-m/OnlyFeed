@@ -6,7 +6,6 @@ package org.push.simplefeed.model.service;
 import java.util.List;
 
 import org.push.simplefeed.model.entity.FeedItemEntity;
-import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.FeedTabRepository;
@@ -22,37 +21,38 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeedTabService implements IFeedTabService {
     private FeedTabRepository feedTabRepository;
-//    private IFeedItemService feedItemService;
     
     
     @Autowired
     public void setFeedTabRepository(FeedTabRepository feedTabRepository) {
         this.feedTabRepository = feedTabRepository;
     }
-
-//    @Autowired
-//    public void setFeedItemService(IFeedItemService feedItemService) {
-//        this.feedItemService = feedItemService;
-//    }
     
     
     @Override
-    public void save(UserEntity user, FeedItemEntity feedItem) {
-        FeedTabEntity feedTab = feedTabRepository.save(new FeedTabEntity(user, feedItem));
-//        if (feedItem.getFeedTab() == null) {
-//            feedItem.setFeedTab(feedTab);
-//        }
-        if (user.getFeedTabs().contains(feedTab) != true) {
-            user.getFeedTabs().add(feedTab);
+    public void save(FeedTabEntity feedTab) {
+        List<FeedTabEntity> userFeedTabs = feedTab.getUser().getFeedTabs();
+        if (userFeedTabs.size() != 0) {
+            feedTab.setPrevTabId(userFeedTabs.get(userFeedTabs.size()-1).getId());
+        } else {
+            feedTab.setPrevTabId(-1l);
         }
+        feedTabRepository.save(feedTab);
+        userFeedTabs.add(feedTab);
     }
     
     
     @Override
     public void delete(Long id) {
         FeedTabEntity feedTab = feedTabRepository.findOne(id);
-//        feedTab.getFeedItem().setFeedTab(null);
-        feedTab.getUser().getFeedTabs().remove(feedTab);
+        List<FeedTabEntity> userFeedTabs = feedTab.getUser().getFeedTabs();
+        int feedTabIndex = userFeedTabs.indexOf(feedTab);
+        if (feedTabIndex != (userFeedTabs.size()-1)) {
+            FeedTabEntity nextFeedTab = userFeedTabs.get(feedTabIndex+1);
+            nextFeedTab.setPrevTabId(feedTab.getPrevTabId());
+            feedTabRepository.save(nextFeedTab);
+        }
+        userFeedTabs.remove(feedTab);
         feedTabRepository.delete(id);
     }
     

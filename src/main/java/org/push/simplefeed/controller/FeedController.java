@@ -5,10 +5,12 @@ package org.push.simplefeed.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -19,6 +21,7 @@ import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.service.IFeedItemService;
 import org.push.simplefeed.model.service.IFeedSourceService;
+import org.push.simplefeed.model.service.IFeedTabService;
 import org.push.simplefeed.model.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +43,7 @@ public class FeedController {
     private IFeedSourceService feedSourceService;
     private IFeedItemService feedItemService;
     private IUserService userService;
+    private IFeedTabService feedTabService;
  
     
     @Autowired
@@ -56,6 +60,11 @@ public class FeedController {
     public void setUserService(IUserService userService) {
         this.userService = userService;
     }
+    
+    @Autowired
+    public void setFeedTabService(IFeedTabService feedTabService) {
+        this.feedTabService = feedTabService;
+    }
 
 
 
@@ -68,6 +77,7 @@ public class FeedController {
         uiModel.addAttribute("feedItems", feedItems);
         return "feed";
     }
+    
     
     @RequestMapping(value = "/{feedSourceId}", method = GET)
     public String showFeedsFromSource(Model uiModel, Principal principal, @PathVariable Long feedSourceId) {
@@ -92,16 +102,8 @@ public class FeedController {
     public List<FeedItemEntity> getFeedTabs(Principal principal) {
         logger.debug("getFeedTabs");
         UserEntity user = userService.findByEmail(principal.getName());
-        if (user == null) {
-            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
-            return null;
-        }
-        
-        List<FeedTabEntity> feedTabs = new ArrayList<>(user.getFeedTabs());
-        Collections.sort(feedTabs);
-        
         List<FeedItemEntity> feedItems = new ArrayList<>();
-        for (FeedTabEntity feedTab : feedTabs) {
+        for (FeedTabEntity feedTab : user.getFeedTabs()) {
             feedItems.add(feedTab.getFeedItem());
         }
         return feedItems;
@@ -111,48 +113,55 @@ public class FeedController {
     @RequestMapping(value = "/tab", method = POST)
     @ResponseBody
     public FeedItemEntity addFeedTab(Model uiModel, Long id, Principal principal) {
-//        if (id == null) {
-//            logger.error("id null");
-//            return null;
-//        }
-//
-//        UserEntity user = userService.findByEmail(principal.getName());
-//        if (user == null) {
-//            logger.error("Invalid user (principal.name=" + principal.getName() + ")");
-//            return null;
-//        }
-//        
-//        FeedItemEntity feedItem = feedItemService.findById(id);
-//        if (feedItem == null) {
-//            logger.error("Feed item not found (id=" + id + ")");
-//            return null;
-//        }
-//        
-//        List<FeedTabEntity> feedTabList = user.getFeedTabList();
-//        for (FeedTabEntity feedTab : feedTabList) {
-//            if (feedTab.getFeedItem().getId() == id) {
-//                logger.debug("Feed tab list already contain feed item (id=" + id + ")");
-//                return feedItem;
-//            }
-//        }
-//
-//        user.addFeedTab(new FeedTabEntity(feedItem));
-//        logger.debug("Feed item added to tabs");
-//        return feedItem;
-        return null;
+        logger.debug("addFeedTab");
+        FeedItemEntity feedItem = feedItemService.findById(id);
+        if (feedItem == null) {
+            logger.error("Feed item not found (id=" + id + ")");
+            return null;
+        }
+        UserEntity user = userService.findByEmail(principal.getName());
+        for (FeedTabEntity feedTab : user.getFeedTabs()) {
+            if (feedTab.getFeedItem().getId().equals(id)) {
+                logger.debug("Feed tab list already contain feed item (id=" + id + ")");
+                return feedItem;
+            }
+        }
+        feedTabService.save(new FeedTabEntity(user, feedItem));
+        logger.debug("Feed item (feedItem.id" + id + ") added to tabs");
+        return feedItem;
     }
     
     
     @RequestMapping(value = "/tab/{id}", method = GET)
     @ResponseBody
-    public FeedItemEntity getFeedTab(@PathVariable Long id) {
-//        logger.debug("Get feed tab (id=" + id + ")");
-//        FeedItemEntity feedItem = feedItemService.findById(id);
-//        if (feedItem == null) {
-//            logger.error("Feed tab not found (id=" + id + ")");
-//        }
-//        return feedItem;
+    public FeedItemEntity getFeedTab(@PathVariable Long id, Principal principal) {
+        logger.debug("Get feed tab (feedItem.id=" + id + ")");
+        UserEntity user = userService.findByEmail(principal.getName());
+        for (FeedTabEntity feedTab : user.getFeedTabs()) {
+            if (feedTab.getFeedItem().getId().equals(id)) {
+                return feedTab.getFeedItem();
+            }
+        }
+        logger.error("Feed tab not found (feedItem.id=" + id + ")");
         return null;
+    }
+    
+    
+    @RequestMapping(value = "/tab/{id}", method = DELETE)
+    @ResponseBody
+    public boolean deleteFeedTab(@PathVariable Long id, Principal principal) {
+        logger.debug("deleteFeedTab");
+        UserEntity user = userService.findByEmail(principal.getName());
+        logger.debug(user.getFeedTabs());
+        for (FeedTabEntity feedTab : user.getFeedTabs()) {
+            if (feedTab.getFeedItem().getId().equals(id)) {
+                feedTabService.delete(feedTab.getId());
+                logger.debug("Delete feed tab (feedItem.id=" + id + ")");
+                return true;
+            }
+        }
+        logger.error("Feed tab not found (feedItem.id=" + id + ")");
+        return false;
     }
 
 }

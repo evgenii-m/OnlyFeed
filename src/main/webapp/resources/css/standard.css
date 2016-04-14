@@ -84,6 +84,20 @@ body {
 /*************************************************************************************************/
 
 
+/* sortable */
+.sortable li {
+    list-style: none;
+}
+
+li.sortable-placeholder {
+    list-style: outside none none;
+    border: 1px dashed #CCC;
+    background: none;
+    margin-bottom: 5px;
+    height: 30px;
+}
+/*************************************************************************************************/
+
 
 /* feed list */
 .feed-list {
@@ -334,16 +348,15 @@ body {
 }
 
 .feed-tab-panel .tool-pane {
-	height: 35px;
-	padding: 7px 15px;
+	height: 40px;
+	padding: 10px 12px;
     margin-bottom: 5px;
     background-color: #d2d2d2;
     border-bottom: 1px solid #c4c4c4;
 }
 
 .tool-pane .link {
-    display: inline;
-    float: left;
+	font-size: 20px;
     cursor: pointer;
 }
 
@@ -359,14 +372,10 @@ body {
     cursor: pointer;
     height: 30px;
     margin-bottom: 5px;
-    padding: 4px 7px;
     background-color: #ebebeb;
     border: 1px solid #d1d1d1;
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .feed-tab-list .feed-tab:hover {
@@ -375,18 +384,44 @@ body {
     box-shadow: 0 0 3px rgba(38,179,255,0.5);
 }
 
-.feed-tab-list .feed-tab .source-name {
+
+.feed-tab-list .feed-tab .feed-tab-text {
+	width: 95%;
+    padding: 4px 7px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+	float: left;
+	display: inline;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+}
+
+.feed-tab-list .feed-tab .feed-tab-text .source-name {
 	max-width: 120px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     font-weight: bold;
-    display: inline;
     float: left;
+    display: inline;
 }
 
-.feed-tab-list .feed-tab .title {
+.feed-tab-list .feed-tab .feed-tab-text .title {
     display: inline;
+}
+
+.feed-tab-list .feed-tab .remove-link {
+	height: 100%;
+	float: right;
+	padding: 6px;
+	display: none;
+}
+
+.feed-tab-list .feed-tab .remove-link:hover {
+    color: #ff3e32;
 }
 
 .feed-tab-detail {

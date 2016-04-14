@@ -12,7 +12,7 @@
                 <div class="feed-content">
 	                <div class="feed-info">
 	                    <div class="title">
-	                        <span class="add-feed-tab-link">${feedItem.title}</span>
+	                        <span class="append-to-tabs-link">${feedItem.title}</span>
 	                    </div>
 	                    <div class="summary">
 	                        ${feedItem.summary}
@@ -29,10 +29,11 @@
 	   
 	<div class="feed-tab-panel">
 	   <div class="tool-pane">
-	       <span id="back-link" class="link" style="display: none;">${backLink}</span>
+	       <span id="back-link" class="glyphicon glyphicon-arrow-left link" style="display: none;" 
+	               title="${backLink}" aria-hidden="true"></span>
 	   </div>
-	   <div class="feed-tab-list">
-	   </div>
+	   <ul class="feed-tab-list sortable" aria-dropeffect="move">
+	   </ul>
 	   <div class="feed-tab-detail" style="display: none;">
            <div class="pub-info">
                <span class="source-name"></span>
@@ -48,5 +49,8 @@
 <script type="text/javascript">
     $(document).ready(function() {
         displayFeedTabList();
+        $(".append-to-tabs-link").click(function() {
+        	appendFeedItemToTabs($(this).parents(".item").attr("id"));
+       	});
 	});
 </script>

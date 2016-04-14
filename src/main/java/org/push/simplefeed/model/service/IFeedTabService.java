@@ -15,7 +15,7 @@ import org.push.simplefeed.model.entity.UserEntity;
  *
  */
 public interface IFeedTabService {
-    void save(UserEntity user, FeedItemEntity feedItem);
+    void save(FeedTabEntity feedTab);
     void delete(Long id);
     List<FeedTabEntity> findByUser(UserEntity user);
     FeedTabEntity findByUserAndFeedItemId(UserEntity user, FeedItemEntity feedItem);

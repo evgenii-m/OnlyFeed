@@ -33,7 +33,7 @@ CREATE TABLE user_feed_tabs (
     id INT NOT NULL AUTO_INCREMENT,
     user_id INT NOT NULL,
     feed_item_id INT NOT NULL,
-    position INT NOT NULL,
+    prev_tab_id INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_user_feed_tabs_1 FOREIGN KEY (user_id) REFERENCES users (id),
     CONSTRAINT fk_user_feed_tabs_2 FOREIGN KEY (feed_item_id) REFERENCES feed_items (id)

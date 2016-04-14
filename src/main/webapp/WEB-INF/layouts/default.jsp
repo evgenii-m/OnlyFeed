@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="<spring:url value="/resources/css/standard.css"/>" type="text/css" media="screen"/>
         <script src="<spring:url value="/resources/js/jquery/jquery-2.2.2.js"/>"></script>
         <script src="<spring:url value="/resources/js/jquery/validate/1.15.0/jquery.validate.js"/>"></script>
+        <script src="<spring:url value="/resources/js/jquery/html5sortable/html.sortable.js"/>"></script>
         <script src="<spring:url value="/resources/js/bootstrap.js"/>"></script>
         <script src="<spring:url value="/resources/js/scripts.js"/>"></script>
         <title>Simple Feed</title>

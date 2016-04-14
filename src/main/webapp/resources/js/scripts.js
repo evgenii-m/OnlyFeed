@@ -13,23 +13,10 @@ function displayFeedTabList() {
 	    success: function(response) {
 	    	$(".feed-tab-detail").hide();
 	        response.forEach(function(entry) {
-	            var feedTab = $("<div/>", {
-	                id: entry.id,
-	                class: "feed-tab"
-	            }).appendTo($(".feed-tab-list"));
-	            $("<span/>", {
-	                class: "source-name",
-	                text: entry.feedSource.name
-	            }).appendTo(feedTab);
-	            $("<span/>", {
-	                class: "title",
-	                text: "\u00A0|\u00A0" + entry.title
-	            }).appendTo(feedTab);
+	        	addFeedTab(entry);
 	        });
-	        
-//	        selectFeedTab($(".feed-tab").first().attr("id"));
-	        $(".feed-tab").click(function() {
-	            selectFeedTab($(this).attr("id"));
+	        $("ul.sortable").sortable({
+	            forcePlaceholderSize: true
 	        });
 		},
 	    error: function(error) {
@@ -38,24 +25,45 @@ function displayFeedTabList() {
 	    }
     });
     
-    $(".add-feed-tab-link").click(function() {
-    	var feedItemId = $(this).parents(".item").attr("id");
+
+    $(".feed-tab-list").on("mouseenter", ".feed-tab", function() {
+    	$(this).children(".remove-link").show();    	
+    });
+    $(".feed-tab-list").on("mouseleave", ".feed-tab", function() {
+    	$(this).children(".remove-link").hide();	     
+    });
+    
+    $(".feed-tab-list").on("click", ".feed-tab-text", function() {
+        var feedTabId = $(this).parents(".feed-tab").attr("id");
+        $.ajax({
+    		url: "feed/tab/" + feedTabId,
+            type: "get",
+            success: function(response) {
+            	selectFeedTab(response);
+            },
+            error: function(error) {
+                console.log("error");
+                console.log(error);         
+            }
+    	});
+    });
+    
+    $(".feed-tab-list").on("click", ".remove-link", function() {
+        var feedTab = $(this).parents(".feed-tab");
     	$.ajax({
-    		url: "feed/tab",
-    		type: "post",
-    		data: { 'id' : feedItemId },
+    		url: "feed/tab/" + feedTab.attr("id"),
+    		type: "delete",
     		success: function(response) {
-    			console.log("success");
-    			console.log(response);
-//    			if (response != null) {
-//    				$("div.feed-tab-panel").append(response);
-//    			}
+    			if (response == true) {
+    				feedTab.remove();
+        		    $("ul.sortable").sortable('reload');
+    			}
     		},
     		error: function(error) {
-    			console.log("error");
-    			console.log(error);
+                console.log("error");
+                console.log(error);	        			
     		}
-    	});    	
+    	});
     });
 
     $("#back-link").click(function() {
@@ -66,35 +74,77 @@ function displayFeedTabList() {
 }
 
 
-function selectFeedTab(id) {
-    $.ajax({
-		url: "feed/tab/" + id,
-        type: "get",
-        success: function(response) {
-        	$("#back-link").show();
-        	$(".feed-tab-list").hide();
-        	$(".feed-tab-detail").show();
-        	$(".feed-tab-detail").children(".title").text(response.title);
-        	var pubInfo = $(".feed-tab-detail").children(".pub-info"); 
-        	pubInfo.children(".source-name").text(response.feedSource.name);
-        	pubInfo.children(".author").html("\u00A0| by <i>" + response.author + "</i>");
-        	pubInfo.children(".published-date").text("\u00A0|\u00A0 " + response.publishedDateString);
-        	$(".feed-tab-detail").children(".description").html(response.description);
-        	$(".feed-tab-detail").scrollTop(0);
-        },
-        error: function(error) {
-            console.log("error");
-            console.log(error);         
-        }
-	});
+function appendFeedItemToTabs(feedItemId) {
+	if ($(".feed-tab-list").find(".feed-tab#" + feedItemId).length == 0) {
+    	$.ajax({
+    		url: "feed/tab",
+    		type: "post",
+    		data: { 'id' : feedItemId },
+    		success: function(response) {
+    			addFeedTab(response);
+    		    $("ul.sortable").sortable('reload');
+    			selectFeedTab(response);
+    		},
+    		error: function(error) {
+    			console.log("error");
+    			console.log(error);
+    		}
+    	});
+	} else {  // tab already append
+        $.ajax({
+    		url: "feed/tab/" + feedItemId,
+            type: "get",
+            success: function(response) {
+            	selectFeedTab(response);
+            },
+            error: function(error) {
+                console.log("error");
+                console.log(error);         
+            }
+    	});
+	}
 }
 
 
-function submitPostRequest(url) {
-	var form = document.createElement("form");
-	form.setAttribute("method", "post");
-	form.setAttribute("action", url);
-	document.body.appendChild(form);
-	form.submit();
+function addFeedTab(feedItem) {
+    var feedTab = $("<li/>", {
+        id: feedItem.id,
+        class: "feed-tab",
+        draggable: true
+    }).appendTo($(".feed-tab-list"));
+    var feedTabText = $("<div/>", {
+    	class: "feed-tab-text"
+    }).appendTo(feedTab);
+    $("<span/>", {
+        class: "source-name",
+        text: feedItem.feedSource.name
+    }).appendTo(feedTabText);
+    $("<span/>", {
+        class: "title",
+        text: "\u00A0|\u00A0" + feedItem.title
+    }).appendTo(feedTabText);
+    $("<span/>", {
+    	class: "glyphicon glyphicon-remove remove-link"
+    }).appendTo(feedTab);
+}
+
+
+function selectFeedTab(feedItem) {
+	if (feedItem != null) {
+		$("#back-link").show();
+		$(".feed-tab-list").hide();
+		$(".feed-tab-detail").show();
+		$(".feed-tab-detail").children(".title").text(feedItem.title);
+		var pubInfo = $(".feed-tab-detail").children(".pub-info"); 
+		pubInfo.children(".source-name").text(feedItem.feedSource.name);
+		if (feedItem.author != null) {
+			pubInfo.children(".author").html("\u00A0| by <i>" + feedItem.author + "</i>\u00A0");
+		}
+		pubInfo.children(".published-date").text("\u00A0|\u00A0" + feedItem.publishedDateString);
+		$(".feed-tab-detail").children(".description").html(feedItem.description);
+		$(".feed-tab-detail").scrollTop(0);
+	} else {
+		console.log("feedItem not found");
+	}
 }
 

@@ -65,7 +65,7 @@ public class UserEntity {
     private List<FeedSourceEntity> feedSources = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FeedTabEntity> feedTabs = new HashSet<>();
+    private List<FeedTabEntity> feedTabs = new ArrayList<>();
     
     
     
@@ -144,12 +144,23 @@ public class UserEntity {
     }
         
     
-    public Set<FeedTabEntity> getFeedTabs() {
+    public List<FeedTabEntity> getFeedTabs() {
         return feedTabs;
     }
     
-    public void setFeedTabList(Set<FeedTabEntity> feedTabs) {
-        this.feedTabs = feedTabs;
+    public void setFeedTabList(List<FeedTabEntity> feedTabs) {
+        for (FeedTabEntity feedTab : feedTabs) {
+            int i = 0;
+            while (i < this.feedTabs.size()) {
+                if (this.feedTabs.get(i++).getId().equals(feedTab.getPrevTabId())) {
+                    this.feedTabs.add(i, feedTab);
+                    break;
+                }
+            }
+            if (this.feedTabs.get(i).equals(feedTab) != true) {
+                this.feedTabs.add(0, feedTab);
+            }
+        }
     }
 
     
@@ -162,7 +173,7 @@ public class UserEntity {
     }
     
     public boolean equals(UserEntity e) {
-        return (this.id == e.getId());
+        return (this.id.equals(e.getId()));
     }
        
 }

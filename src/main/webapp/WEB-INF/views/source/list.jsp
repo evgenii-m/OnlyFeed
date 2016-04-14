@@ -8,10 +8,6 @@
 <spring:message var="editLink" code="list.editLink"/>
 <spring:message var="deleteLink" code="list.deleteLink"/>
 
-<spring:url var="showFeedsUrl" value="/feed"/>
-<spring:url var="editUrl" value="/source/edit"/>
-<spring:url var="deleteUrl" value="/source/delete"/>
-
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
 	    <div class="form-row">
@@ -59,26 +55,23 @@
             	}
             }
         });
-        
+
         $(".show-feeds-link").click(function() {
-        	window.location.href = "${showFeedsUrl}/" + $(this).parents(".item").attr("id");
+        	window.location.href = "feed/" + $(this).parents(".item").attr("id");
         });
         
         $(".edit-link").click(function() {
-            window.location.href = "${editUrl}/" + $(this).parents(".item").attr("id");
+            window.location.href = "source/edit/" + $(this).parents(".item").attr("id");
         });
         
         $(".delete-link").click(function() {
-        	var item = $(this).parents(".item");
+        	var feedItem = $(this).parents(".item");
         	$.ajax({
-        		url: "${deleteUrl}/" + item.attr("id"),
+        		url: "source/delete/" + feedItem.attr("id"),
         		type: "delete",
         		success: function(response) {
-                    console.log("success");
-                    console.log(response);
         			if (response == true) {
-        				console.log("ololo!");
-        				item.remove();
+        				feedItem.remove();
         			}
         		},
                 error: function(error) {

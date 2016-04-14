@@ -6,7 +6,6 @@ package org.push.simplefeed.model.repository;
 import java.util.List;
 
 import org.push.simplefeed.model.entity.FeedItemEntity;
-import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

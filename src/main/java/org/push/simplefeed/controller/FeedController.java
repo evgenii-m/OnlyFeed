@@ -97,11 +97,11 @@ public class FeedController {
     
     @RequestMapping(value = "/item/{feedItemId}", method = GET)
     @ResponseBody
-    public FeedItemEntity getFeedDetail(@PathVariable Long feedItemId, Principal principal) {
+    public FeedItemEntity getFeedItem(@PathVariable Long feedItemId, Principal principal) {
         logger.debug("getFeedDetail (feedItemId=" + feedItemId + ")");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedItemEntity feedItem = feedItemService.findById(feedItemId);
-        if ((feedItem == null) || (user.getFeedSources().contains(feedItem.getFeedSource()) != true)) {
+        if ((feedItem == null) || (!user.getFeedSources().contains(feedItem.getFeedSource()))) {
             logger.error("Feed item (feedItem.id=" + feedItemId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return null;
@@ -130,12 +130,12 @@ public class FeedController {
         logger.debug("addFeedTab");
         UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
         FeedItemEntity feedItem = feedItemService.findById(feedItemId);
-        if ((feedItem == null) || (user.getFeedSources().contains(feedItem.getFeedSource()) != true)) {
+        if ((feedItem == null) || (!user.getFeedSources().contains(feedItem.getFeedSource()))) {
             logger.error("Feed item (feedItem.id=" + feedItemId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return null;
         }
-        if (user.getFeedTabs().contains(feedItem) == true) {
+        if (user.getFeedTabs().contains(feedItem)) {
             logger.error("Feed item (feedItem.id=" + feedItemId 
                     + ") already contained on user tabs (user.id=" + user.getId() + ")");
             return feedItem;

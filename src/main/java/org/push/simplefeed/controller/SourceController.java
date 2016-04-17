@@ -65,6 +65,7 @@ public class SourceController {
 
     @RequestMapping(method = GET)
     public String showSources(Model uiModel, Principal principal) {
+        logger.debug("showSources");
         UserEntity user = userService.findByEmail(principal.getName());
         uiModel.addAttribute("feedSources", user.getFeedSources());
         if (!uiModel.containsAttribute("newFeedSource")) {
@@ -77,6 +78,7 @@ public class SourceController {
     @RequestMapping(method = POST)
     public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
             BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
+        logger.debug("addFeedSource");
         validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (url=" + newFeedSource.getUrl() + ")\n"
@@ -95,6 +97,7 @@ public class SourceController {
 
     @RequestMapping(value = "/add", method = GET)
     public String showAddFeedSourceForm(Model uiModel) {
+        logger.debug("showAddFeedSourceForm");
         if (!uiModel.containsAttribute("feedSource")) {
             FeedSourceEntity feedSource = feedSourceService.getBlank();
             uiModel.addAttribute("feedSource", feedSource);
@@ -106,6 +109,7 @@ public class SourceController {
     
     @RequestMapping(value = "/edit/{id}", method = GET)
     public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel, Principal principal) {
+        logger.debug("showEditFeedSourceForm (id=" + id + ")");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(id);
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
@@ -121,6 +125,7 @@ public class SourceController {
     @RequestMapping(value = {"/add", "/edit/{id}"}, method = POST)
     public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
             BindingResult bindingResult, Model uiModel, Principal principal) {
+        logger.debug("saveFeedSource");
         validateFeedSourceUrl(feedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (" + feedSource + ")\n"
@@ -138,7 +143,7 @@ public class SourceController {
     @RequestMapping(value = "/delete/{id}", method = DELETE)
     @ResponseBody
     public boolean deleteFeedSource(@PathVariable("id") Long id) {
-        logger.debug("Delete feed source (id=" + id + ")");
+        logger.debug("deleteFeedSource (id=" + id + ")");
         return feedSourceService.delete(id);
     }
     

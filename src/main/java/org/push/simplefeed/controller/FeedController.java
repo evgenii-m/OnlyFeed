@@ -88,10 +88,25 @@ public class FeedController {
             uiModel.addAttribute("feedItems", feedItems);
             return "feed";
         } else {
-            logger.error("Feed source (feedSource.id=" + feedSourceId + ") not found for user (user.id=" 
-                    + user.getId() + ")");
+            logger.error("Feed source (feedSource.id=" + feedSourceId 
+                    + ") not found for user (user.id=" + user.getId() + ")");
             return "redirect:/feed";
         }
+    }
+    
+    
+    @RequestMapping(value = "/item/{feedItemId}", method = GET)
+    @ResponseBody
+    public FeedItemEntity getFeedDetail(@PathVariable Long feedItemId, Principal principal) {
+        logger.debug("getFeedDetail (feedItemId=" + feedItemId + ")");
+        UserEntity user = userService.findByEmail(principal.getName());
+        FeedItemEntity feedItem = feedItemService.findById(feedItemId);
+        if ((feedItem == null) || (user.getFeedSources().contains(feedItem.getFeedSource()) != true)) {
+            logger.error("Feed item (feedItem.id=" + feedItemId 
+                    + ") not found for user (user.id=" + user.getId() + ")");
+            return null;
+        }
+        return feedItem;
     }
     
     
@@ -113,31 +128,21 @@ public class FeedController {
     @ResponseBody
     public FeedItemEntity addFeedTab(Long feedItemId, Principal principal) {
         logger.debug("addFeedTab");
-        // TODO: add test for feedItem source
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
         FeedItemEntity feedItem = feedItemService.findById(feedItemId);
-        if (feedItem == null) {
-            logger.error("Feed item not found (feedItemId=" + feedItemId + ")");
+        if ((feedItem == null) || (user.getFeedSources().contains(feedItem.getFeedSource()) != true)) {
+            logger.error("Feed item (feedItem.id=" + feedItemId 
+                    + ") not found for user (user.id=" + user.getId() + ")");
             return null;
         }
-        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
+        if (user.getFeedTabs().contains(feedItem) == true) {
+            logger.error("Feed item (feedItem.id=" + feedItemId 
+                    + ") already contained on user tabs (user.id=" + user.getId() + ")");
+            return feedItem;
+        }
         feedTabService.save(new FeedTabEntity(user, feedItem));
         logger.debug(user.getFeedTabs().get(user.getFeedTabs().size()-1));
         return feedItem;
-    }
-    
-    
-    @RequestMapping(value = "/tab/{tabIndex}", method = GET)
-    @ResponseBody
-    public FeedItemEntity getFeedTab(@PathVariable int tabIndex, Principal principal) {
-        logger.debug("deleteFeedTab (tabIndex=" + tabIndex + ")");
-        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
-        if ((tabIndex < 0) || (tabIndex >= user.getFeedTabs().size())) {
-            logger.error("Invalid index (tabIndex=" + tabIndex + ", user.feedTabs.size=" 
-                    + user.getFeedTabs().size() + ")");
-            return null;
-        }
-        logger.debug(user.getFeedTabs().get(tabIndex));
-        return user.getFeedTabs().get(tabIndex).getFeedItem();
     }
     
     

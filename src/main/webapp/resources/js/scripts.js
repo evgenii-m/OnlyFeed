@@ -52,9 +52,9 @@ function displayFeedTabList() {
     });
     
     $(".feed-tab-list").on("click", ".feed-tab-text", function() {
-        var feedTabIndex = $(this).parents(".feed-tab").index();
+        var feedItemId = $(this).parents(".feed-tab").attr("id");
         $.ajax({
-    		url: "feed/tab/" + feedTabIndex,
+    		url: "feed/item/" + feedItemId,
             type: "get",
             success: function(response) {
             	selectFeedTab(response);
@@ -106,9 +106,9 @@ function appendFeedItemToTabs(feedItemId) {
     			console.log(error);
     		}
     	});
-	} else {  // tab already append
+	} else {  // tab already added
         $.ajax({
-    		url: "feed/tab/" + feedItemId,
+    		url: "feed/item/" + feedItemId,
             type: "get",
             success: function(response) {
             	selectFeedTab(response);

@@ -8,33 +8,17 @@ $(document).ready(function() {
 
 function displayFeedTabList() {
     $.ajax({
-	    url: "feed/tab",
+	    url: feedTabUrl,
 	    type: "get",
 	    success: function(response) {
-	    	$(".feed-tab-detail").hide();
 	        response.forEach(function(entry) {
-	        	addFeedTab(entry);
+	        	appendFeedTabToList(entry);
 	        });
+	        
 	        $("ul.sortable").sortable({
 	            forcePlaceholderSize: true
 	        }).bind("sortupdate", function(e, ui) {
-	        	$.ajax({
-	        		url: "feed/tab/move",
-	        		method: "post",
-	        		data: {
-	        			"tabOldIndex" : ui.oldElementIndex,
-	        			"tabNewIndex" : ui.elementIndex
-        			},
-	        		success: function(response) {
-	        			if (response != true) {
-	        				console.log("Error when moved feedTab!");
-	        			}
-	        		},
-	        		error: function(error) {
-	        	        console.log("Server error");
-	        	        console.log(error);	        			
-	        		}
-	        	});
+	        	moveFeedTab(ui.oldElementIndex, ui.elementIndex);
 	        });
 		},
 	    error: function(error) {
@@ -52,79 +36,35 @@ function displayFeedTabList() {
     });
     
     $(".feed-tab-list").on("click", ".feed-tab-text", function() {
-        var feedItemId = $(this).parents(".feed-tab").attr("id");
-        $.ajax({
-    		url: "feed/item/" + feedItemId,
-            type: "get",
-            success: function(response) {
-            	selectFeedTab(response);
-            },
-            error: function(error) {
-                console.log("Server error");
-                console.log(error);         
-            }
-    	});
+        var feedItemId = $(this).parents(".feed-tab").attr("id").replace(/\D/g, '');
+        displayFeedItemDetails(feedItemId);
     });
     
     $(".feed-tab-list").on("click", ".remove-link", function() {
         var feedTab = $(this).parents(".feed-tab");
-    	$.ajax({
-    		url: "feed/tab/" + feedTab.index(),
-    		type: "delete",
-    		success: function(response) {
-				feedTab.remove();
-    		    $("ul.sortable").sortable("reload");
-    		},
-    		error: function(error) {
-                console.log("Server error");
-                console.log(error);	        			
-    		}
-    	});
+        removeFeedTab(feedTab);
     });
 
     $("#back-link").click(function() {
-    	$(".feed-tab-detail").hide();
+    	$(".feed-item-details").hide();
     	$(".feed-tab-list").show();
     	$("#back-link").hide();
+    	$("#add-tab-link").hide();
+		$("#remove-tab-link").hide();
+    });
+    
+    $("#add-tab-link").click(function() {
+    	if ($(this).hasClass("link-blocked") != true) {
+	    	var feedItemId = $(".feed-item-details").attr("id").replace(/\D/g, '');
+	    	addFeedTab(feedItemId);
+    	}
     });
 }
 
 
-function appendFeedItemToTabs(feedItemId) {
-	if ($(".feed-tab-list").find(".feed-tab#" + feedItemId).length == 0) {
-    	$.ajax({
-    		url: "feed/tab",
-    		type: "post",
-    		data: { "feedItemId" : feedItemId },
-    		success: function(response) {
-    			addFeedTab(response);
-    		    $("ul.sortable").sortable("reload");
-    			selectFeedTab(response);
-    		},
-    		error: function(error) {
-    			console.log("Server error");
-    			console.log(error);
-    		}
-    	});
-	} else {  // tab already added
-        $.ajax({
-    		url: "feed/item/" + feedItemId,
-            type: "get",
-            success: function(response) {
-            	selectFeedTab(response);
-            },
-            error: function(error) {
-                console.log("Server error");
-                console.log(error);         
-            }
-    	});
-	}
-}
-
-
-function addFeedTab(feedItem) {
+function appendFeedTabToList(feedItem) {
     var feedTab = $("<li/>", {
-        id: feedItem.id,
+        id: "ft-" +feedItem.id,
         class: "feed-tab",
         draggable: true
     }).appendTo($(".feed-tab-list"));
@@ -140,27 +80,109 @@ function addFeedTab(feedItem) {
         text: "\u00A0|\u00A0" + feedItem.title
     }).appendTo(feedTabText);
     $("<span/>", {
-    	class: "glyphicon glyphicon-remove remove-link"
+    	class: "glyphicon glyphicon-remove remove-link",
+    	title: removeTabLinkTitle
     }).appendTo(feedTab);
 }
 
 
-function selectFeedTab(feedItem) {
-	if (feedItem != null) {
-		$("#back-link").show();
-		$(".feed-tab-list").hide();
-		$(".feed-tab-detail").show();
-		$(".feed-tab-detail").children(".title").text(feedItem.title);
-		var pubInfo = $(".feed-tab-detail").children(".pub-info"); 
-		pubInfo.children(".source-name").text(feedItem.feedSource.name);
-		if (feedItem.author != null) {
-			pubInfo.children(".author").html("\u00A0| by <i>" + feedItem.author + "</i>\u00A0");
+function addFeedTab(feedItemId) {
+	$.ajax({
+		url: feedTabUrl,
+		type: "post",
+		data: { "feedItemId" : feedItemId },
+		success: function(response) {
+			if (response != null) {
+				appendFeedTabToList(response);
+			    $("ul.sortable").sortable("reload");
+    			$("#add-tab-link").addClass("link-blocked");
+    			$("#add-tab-link").attr("title", tabAddedLinkTitle);
+			} else {
+				console.log("Error when add feed tab");
+			}
+		},
+		error: function(error) {
+			console.log("Server error");
+			console.log(error);
 		}
-		pubInfo.children(".published-date").text("\u00A0|\u00A0" + feedItem.publishedDateString);
-		$(".feed-tab-detail").children(".description").html(feedItem.description);
-		$(".feed-tab-detail").scrollTop(0);
-	} else {
-		console.log("feedItem not found");
-	}
+	});
+}
+
+
+function removeFeedTab(feedTab) {
+	$.ajax({
+		url: feedTabUrl + feedTab.index(),
+		type: "delete",
+		success: function(response) {
+			feedTab.remove();
+		    $("ul.sortable").sortable("reload");
+		},
+		error: function(error) {
+            console.log("Server error");
+            console.log(error);
+		}
+	});	
+}
+
+
+function moveFeedTab(tabOldIndex, tabNewIndex) {
+	$.ajax({
+		url: feedTabMoveUrl,
+		method: "post",
+		data: {
+			"tabOldIndex" : tabOldIndex,
+			"tabNewIndex" : tabNewIndex
+		},
+		success: function(response) {
+			if (response != true) {
+				console.log("Error when moved feedTab!");
+			}
+		},
+		error: function(error) {
+	        console.log("Server error");
+	        console.log(error);	        			
+		}
+	});
+}
+
+
+function displayFeedItemDetails(feedItemId) {
+    $.ajax({
+		url: feedItemUrl + feedItemId,
+        type: "get",
+        success: function(response) {
+        	var feedItem = response;
+        	if (feedItem != null) {
+        		$(".feed-item-details").attr("id", "fid-" + feedItem.id);
+        		$(".feed-item-details").children(".title").text(feedItem.title);
+        		var pubInfo = $(".feed-item-details").children(".pub-info"); 
+        		pubInfo.children(".source-name").text(feedItem.feedSource.name);
+        		if (feedItem.author != null) {
+        			pubInfo.children(".author").html("\u00A0| by <i>" + feedItem.author + "</i>\u00A0");
+        		}
+        		pubInfo.children(".published-date").text("\u00A0|\u00A0" + feedItem.publishedDateString);
+        		$(".feed-item-details").children(".description").html(feedItem.description);
+        		$(".feed-item-details").scrollTop(0);
+
+        		$(".feed-tab-list").hide();
+        		$(".feed-item-details").show();
+        		$("#back-link").show();
+        		$("#add-tab-link").show();
+        		if ($(".feed-tab-list").find(".feed-tab#ft-" + feedItemId).length != 0) {
+        			$("#add-tab-link").addClass("link-blocked");
+        			$("#add-tab-link").attr("title", tabAddedLinkTitle);
+        		} else {
+        			$("#add-tab-link").removeClass("link-blocked");
+        			$("#add-tab-link").attr("title", addTabLinkTitle);        			
+        		}
+        	} else {
+        		console.log("feedItem not found");
+        	}
+        },
+        error: function(error) {
+            console.log("Server error");
+            console.log(error);         
+        }
+	});
 }
 

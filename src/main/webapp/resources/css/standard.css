@@ -331,7 +331,6 @@ li.sortable-placeholder {
     max-width: 150px;
 }
 
-
 .feed-tab-panel {
 	width: 550px;
     height: 83%;
@@ -364,6 +363,11 @@ li.sortable-placeholder {
     color: #26b3ff;
 }
 
+.tool-pane .link-blocked {
+    color: #26b3ff;
+    cursor: default;
+}
+
 .feed-tab-panel .feed-tab-list {
 	padding: 10px;
 }
@@ -383,7 +387,6 @@ li.sortable-placeholder {
     border: 1px solid #26b3ff;
     box-shadow: 0 0 3px rgba(38,179,255,0.5);
 }
-
 
 .feed-tab-list .feed-tab .feed-tab-text {
 	width: 95%;
@@ -424,25 +427,25 @@ li.sortable-placeholder {
     color: #ff3e32;
 }
 
-.feed-tab-detail {
+.feed-item-details {
 	padding: 10px;
     overflow: auto;
     height: 90%;
 }
 
-.feed-tab-detail .title {
+.feed-item-details .title {
 	margin-top: 10px;
 	font-size: 22px;
 	font-weight: bold;
 }
 
-.feed-tab-detail .pub-info {
+.feed-item-details .pub-info {
     height: 25px;
     color: #5E5E5E;
     border-bottom: 1px solid #d0cccc;
 }
 
-.feed-tab-detail .pub-info span {
+.feed-item-details .pub-info span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -450,22 +453,22 @@ li.sortable-placeholder {
     float: left;
 }
 
-.feed-tab-detail .pub-info .source-name {
+.feed-item-details .pub-info .source-name {
     max-width: 250px;
 }
 
-.feed-tab-detail .pub-info .author {
+.feed-item-details .pub-info .author {
     max-width: 150px;
 }
 
-.feed-tab-detail .pub-info .published-date {
+.feed-item-details .pub-info .published-date {
     max-width: 150px;
 }
 
-.feed-tab-detail .description {
+.feed-item-details .description {
 }
 
-.feed-tab-detail .description img {
+.feed-item-details .description img {
     max-width: 100%;
 }
 /*************************************************************************************************/

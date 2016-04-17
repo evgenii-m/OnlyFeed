@@ -11,6 +11,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
@@ -135,10 +137,12 @@ public class FeedController {
                     + ") not found for user (user.id=" + user.getId() + ")");
             return null;
         }
-        if (user.getFeedTabs().contains(feedItem)) {
-            logger.error("Feed item (feedItem.id=" + feedItemId 
-                    + ") already contained on user tabs (user.id=" + user.getId() + ")");
-            return feedItem;
+        for (FeedTabEntity feedTab : user.getFeedTabs()) {
+            if (feedTab.getFeedItem().equals(feedItem)) {
+                logger.error("Feed item (feedItem.id=" + feedItemId 
+                        + ") already contained on user tabs (user.id=" + user.getId() + ")");
+                return null;
+            }
         }
         feedTabService.save(new FeedTabEntity(user, feedItem));
         logger.debug(user.getFeedTabs().get(user.getFeedTabs().size()-1));

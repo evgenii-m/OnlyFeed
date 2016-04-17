@@ -1,8 +1,0 @@
-USE simplefeed_db;
-
-DROP TABLE IF EXISTS roles;
-CREATE TABLE roles (
-    id INT NOT NULL AUTO_INCREMENT,
-    role VARCHAR(20) NOT NULL,
-    PRIMARY KEY (id)
-);

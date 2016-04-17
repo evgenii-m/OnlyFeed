@@ -3,12 +3,40 @@ USE simplefeed_db;
 DROP TABLE IF EXISTS user_feed_tabs;
 DROP TABLE IF EXISTS feed_items;
 DROP TABLE IF EXISTS feed_sources;
+DROP TABLE IF EXISTS user_roles;
+DROP TABLE IF EXISTS roles;
+DROP TABLE IF EXISTS users;
+
+
+CREATE TABLE users (
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    picture_url VARCHAR(1024) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT 1,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE roles (
+    id INT NOT NULL AUTO_INCREMENT,
+    role VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE user_roles (
+    user_id INT NOT NULL,
+    role_id INT NOT NULL,
+    PRIMARY KEY (user_id, role_id),
+    CONSTRAINT fk_user_roles_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    CONSTRAINT fk_user_roles_2 FOREIGN KEY (role_id) REFERENCES roles (id)
+);
 
 CREATE TABLE feed_sources (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    url VARCHAR(256) NOT NULL,
-    logo_url VARCHAR(256) NOT NULL,
+    url VARCHAR(512) NOT NULL,
+    logo_url VARCHAR(512) NOT NULL,
     description VARCHAR(1000),
     user_id INT NOT NULL,
     PRIMARY KEY (id),
@@ -17,13 +45,13 @@ CREATE TABLE feed_sources (
 
 CREATE TABLE feed_items (
     id INT NOT NULL AUTO_INCREMENT,
-    title VARCHAR(1000) NOT NULL,
+    title VARCHAR(500) NOT NULL,
     description VARCHAR(10000),
-    link VARCHAR(256) NOT NULL,
+    link VARCHAR(512) NOT NULL,
     published_date DATETIME NOT NULL,
     author VARCHAR(100),
     viewed BOOLEAN NOT NULL DEFAULT 0,
-    image_url VARCHAR(256),
+    image_url VARCHAR(512),
     feed_source_id INT NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT fk_feed_items_1 FOREIGN KEY (feed_source_id) REFERENCES feed_sources (id)

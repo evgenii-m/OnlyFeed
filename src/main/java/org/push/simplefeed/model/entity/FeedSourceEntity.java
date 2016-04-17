@@ -36,13 +36,13 @@ public class FeedSourceEntity {
     private String name;
     
     @Column(name = "url")
-    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     @NotNull
     private String url;
     
     @Column(name = "logo_url")
-    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     private String logoUrl;
     

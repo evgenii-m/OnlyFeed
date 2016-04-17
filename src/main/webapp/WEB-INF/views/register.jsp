@@ -62,7 +62,7 @@
 	            pictureUrl: {
 	                required: true,
 	                url: true,
-	                maxlength: 256
+	                maxlength: 512
 	            },
 	            name: {
 	                required: true,

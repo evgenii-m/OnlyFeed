@@ -53,7 +53,9 @@ public class FeedItemService implements IFeedItemService {
         feedItem.setTitle(rssItem.getTitle());
         feedItem.setDescription(rssItem.getDescription());
         feedItem.setLink(rssItem.getLink());
-        feedItem.setAuthor(rssItem.getAuthor());
+        if (rssItem.getAuthor() != null) {
+            feedItem.setAuthor(rssItem.getAuthor());
+        }
 
         Date rssPubDate;
         try {
@@ -132,6 +134,10 @@ public class FeedItemService implements IFeedItemService {
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource, int count) {
         logger.debug("findLatest");
+        if (feedSource == null) {
+            logger.debug("feedSource is null");
+            return null;
+        }
         PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
         return feedItemRepository.findByFeedSource(feedSource, pageRequest);
     }
@@ -140,6 +146,10 @@ public class FeedItemService implements IFeedItemService {
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources, int count) {
         logger.debug("findLatest");
+        if ((feedSources == null) || feedSources.isEmpty()) {
+            logger.debug("feedSource is null or empty");
+            return null;
+        }
         Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
             @Override
             public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {              

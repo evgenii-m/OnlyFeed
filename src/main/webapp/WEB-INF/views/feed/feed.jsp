@@ -3,28 +3,34 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="backLink" code="feed.backLink"/>
+<spring:message var="noFeedsMessage" code="feed.noFeedsMessage"/>
 
 <div class="feed-container">
 	<div class="feed-list" id="feed-item-list">
-        <c:forEach items="${feedItems}" var="feedItem">
-            <div class="item" id="${feedItem.id}">
-                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
-                <div class="feed-content">
-	                <div class="feed-info">
-	                    <div class="title">
-	                        <span class="append-to-tabs-link">${feedItem.title}</span>
-	                    </div>
-	                    <div class="summary">
-	                        ${feedItem.summary}
-	                    </div>
+        <c:if test="${empty feedItems}">
+            <h2><i>${noFeedsMessage}</i></h2>
+        </c:if>
+	    <c:if test="${not empty feedItems}">
+	        <c:forEach items="${feedItems}" var="feedItem">
+	            <div class="item" id="${feedItem.id}">
+	                <div style="background-image: url(${feedItem.imageUrl});" class="feed-logo"></div>
+	                <div class="feed-content">
+		                <div class="feed-info">
+		                    <div class="title">
+		                        <span class="append-to-tabs-link">${feedItem.title}</span>
+		                    </div>
+		                    <div class="summary">
+		                        ${feedItem.summary}
+		                    </div>
+		                </div>
+		                <div class="pub-info">
+		                    <span class="source-name">${feedItem.feedSource.name}</span>
+		                    <span class="published-date">&nbsp;|&nbsp;${feedItem.publishedDateString}</span>
+		                </div>
 	                </div>
-	                <div class="pub-info">
-	                    <span class="source-name">${feedItem.feedSource.name}</span>
-	                    <span class="published-date">&nbsp;|&nbsp;${feedItem.publishedDateString}</span>
-	                </div>
-                </div>
-            </div>
-        </c:forEach>
+	            </div>
+	        </c:forEach>
+        </c:if>
 	</div>
 	   
 	<div class="feed-tab-panel">

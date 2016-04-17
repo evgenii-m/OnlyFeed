@@ -7,6 +7,7 @@
 <spring:message var="newFeedSourceButton" code="list.newFeedSourceButton"/>
 <spring:message var="editLink" code="list.editLink"/>
 <spring:message var="deleteLink" code="list.deleteLink"/>
+<spring:message var="noFeedSourcesMessage" code="list.noFeedSourcesMessage"/>
 
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
@@ -18,21 +19,26 @@
     </form:form>
 
 	<div class="feed-list" id="feed-source-list">
-	    <c:forEach items="${feedSources}" var="feedSource">
-	        <div class="item" id="${feedSource.id}">
-                <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
-                <div class="name">
-                    <span class="show-feeds-link">${feedSource.name}</span>
-                </div>
-                <div class="description">
-                    ${feedSource.description}
-                </div>
-                <div class="action-links">
-                    <span class="edit-link">${editLink}</span> | 
-                    <span class="delete-link">${deleteLink}</span>
-                </div>
-	        </div>
-	    </c:forEach>
+        <c:if test="${empty feedSources}">
+            <h2><i>${noFeedSourcesMessage}</i></h2>
+        </c:if>
+        <c:if test="${not empty feedSources}">
+		    <c:forEach items="${feedSources}" var="feedSource">
+		        <div class="item" id="${feedSource.id}">
+	                <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
+	                <div class="name">
+	                    <span class="show-feeds-link">${feedSource.name}</span>
+	                </div>
+	                <div class="description">
+	                    ${feedSource.description}
+	                </div>
+	                <div class="action-links">
+	                    <span class="edit-link">${editLink}</span> | 
+	                    <span class="delete-link">${deleteLink}</span>
+	                </div>
+		        </div>
+		    </c:forEach>
+	    </c:if>
 	</div>
 </div>
 

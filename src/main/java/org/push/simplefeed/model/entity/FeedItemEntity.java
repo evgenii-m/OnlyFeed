@@ -24,13 +24,18 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 @Entity
 @Table(name = "feed_items")
 public class FeedItemEntity {
+    public final static int URL_LENGTH_MAX = 512;
+    public final static int TITLE_LENGTH_MAX = 500;
+    public final static int DESCRIPTION_LENGTH_MAX = 10000;
+    public final static int AUTHOR_LENGTH_MAX = 100;
+    
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "id")
     private Long id;
     
     @Column(name = "title")
-    @Size(min = 1, max = 1000, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 500, message = "{validation.lengthRange}")
     @NotNull
     private String title;
     
@@ -40,7 +45,7 @@ public class FeedItemEntity {
     private String description;
     
     @Column(name = "link")
-    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     @NotNull
     private String link;
@@ -58,7 +63,7 @@ public class FeedItemEntity {
     private boolean viewed;
     
     @Column(name = "image_url")
-    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     private String imageUrl;
     
@@ -82,7 +87,11 @@ public class FeedItemEntity {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        if (title.length() > TITLE_LENGTH_MAX) {
+            this.title = title.substring(0, TITLE_LENGTH_MAX);
+        } else {
+            this.title = title;
+        }
     }
 
 
@@ -96,7 +105,11 @@ public class FeedItemEntity {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        if (description.length() > DESCRIPTION_LENGTH_MAX) {
+            this.description = description.substring(0, DESCRIPTION_LENGTH_MAX);
+        } else {
+            this.description = description;
+        }
     }
 
 
@@ -105,7 +118,11 @@ public class FeedItemEntity {
     }
 
     public void setLink(String link) {
-        this.link = link;
+        if (link.length() > URL_LENGTH_MAX) {
+            this.link = link.substring(0, URL_LENGTH_MAX);
+        } else {
+            this.link = link;
+        }
     }
 
 
@@ -128,7 +145,11 @@ public class FeedItemEntity {
     }
 
     public void setAuthor(String author) {
-        this.author = author;
+        if (author.length() > AUTHOR_LENGTH_MAX) {
+            this.author = author.substring(0, AUTHOR_LENGTH_MAX);
+        } else {
+            this.author = author;
+        }
     }
     
     
@@ -149,7 +170,11 @@ public class FeedItemEntity {
     }
 
     public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        if (imageUrl.length() > URL_LENGTH_MAX) {
+            this.imageUrl = imageUrl.substring(0, URL_LENGTH_MAX);
+        } else {
+            this.imageUrl = imageUrl;
+        }
     }
     
 

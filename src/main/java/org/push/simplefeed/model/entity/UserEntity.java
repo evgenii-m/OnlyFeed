@@ -48,7 +48,7 @@ public class UserEntity {
     private String email;
     
     @Column(name = "picture_url")
-    @Size(min = 1, max = 256, message = "{validation.lengthRange}")
+    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     @NotNull
     private String pictureUrl;

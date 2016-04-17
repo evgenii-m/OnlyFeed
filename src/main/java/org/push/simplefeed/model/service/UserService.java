@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService implements IUserService {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private IFeedTabService feedTabService;
     
     
     @Autowired
@@ -30,6 +31,11 @@ public class UserService implements IUserService {
     @Autowired
     public void setRoleRepository(RoleRepository roleRepository) {
         this.roleRepository = roleRepository;
+    }
+    
+    @Autowired
+    public void setFeedTabService(IFeedTabService feedTabService) {
+        this.feedTabService = feedTabService;
     }
     
     
@@ -58,6 +64,14 @@ public class UserService implements IUserService {
     @Transactional(readOnly = true)
     public UserEntity findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public UserEntity findByEmailAndLoadFeedTabs(String email) {
+        UserEntity user = findByEmail(email);
+        user.setFeedTabs(feedTabService.findByUser(user));
+        return user;
     }
     
 }

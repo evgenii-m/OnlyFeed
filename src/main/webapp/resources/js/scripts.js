@@ -17,10 +17,28 @@ function displayFeedTabList() {
 	        });
 	        $("ul.sortable").sortable({
 	            forcePlaceholderSize: true
+	        }).bind("sortupdate", function(e, ui) {
+	        	$.ajax({
+	        		url: "feed/tab/move",
+	        		method: "post",
+	        		data: {
+	        			"tabOldIndex" : ui.oldElementIndex,
+	        			"tabNewIndex" : ui.elementIndex
+        			},
+	        		success: function(response) {
+	        			if (response != true) {
+	        				console.log("Error when moved feedTab!");
+	        			}
+	        		},
+	        		error: function(error) {
+	        	        console.log("Server error");
+	        	        console.log(error);	        			
+	        		}
+	        	});
 	        });
 		},
 	    error: function(error) {
-	        console.log("error");
+	        console.log("Server error");
 	        console.log(error);         
 	    }
     });
@@ -34,15 +52,15 @@ function displayFeedTabList() {
     });
     
     $(".feed-tab-list").on("click", ".feed-tab-text", function() {
-        var feedTabId = $(this).parents(".feed-tab").attr("id");
+        var feedTabIndex = $(this).parents(".feed-tab").index();
         $.ajax({
-    		url: "feed/tab/" + feedTabId,
+    		url: "feed/tab/" + feedTabIndex,
             type: "get",
             success: function(response) {
             	selectFeedTab(response);
             },
             error: function(error) {
-                console.log("error");
+                console.log("Server error");
                 console.log(error);         
             }
     	});
@@ -51,16 +69,14 @@ function displayFeedTabList() {
     $(".feed-tab-list").on("click", ".remove-link", function() {
         var feedTab = $(this).parents(".feed-tab");
     	$.ajax({
-    		url: "feed/tab/" + feedTab.attr("id"),
+    		url: "feed/tab/" + feedTab.index(),
     		type: "delete",
     		success: function(response) {
-    			if (response == true) {
-    				feedTab.remove();
-        		    $("ul.sortable").sortable('reload');
-    			}
+				feedTab.remove();
+    		    $("ul.sortable").sortable("reload");
     		},
     		error: function(error) {
-                console.log("error");
+                console.log("Server error");
                 console.log(error);	        			
     		}
     	});
@@ -79,14 +95,14 @@ function appendFeedItemToTabs(feedItemId) {
     	$.ajax({
     		url: "feed/tab",
     		type: "post",
-    		data: { 'id' : feedItemId },
+    		data: { "feedItemId" : feedItemId },
     		success: function(response) {
     			addFeedTab(response);
-    		    $("ul.sortable").sortable('reload');
+    		    $("ul.sortable").sortable("reload");
     			selectFeedTab(response);
     		},
     		error: function(error) {
-    			console.log("error");
+    			console.log("Server error");
     			console.log(error);
     		}
     	});
@@ -98,7 +114,7 @@ function appendFeedItemToTabs(feedItemId) {
             	selectFeedTab(response);
             },
             error: function(error) {
-                console.log("error");
+                console.log("Server error");
                 console.log(error);         
             }
     	});

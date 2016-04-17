@@ -3,6 +3,7 @@
  */
 package org.push.simplefeed.model.entity;
 
+
 import static javax.persistence.GenerationType.IDENTITY;
 
 import javax.persistence.*;
@@ -24,15 +25,15 @@ public class FeedTabEntity {
     @JoinColumn(name = "user_id")
     @NotNull
     private UserEntity user;
-
+    
     @OneToOne
     @JoinColumn(name = "feed_item_id")
     @NotNull
     private FeedItemEntity feedItem;
-    
-    @Column(name = "prev_tab_id")
-    @NotNull
-    private Long prevTabId;
+
+    @OneToOne
+    @JoinColumn(name = "prev_tab_id")
+    private FeedTabEntity prevFeedTab;
 
     
     public FeedTabEntity() { }
@@ -40,17 +41,17 @@ public class FeedTabEntity {
     public FeedTabEntity(UserEntity user, FeedItemEntity feedItem){
         this.user = user;
         this.feedItem = feedItem;
+        this.prevFeedTab = null;
     }
-    
+
     
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }
-
     
     public UserEntity getUser() {
         return user;
@@ -70,20 +71,20 @@ public class FeedTabEntity {
     }
 
     
-    public Long getPrevTabId() {
-        return prevTabId;
+    public FeedTabEntity getPrevFeedTab() {
+        return prevFeedTab;
     }
 
-    public void setPrevTabId(Long prevTabId) {
-        this.prevTabId = prevTabId;
+    public void setPrevFeedTab(FeedTabEntity prevFeedTab) {
+        this.prevFeedTab = prevFeedTab;
     }
 
     
     
     @Override
     public String toString() {
-        return "FeedTabEntity [id=" + id + ", user.id=" + user.getId() + ", feedItem.id="
-                + feedItem.getId() + ", prevTabId=" + prevTabId + "]";
+        return "FeedTabEntity [id=" + id + ", user.id=" + user.getId() + ", feedItem.id=" + feedItem.getId()
+                + ", prevFeedTab.id=" + ((prevFeedTab != null) ? prevFeedTab.getId() : "root") + "]";
     }
 
     public boolean equals(FeedTabEntity e) {

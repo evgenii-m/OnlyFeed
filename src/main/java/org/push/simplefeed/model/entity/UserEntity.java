@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import org.apache.commons.collections4.list.TreeList;
 import org.hibernate.validator.constraints.*;
 
 
@@ -64,8 +65,8 @@ public class UserEntity {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FeedSourceEntity> feedSources = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<FeedTabEntity> feedTabs = new ArrayList<>();
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedTabEntity> feedTabs = new TreeList<>();
     
     
     
@@ -148,19 +149,8 @@ public class UserEntity {
         return feedTabs;
     }
     
-    public void setFeedTabList(List<FeedTabEntity> feedTabs) {
-        for (FeedTabEntity feedTab : feedTabs) {
-            int i = 0;
-            while (i < this.feedTabs.size()) {
-                if (this.feedTabs.get(i++).getId().equals(feedTab.getPrevTabId())) {
-                    this.feedTabs.add(i, feedTab);
-                    break;
-                }
-            }
-            if (this.feedTabs.get(i).equals(feedTab) != true) {
-                this.feedTabs.add(0, feedTab);
-            }
-        }
+    public void setFeedTabs(List<FeedTabEntity> feedTabs) {
+        this.feedTabs = feedTabs;
     }
 
     

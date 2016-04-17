@@ -12,7 +12,7 @@ import org.push.simplefeed.model.entity.UserEntity;
 public interface IUserService {
     void save(UserEntity user);
     void delete(Long id);
-    
     UserEntity findById(Long id);
     UserEntity findByEmail(String email);
+    UserEntity findByEmailAndLoadFeedTabs(String email);
 }

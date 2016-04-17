@@ -75,7 +75,7 @@ public class FeedSourceService implements IFeedSourceService {
             List<FeedTabEntity> feedTabs = feedTabService.findByUser(feedSource.getUser());
             for (FeedTabEntity feedTab : feedTabs) {
                 if (feedTab.getFeedItem().getFeedSource().equals(feedSource)) {
-                    feedTabService.delete(feedTab.getId());
+                    feedTabService.delete(feedTab);
                 }
             }
             feedSource.getUser().getFeedSources().remove(feedSource);

@@ -16,7 +16,6 @@ import org.hibernate.validator.constraints.URL;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * @author push
@@ -66,10 +65,6 @@ public class FeedItemEntity {
     @ManyToOne
     @JoinColumn(name = "feed_source_id")
     private FeedSourceEntity feedSource;
-
-//    @OneToOne(mappedBy = "feedItem", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-//    @JsonIgnore
-//    private FeedTabEntity feedTab;
     
     
     
@@ -166,14 +161,6 @@ public class FeedItemEntity {
         this.feedSource = feedSource;
     }
     
-    
-//    public FeedTabEntity getFeedTab() {
-//        return feedTab;
-//    }
-//    
-//    public void setFeedTab(FeedTabEntity feedTab) {
-//        this.feedTab = feedTab;
-//    }
 
 
     @Override
@@ -185,4 +172,7 @@ public class FeedItemEntity {
                 + ", feedSource.id=" + feedSource.getId() + "]";
     }
 
+    public boolean equals(FeedItemEntity e) {
+        return (this.getId().equals(e.getId()));
+    }
 }

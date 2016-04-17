@@ -9,8 +9,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -90,8 +88,8 @@ public class FeedController {
             uiModel.addAttribute("feedItems", feedItems);
             return "feed";
         } else {
-            logger.error("Feed source (feedSource.id=" + feedSourceId + ") not found for user (user.id=" + 
-                    user.getId() + ")");
+            logger.error("Feed source (feedSource.id=" + feedSourceId + ") not found for user (user.id=" 
+                    + user.getId() + ")");
             return "redirect:/feed";
         }
     }
@@ -101,7 +99,8 @@ public class FeedController {
     @ResponseBody
     public List<FeedItemEntity> getFeedTabs(Principal principal) {
         logger.debug("getFeedTabs");
-        UserEntity user = userService.findByEmail(principal.getName());
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
+        // TODO: replace on CollectionUtils.collect with transformer (?)
         List<FeedItemEntity> feedItems = new ArrayList<>();
         for (FeedTabEntity feedTab : user.getFeedTabs()) {
             feedItems.add(feedTab.getFeedItem());
@@ -112,56 +111,66 @@ public class FeedController {
 
     @RequestMapping(value = "/tab", method = POST)
     @ResponseBody
-    public FeedItemEntity addFeedTab(Model uiModel, Long id, Principal principal) {
+    public FeedItemEntity addFeedTab(Long feedItemId, Principal principal) {
         logger.debug("addFeedTab");
-        FeedItemEntity feedItem = feedItemService.findById(id);
+        // TODO: add test for feedItem source
+        FeedItemEntity feedItem = feedItemService.findById(feedItemId);
         if (feedItem == null) {
-            logger.error("Feed item not found (id=" + id + ")");
+            logger.error("Feed item not found (feedItemId=" + feedItemId + ")");
             return null;
         }
-        UserEntity user = userService.findByEmail(principal.getName());
-        for (FeedTabEntity feedTab : user.getFeedTabs()) {
-            if (feedTab.getFeedItem().getId().equals(id)) {
-                logger.debug("Feed tab list already contain feed item (id=" + id + ")");
-                return feedItem;
-            }
-        }
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
         feedTabService.save(new FeedTabEntity(user, feedItem));
-        logger.debug("Feed item (feedItem.id" + id + ") added to tabs");
+        logger.debug(user.getFeedTabs().get(user.getFeedTabs().size()-1));
         return feedItem;
     }
     
     
-    @RequestMapping(value = "/tab/{id}", method = GET)
+    @RequestMapping(value = "/tab/{tabIndex}", method = GET)
     @ResponseBody
-    public FeedItemEntity getFeedTab(@PathVariable Long id, Principal principal) {
-        logger.debug("Get feed tab (feedItem.id=" + id + ")");
-        UserEntity user = userService.findByEmail(principal.getName());
-        for (FeedTabEntity feedTab : user.getFeedTabs()) {
-            if (feedTab.getFeedItem().getId().equals(id)) {
-                return feedTab.getFeedItem();
-            }
+    public FeedItemEntity getFeedTab(@PathVariable int tabIndex, Principal principal) {
+        logger.debug("deleteFeedTab (tabIndex=" + tabIndex + ")");
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
+        if ((tabIndex < 0) || (tabIndex >= user.getFeedTabs().size())) {
+            logger.error("Invalid index (tabIndex=" + tabIndex + ", user.feedTabs.size=" 
+                    + user.getFeedTabs().size() + ")");
+            return null;
         }
-        logger.error("Feed tab not found (feedItem.id=" + id + ")");
-        return null;
+        logger.debug(user.getFeedTabs().get(tabIndex));
+        return user.getFeedTabs().get(tabIndex).getFeedItem();
     }
     
     
-    @RequestMapping(value = "/tab/{id}", method = DELETE)
+    @RequestMapping(value = "/tab/{tabIndex}", method = DELETE)
     @ResponseBody
-    public boolean deleteFeedTab(@PathVariable Long id, Principal principal) {
-        logger.debug("deleteFeedTab");
-        UserEntity user = userService.findByEmail(principal.getName());
-        logger.debug(user.getFeedTabs());
-        for (FeedTabEntity feedTab : user.getFeedTabs()) {
-            if (feedTab.getFeedItem().getId().equals(id)) {
-                feedTabService.delete(feedTab.getId());
-                logger.debug("Delete feed tab (feedItem.id=" + id + ")");
-                return true;
-            }
+    public boolean deleteFeedTab(@PathVariable int tabIndex, Principal principal) {
+        logger.debug("deleteFeedTab (tabIndex=" + tabIndex + ")");
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
+        if ((tabIndex < 0) || (tabIndex >= user.getFeedTabs().size())) {
+            logger.error("Invalid index (tabIndex=" + tabIndex + ", user.feedTabs.size=" 
+                    + user.getFeedTabs().size() + ")");
+            return false;
         }
-        logger.error("Feed tab not found (feedItem.id=" + id + ")");
-        return false;
+        logger.debug(user.getFeedTabs().get(tabIndex));
+        feedTabService.delete(user.getFeedTabs().get(tabIndex));
+        return true;
+    }
+    
+    
+    @RequestMapping(value = "/tab/move", method = POST)
+    @ResponseBody
+    public boolean moveFeedTab(int tabOldIndex, int tabNewIndex, Principal principal) {
+        logger.debug("moveFeedTab (tabOldIndex=" + tabOldIndex + ", tabNewIndex=" + tabNewIndex + ")");
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
+        if ((tabOldIndex == tabNewIndex) || (tabOldIndex < 0) || (tabNewIndex < 0) || 
+                (tabOldIndex >= user.getFeedTabs().size()) || (tabNewIndex >= user.getFeedTabs().size())) {
+            logger.error("Invalid indexes (tabOldIndex=" + tabOldIndex + ", tabNewIndex=" + tabNewIndex
+                    + ", user.feedTabs.size=" + user.getFeedTabs().size() + ")");
+            return false;
+        }
+        logger.debug(user.getFeedTabs().get(tabOldIndex));
+        feedTabService.move(user.getFeedTabs().get(tabOldIndex), tabNewIndex, tabOldIndex);
+        return true;
     }
 
 }

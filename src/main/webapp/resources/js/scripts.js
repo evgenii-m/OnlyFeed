@@ -31,12 +31,12 @@ function displayFeedTabList() {
     $(".feed-tab-list").on("mouseenter", ".feed-tab", function() {
     	var feedTabText = $(this).children(".feed-tab-text");
     	feedTabText.width(feedTabText.width() - 26);
-    	$(this).children(".remove-link").show();    	
+    	$(this).children(".remove-action-icon").show();    	
     });
     $(".feed-tab-list").on("mouseleave", ".feed-tab", function() {
     	var feedTabText = $(this).children(".feed-tab-text");
     	feedTabText.width(feedTabText.width() + 26);
-    	$(this).children(".remove-link").hide();	     
+    	$(this).children(".remove-action-icon").hide();	     
     });
     
     $(".feed-tab-list").on("click", ".feed-tab-text", function() {
@@ -44,21 +44,30 @@ function displayFeedTabList() {
         displayFeedItemDetails(feedItemId);
     });
     
-    $(".feed-tab-list").on("click", ".remove-link", function() {
+    $(".feed-tab-list").on("click", ".remove-action-icon", function() {
         var feedTab = $(this).parents(".feed-tab");
         removeFeedTab(feedTab);
     });
 
-    $("#back-link").click(function() {
+    $("#back-action").click(function() {
     	$(".feed-item-details").hide();
-    	$("#feed-details-links").hide();
+    	$("#feed-details-actions").hide();
     	$(".feed-tab-list").show();
     });
     
-    $("#add-tab-link").click(function() {
-    	if ($(this).hasClass("link-blocked") != true) {
-	    	var feedItemId = $(".feed-item-details").attr("id").replace(/\D/g, '');
+    $("#add-tab-action").click(function() {
+    	var feedItemId = $(".feed-item-details").attr("id").replace(/\D/g, '');
+    	if ($(this).hasClass("action-icon-blocked") != true) {
 	    	addFeedTab(feedItemId);
+    	} else {
+    		var feedTab = $(".feed-tab-list").find(".feed-tab#ft-" + feedItemId);
+    		if (feedTab.length != 0) {
+    			removeFeedTab(feedTab);
+    			$("#add-tab-action").removeClass("action-icon-blocked");
+    			$("#add-tab-action").attr("title", addTabActionIconTitle);         			
+    		} else {
+    			console.log("Error when remove feed tab");
+    		}
     	}
     });
 }
@@ -82,8 +91,8 @@ function appendFeedTabToList(feedItem) {
         text: "\u00A0|\u00A0" + feedItem.title
     }).appendTo(feedTabText);
     $("<span/>", {
-    	class: "glyphicon glyphicon-remove remove-link",
-    	title: removeTabLinkTitle
+    	class: "glyphicon glyphicon-remove remove-action-icon",
+    	title: removeTabActionIconTitle
     }).appendTo(feedTab);
 }
 
@@ -97,8 +106,8 @@ function addFeedTab(feedItemId) {
 			if (response != null) {
 				appendFeedTabToList(response);
 			    $("ul.sortable").sortable("reload");
-    			$("#add-tab-link").addClass("link-blocked");
-    			$("#add-tab-link").attr("title", tabAddedLinkTitle);
+    			$("#add-tab-action").addClass("action-icon-blocked");
+    			$("#add-tab-action").attr("title", removeTabActionIconTitle);
 			} else {
 				console.log("Error when add feed tab");
 			}
@@ -116,8 +125,12 @@ function removeFeedTab(feedTab) {
 		url: feedTabUrl + feedTab.index(),
 		type: "delete",
 		success: function(response) {
-			feedTab.remove();
-		    $("ul.sortable").sortable("reload");
+			if (response == true) {
+				feedTab.remove();
+			    $("ul.sortable").sortable("reload");
+			} else {
+    			console.log("Error when remove feed tab");
+    		}
 		},
 		error: function(error) {
             console.log("Server error");
@@ -125,6 +138,8 @@ function removeFeedTab(feedTab) {
 		}
 	});	
 }
+
+
 
 
 function moveFeedTab(tabOldIndex, tabNewIndex) {
@@ -168,13 +183,15 @@ function displayFeedItemDetails(feedItemId) {
 
         		$(".feed-tab-list").hide();
         		$(".feed-item-details").show();
-            	$("#feed-details-links").show();
+            	
+        		$("#feed-details-actions").show();
+            	$("#open-original-action").attr("href", feedItem.link);
         		if ($(".feed-tab-list").find(".feed-tab#ft-" + feedItemId).length != 0) {
-        			$("#add-tab-link").addClass("link-blocked");
-        			$("#add-tab-link").attr("title", tabAddedLinkTitle);
+        			$("#add-tab-action").addClass("action-icon-blocked");
+        			$("#add-tab-action").attr("title", removeTabActionIconTitle);
         		} else {
-        			$("#add-tab-link").removeClass("link-blocked");
-        			$("#add-tab-link").attr("title", addTabLinkTitle);        			
+        			$("#add-tab-action").removeClass("action-icon-blocked");
+        			$("#add-tab-action").attr("title", addTabActionIconTitle);
         		}
         	} else {
         		console.log("feedItem not found");

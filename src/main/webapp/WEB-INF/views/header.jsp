@@ -19,21 +19,15 @@
         <div id="navbar" class="navbar-collapse collapse">
             <sec:authorize access="isAuthenticated()">
                 <ul class="nav navbar-nav">
-                    <li><a href="${sourceUrl}">Feed Sources</a></li>
+                    <li><a href="${sourceUrl}">All</a></li>
 <%--                     <c:if test="${not empty feedSourceName}"> --%>
 <!--                         <li><a href="#">Feed Label</a></li> -->
 <%--                     </c:if> --%>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-<!-- 	                <li class="dropdown"> -->
-<!-- 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> -->
-<!-- 	                        Actions <span class="caret"></span> -->
-<!-- 	                    </a> -->
-<!-- 	                    <ul class="dropdown-menu"> -->
-<!-- 		                    <li><a>Refresh</a></li> -->
-<!-- 		                    <li><a>Show Hidden</a></li> -->
-<!-- 	                    </ul> -->
-<!-- 	                </li> -->
+<!--                     <li id="feed-links"> -->
+<!--                         <span class="glyphicon glyphicon-refresh"></span> -->
+<!--                     </li> -->
                     <li><a href="#"><sec:authentication property="principal.username"/></a></li>
                     <li><a href="${logoutUrl}">${logoutLabel}</a></li>
                 </ul>

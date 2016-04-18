@@ -2,10 +2,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<spring:message var="backLinkTitle" code="feed.backLinkTitle"/>
-<spring:message var="addTabLinkTitle" code="feed.addTabLinkTitle"/>
-<spring:message var="removeTabLinkTitle" code="feed.removeTabLinkTitle"/>
-<spring:message var="tabAddedLinkTitle" code="feed.tabAddedLinkTitle"/>
+<spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
+<spring:message var="addTabActionIconTitle" code="feed.addTabActionIconTitle"/>
+<spring:message var="removeTabActionIconTitle" code="feed.removeTabActionIconTitle"/>
+<spring:message var="tabAddedActionIconTitle" code="feed.tabAddedActionIconTitle"/>
 <spring:message var="noFeedsMessage" code="feed.noFeedsMessage"/>
 
 <spring:url var="feedItemUrl" value="/feed/item/"/>
@@ -50,14 +50,16 @@
 	   
 	<div class="feed-tab-panel">
 		<div class="tool-pane">
-            <div id="feed-details-links" style="display: none;">
-			    <span id="back-link" class="glyphicon glyphicon-arrow-left link"
-                        title="${backLinkTitle}" aria-hidden="true"></span>
-	            <div style="float: right;">
-		            <span id="open-original-link" class="glyphicon glyphicon-new-window link" 
-                            aria-hidden="true"></span>
-				    <span id="add-tab-link" class="glyphicon glyphicon-plus link"
-				            title="${addTabLinkTitle}" aria-hidden="true"></span>
+            <div id="feed-details-actions" style="display: none;">
+                <div class="float-left">
+				    <span id="back-action" class="glyphicon glyphicon-arrow-left action-icon"
+	                        title="${backActionIconTitle}" aria-hidden="true"></span>
+                </div>
+	            <div class="float-right">
+                    <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
+                            aria-hidden="true" target="_blank"></a>
+				    <span id="add-tab-action" class="glyphicon glyphicon-plus action-icon"
+				            title="${addTabActionIconTitle}" aria-hidden="true"></span>
 			    </div>
             </div>
 		</div>
@@ -82,9 +84,8 @@
     var feedTabUrl = "${feedTabUrl}";
     var feedItemUrl = "${feedItemUrl}";
     var feedTabMoveUrl = "${feedTabMoveUrl}";
-    var removeTabLinkTitle = "${removeTabLinkTitle}";
-    var addTabLinkTitle = "${addTabLinkTitle}";
-    var tabAddedLinkTitle = "${tabAddedLinkTitle}";
+    var removeTabActionIconTitle = "${removeTabActionIconTitle}";
+    var addTabActionIconTitle = "${addTabActionIconTitle}";
     
     $(document).ready(function() {
         displayFeedTabList();

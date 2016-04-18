@@ -355,18 +355,39 @@ li.sortable-placeholder {
     border-bottom: 1px solid #c4c4c4;
 }
 
-.tool-pane .link {
+.tool-pane .action-icon {
 	font-size: 20px;
     cursor: pointer;
+    color: #3D3D3D;
+    text-decoration: none;
 }
 
-.tool-pane .link:hover {
+.tool-pane .action-icon:hover {
     color: #26b3ff;
 }
 
-.tool-pane .link-blocked {
+.tool-pane .action-icon-blocked {
     color: #26b3ff;
-    cursor: default;
+}
+
+.tool-pane .action-icon-blocked:hover {
+	color: #ff3e32;
+}
+
+.tool-pane .float-left {
+    float: left;
+}
+
+.tool-pane .float-left span {
+    margin-right: 10px;
+}
+
+.tool-pane .float-right {
+    float: right;
+}
+
+.tool-pane .float-right span {
+	margin-left: 10px;
 }
 
 .feed-tab-panel .feed-tab-list {
@@ -419,14 +440,14 @@ li.sortable-placeholder {
     display: inline;
 }
 
-.feed-tab-list .feed-tab .remove-link {
+.feed-tab-list .feed-tab .remove-action-icon {
 	height: 100%;
 	float: right;
 	padding: 6px;
 	display: none;
 }
 
-.feed-tab-list .feed-tab .remove-link:hover {
+.feed-tab-list .feed-tab .remove-action-icon:hover {
     color: #ff3e32;
 }
 

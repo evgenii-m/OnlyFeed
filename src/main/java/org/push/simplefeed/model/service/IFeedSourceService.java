@@ -21,8 +21,8 @@ public interface IFeedSourceService {
     FeedSourceEntity findById(Long id);
     FeedSourceEntity findByUserAndUrl(UserEntity user, String url);
     FeedSourceEntity getBlank();
-    void fillBlank(FeedSourceEntity feedSource);
+    boolean fillBlank(FeedSourceEntity feedSource);
     boolean isSupported(String feedSourceUrl);
-    void refresh(FeedSourceEntity feedSource);
-    void refresh(List<FeedSourceEntity> feedSources);
+    boolean refresh(FeedSourceEntity feedSource);
+    boolean refresh(List<FeedSourceEntity> feedSources);
 }

@@ -14,6 +14,14 @@
 
 <div class="feed-container">
 	<div class="feed-list" id="feed-item-list">
+        <c:if test="${not empty refreshErrorMessage}">
+            <div class="alert alert-warning alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                ${refreshErrorMessage}
+            </div>
+        </c:if>
         <c:if test="${empty feedItems}">
             <h2><i>${noFeedsMessage}</i></h2>
         </c:if>
@@ -42,10 +50,16 @@
 	   
 	<div class="feed-tab-panel">
 		<div class="tool-pane">
-		    <span id="back-link" class="glyphicon glyphicon-arrow-left link" style="display: none;" 
-		            title="${backLinkTitle}" aria-hidden="true"></span>
-		    <span id="add-tab-link" class="glyphicon glyphicon-plus link" style="display: none; float: right;"
-		            title="${addTabLinkTitle}" aria-hidden="true"></span>
+            <div id="feed-details-links" style="display: none;">
+			    <span id="back-link" class="glyphicon glyphicon-arrow-left link"
+                        title="${backLinkTitle}" aria-hidden="true"></span>
+	            <div style="float: right;">
+		            <span id="open-original-link" class="glyphicon glyphicon-new-window link" 
+                            aria-hidden="true"></span>
+				    <span id="add-tab-link" class="glyphicon glyphicon-plus link"
+				            title="${addTabLinkTitle}" aria-hidden="true"></span>
+			    </div>
+            </div>
 		</div>
 		
 		<ul class="feed-tab-list sortable" aria-dropeffect="move">

@@ -29,9 +29,13 @@ function displayFeedTabList() {
     
 
     $(".feed-tab-list").on("mouseenter", ".feed-tab", function() {
+    	var feedTabText = $(this).children(".feed-tab-text");
+    	feedTabText.width(feedTabText.width() - 26);
     	$(this).children(".remove-link").show();    	
     });
     $(".feed-tab-list").on("mouseleave", ".feed-tab", function() {
+    	var feedTabText = $(this).children(".feed-tab-text");
+    	feedTabText.width(feedTabText.width() + 26);
     	$(this).children(".remove-link").hide();	     
     });
     
@@ -47,10 +51,8 @@ function displayFeedTabList() {
 
     $("#back-link").click(function() {
     	$(".feed-item-details").hide();
+    	$("#feed-details-links").hide();
     	$(".feed-tab-list").show();
-    	$("#back-link").hide();
-    	$("#add-tab-link").hide();
-		$("#remove-tab-link").hide();
     });
     
     $("#add-tab-link").click(function() {
@@ -166,8 +168,7 @@ function displayFeedItemDetails(feedItemId) {
 
         		$(".feed-tab-list").hide();
         		$(".feed-item-details").show();
-        		$("#back-link").show();
-        		$("#add-tab-link").show();
+            	$("#feed-details-links").show();
         		if ($(".feed-tab-list").find(".feed-tab#ft-" + feedItemId).length != 0) {
         			$("#add-tab-link").addClass("link-blocked");
         			$("#add-tab-link").attr("title", tabAddedLinkTitle);

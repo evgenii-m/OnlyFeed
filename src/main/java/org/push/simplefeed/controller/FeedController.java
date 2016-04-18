@@ -10,6 +10,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
@@ -24,6 +25,7 @@ import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.model.service.IFeedTabService;
 import org.push.simplefeed.model.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,11 +42,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/feed")
 public class FeedController {
     private static Logger logger = LogManager.getLogger(FeedController.class);
+    private MessageSource messageSource;
     private IFeedSourceService feedSourceService;
     private IFeedItemService feedItemService;
     private IUserService userService;
     private IFeedTabService feedTabService;
  
+
+    @Autowired
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
     
     @Autowired
     public void setFeedSourceService(IFeedSourceService feedSourceService) {
@@ -69,10 +77,14 @@ public class FeedController {
 
 
     @RequestMapping(method = GET)
-    public String showFeeds(Model uiModel, Principal principal) {        
+    public String showFeeds(Model uiModel, Principal principal, Locale locale) {        
         logger.debug("showFeed");
         UserEntity user = userService.findByEmail(principal.getName());
-        feedSourceService.refresh(user.getFeedSources());
+        boolean refreshResult = feedSourceService.refresh(user.getFeedSources());
+        if (!refreshResult) {
+            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
+                    "feed.refreshErrorMessage", new Object[]{}, locale));
+        }
         List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources(), 10);
         uiModel.addAttribute("feedItems", feedItems);
         return "feed";
@@ -80,12 +92,17 @@ public class FeedController {
     
     
     @RequestMapping(value = "/{feedSourceId}", method = GET)
-    public String showFeedsFromSource(Model uiModel, Principal principal, @PathVariable Long feedSourceId) {
+    public String showFeedsFromSource(Model uiModel, Principal principal, @PathVariable Long feedSourceId, 
+            Locale locale) {
         logger.debug("showFeedsFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
-            feedSourceService.refresh(feedSource);
+            boolean refreshResult = feedSourceService.refresh(feedSource);
+            if (!refreshResult) {
+                uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
+                        "feed.refreshErrorMessage", new Object[]{}, locale));
+            }
             List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource, 10);
             uiModel.addAttribute("feedItems", feedItems);
             return "feed";

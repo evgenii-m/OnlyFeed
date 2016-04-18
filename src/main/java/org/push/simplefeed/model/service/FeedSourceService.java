@@ -88,7 +88,6 @@ public class FeedSourceService implements IFeedSourceService {
     }
     
 
-
     @Override
     @Transactional(readOnly = true)
     public List<FeedSourceEntity> findAll() {
@@ -113,7 +112,6 @@ public class FeedSourceService implements IFeedSourceService {
         return feedSourceRepository.findByUserAndUrl(user, url);
     }
 
-
     
     @Override
     public FeedSourceEntity getBlank() {
@@ -123,7 +121,7 @@ public class FeedSourceService implements IFeedSourceService {
     
     
     @Override
-    public void fillBlank(FeedSourceEntity feedSource) {
+    public boolean fillBlank(FeedSourceEntity feedSource) {
         try {
             RssChannel rssChannel = rssService.getChannel(feedSource.getUrl());
             feedSource.setName(rssChannel.getTitle());
@@ -134,10 +132,13 @@ public class FeedSourceService implements IFeedSourceService {
                 feedSource.setLogoUrl(rssChannelImage.getUrl());
             }
             feedSource.setDescription(rssChannel.getDescription());
+            return true;
         } catch (XmlMappingException | IOException e) {
-            logger.fatal("Exception when form Feed Source from RSS service! (url=" 
+            logger.error("Exception when form Feed Source from RSS service! (url=" 
                     + feedSource.getUrl() + ")");
+            // TODO: modify for printStackTrace to logger
             e.printStackTrace();
+            return false;
         }
     }
     
@@ -149,26 +150,31 @@ public class FeedSourceService implements IFeedSourceService {
 
     
     @Override
-    public void refresh(FeedSourceEntity feedSource) {
+    public boolean refresh(FeedSourceEntity feedSource) {
         logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" + feedSource.getName()
                 + ", url=" + feedSource.getUrl() + ")");
         try {
             List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
             feedItemService.save(rssItemList, feedSource);
+            return true;
         } catch (XmlMappingException | IOException e) {
-            logger.fatal("Exception when fetch Feed Items from RSS service! RSS source url " 
+            logger.error("Exception when fetch Feed Items from RSS service! RSS source url " 
                     + "(id=" + feedSource.getId() + ", name=" + feedSource.getName() 
                     + ", url=" + feedSource.getUrl() + ")");
+            // TODO: modify for printStackTrace to logger
             e.printStackTrace();
+            return false;
         }
     }
     
     
     @Override
-    public void refresh(List<FeedSourceEntity> feedSources) {
+    public boolean refresh(List<FeedSourceEntity> feedSources) {
         for (FeedSourceEntity feedSource : feedSources) {
-            refresh(feedSource);
+            if (refresh(feedSource) != true)
+                return false;
         }
+        return true;
     }
 
 }

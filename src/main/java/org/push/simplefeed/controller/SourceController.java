@@ -89,6 +89,7 @@ public class SourceController {
             return "redirect:/source";
         }
 
+        // TODO: add check fillBlank() result
         feedSourceService.fillBlank(newFeedSource);
         redirectAttributes.addFlashAttribute("feedSource", newFeedSource);
         return "redirect:/source/add";

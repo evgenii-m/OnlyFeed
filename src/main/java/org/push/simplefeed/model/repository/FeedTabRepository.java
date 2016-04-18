@@ -17,4 +17,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface FeedTabRepository extends JpaRepository<FeedTabEntity, Long> {
     List<FeedTabEntity> findByUser(UserEntity user);
     FeedTabEntity findByUserAndFeedItem(UserEntity user, FeedItemEntity feedItem);
+    FeedTabEntity findByPrevFeedTab(FeedTabEntity prevFeedTab);
 }

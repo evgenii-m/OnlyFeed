@@ -58,6 +58,19 @@ public class FeedTabService implements IFeedTabService {
     
     
     @Override
+    public void delete(List<FeedTabEntity> feedTabs) {
+        for (FeedTabEntity feedTab : feedTabs) {
+            FeedTabEntity nextFeedTab = feedTabRepository.findByPrevFeedTab(feedTab);
+            if (nextFeedTab != null) {
+                nextFeedTab.setPrevFeedTab(feedTab.getPrevFeedTab());
+                feedTabRepository.save(nextFeedTab);
+            }
+            feedTabRepository.delete(feedTab);
+        }
+    }
+    
+    
+    @Override
     public void move(FeedTabEntity feedTab, int tabNewIndex, int tabOldIndex) {
         List<FeedTabEntity> userFeedTabs = feedTab.getUser().getFeedTabs();
         if (tabOldIndex < (userFeedTabs.size()-1)) {  // if not last

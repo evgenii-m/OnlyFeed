@@ -4,6 +4,7 @@
 package org.push.simplefeed.model.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -72,12 +73,13 @@ public class FeedSourceService implements IFeedSourceService {
     public boolean delete(Long id) {
         FeedSourceEntity feedSource = feedSourceRepository.findOne(id);
         if (feedSource != null) {
-            List<FeedTabEntity> feedTabs = feedTabService.findByUser(feedSource.getUser());
-            for (FeedTabEntity feedTab : feedTabs) {
+            List<FeedTabEntity> feedTabs = new ArrayList<>();
+            for (FeedTabEntity feedTab : feedTabService.findByUser(feedSource.getUser())) {
                 if (feedTab.getFeedItem().getFeedSource().equals(feedSource)) {
-                    feedTabService.delete(feedTab);
+                    feedTabs.add(feedTab);
                 }
             }
+            feedTabService.delete(feedTabs);
             feedSource.getUser().getFeedSources().remove(feedSource);
             feedSourceRepository.delete(id);
             return true;

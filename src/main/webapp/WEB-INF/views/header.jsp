@@ -10,24 +10,23 @@
 <spring:url var="feedUrl" value="/feed"/>
 <spring:url var="sourceUrl" value="/source"/>
 
-
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-default   navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="${feedUrl}">${projectName}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <sec:authorize access="isAuthenticated()">
-                <ul class="nav navbar-nav">
-                    <li><a href="${sourceUrl}">All</a></li>
-<%--                     <c:if test="${not empty feedSourceName}"> --%>
-<!--                         <li><a href="#">Feed Label</a></li> -->
-<%--                     </c:if> --%>
+                <ul class="nav navbar-nav navbar-source">
+                    <li onclick="window.location.href='${sourceUrl}'">All</li>
+                    <c:if test="${not empty currentFeedSource}">
+                        <li class="glyphicon glyphicon-menu-right delimiter" aria-hidden="true"></li>
+                        <li id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
+                    </c:if>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-<!--                     <li id="feed-links"> -->
-<!--                         <span class="glyphicon glyphicon-refresh"></span> -->
-<!--                     </li> -->
+                    <li class="glyphicon glyphicon-refresh action-icon"></li>
+                    <li class="glyphicon glyphicon-list action-icon"></li>
                     <li><a href="#"><sec:authentication property="principal.username"/></a></li>
                     <li><a href="${logoutUrl}">${logoutLabel}</a></li>
                 </ul>

@@ -12,14 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
+import org.push.simplefeed.model.service.FeedItemService;
 import org.push.simplefeed.model.service.IFeedItemService;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.model.service.IFeedTabService;
@@ -77,40 +76,64 @@ public class FeedController {
 
 
     @RequestMapping(method = GET)
-    public String showFeeds(Model uiModel, Principal principal, Locale locale) {        
-        logger.debug("showFeed");
+    public String showFeedItems(Model uiModel, Principal principal, Locale locale) {        
+        logger.debug("showFeedItems");
         UserEntity user = userService.findByEmail(principal.getName());
-        boolean refreshResult = feedSourceService.refresh(user.getFeedSources());
-        if (!refreshResult) {
-            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
-                    "feed.refreshErrorMessage", new Object[]{}, locale));
-        }
-        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources(), 10);
+//        boolean refreshResult = feedSourceService.refresh(user.getFeedSources());
+//        if (!refreshResult) {
+//            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
+//                    "feed.refreshErrorMessage", new Object[]{}, locale));
+//        }
+        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources());
         uiModel.addAttribute("feedItems", feedItems);
+        uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
         return "feed";
     }
     
     
     @RequestMapping(value = "/{feedSourceId}", method = GET)
-    public String showFeedsFromSource(Model uiModel, Principal principal, @PathVariable Long feedSourceId, 
-            Locale locale) {
-        logger.debug("showFeedsFromSource");
+    public String showFeedItemsFromSource(@PathVariable Long feedSourceId, Model uiModel, 
+            Principal principal, Locale locale) {
+        logger.debug("showFeedItemsFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
-            boolean refreshResult = feedSourceService.refresh(feedSource);
-            if (!refreshResult) {
-                uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
-                        "feed.refreshErrorMessage", new Object[]{}, locale));
-            }
-            List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource, 10);
+            uiModel.addAttribute("currentFeedSource", feedSource);
+//            boolean refreshResult = feedSourceService.refresh(feedSource);
+//            if (!refreshResult) {
+//                uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
+//                        "feed.refreshErrorMessage", new Object[]{}, locale));
+//            }
+            List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource);
             uiModel.addAttribute("feedItems", feedItems);
+            uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
             return "feed";
         } else {
             logger.error("Feed source (feedSource.id=" + feedSourceId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return "redirect:/feed";
         }
+    }
+    
+    
+    @RequestMapping(value = "/page/{pageIndex}", method = GET)
+    @ResponseBody
+    public List<FeedItemEntity> getFeedItemsPage(@PathVariable int pageIndex, Principal principal) {
+        logger.debug("getFeedItemsPage");
+        UserEntity user = userService.findByEmail(principal.getName());
+        List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
+        return feedItems;
+    }
+    
+    
+    @RequestMapping(value = "/{feedSourceId}/page/{pageIndex}", method = GET)
+    @ResponseBody
+    public List<FeedItemEntity> getFeedItemsPageFromSource(@PathVariable Long feedSourceId, 
+            @PathVariable int pageIndex, Principal principal) {
+        logger.debug("getFeedItemsPageFromSource");
+        UserEntity user = userService.findByEmail(principal.getName());
+        List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
+        return feedItems;
     }
     
     

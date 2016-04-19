@@ -34,6 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class FeedItemService implements IFeedItemService {
+    public static final int DEFAULT_PAGE_SIZE = 20;
     private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
     private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
     
@@ -115,10 +116,10 @@ public class FeedItemService implements IFeedItemService {
     @Override
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findAll(FeedSourceEntity feedSource) {
-        logger.debug("findAll");
         return feedItemRepository.findByFeedSource(feedSource);
     }
 
+    
     @Override
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findAll(List<FeedSourceEntity> feedSources) {
@@ -128,24 +129,23 @@ public class FeedItemService implements IFeedItemService {
         }
         return feedItems;
     }
-    
 
+    
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource, int count) {
-        logger.debug("findLatest");
+    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, int count) {
         if (feedSource == null) {
             logger.debug("feedSource is null");
             return null;
         }
-        PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
+        PageRequest pageRequest = new PageRequest(pageIndex, count, Sort.Direction.DESC, "publishedDate");
         return feedItemRepository.findByFeedSource(feedSource, pageRequest);
     }
+    
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources, int count) {
-        logger.debug("findLatest");
+    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, int count) {
         if ((feedSources == null) || feedSources.isEmpty()) {
             logger.debug("feedSource is null or empty");
             return null;
@@ -158,7 +158,44 @@ public class FeedItemService implements IFeedItemService {
             }
         }; 
         PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
-        return feedItemRepository.findAll(sp, pageRequest).getContent();
+        return feedItemRepository.findAll(sp, pageRequest).getContent();        
+    }
+
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex) {
+        return findPage(feedSource, 0, DEFAULT_PAGE_SIZE);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex) {
+        return findPage(feedSources, 0, DEFAULT_PAGE_SIZE);        
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource, int count) {
+        return findPage(feedSource, 0, count);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources, int count) {
+        return findPage(feedSources, 0, count);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource) {
+        return findLatest(feedSource, DEFAULT_PAGE_SIZE);
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources) {
+        return findLatest(feedSources, DEFAULT_PAGE_SIZE);
     }
     
 }

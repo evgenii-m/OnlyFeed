@@ -7,6 +7,7 @@
 <spring:message var="removeTabActionIconTitle" code="feed.removeTabActionIconTitle"/>
 <spring:message var="tabAddedActionIconTitle" code="feed.tabAddedActionIconTitle"/>
 <spring:message var="noFeedsMessage" code="feed.noFeedsMessage"/>
+<spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 
 <spring:url var="feedItemUrl" value="/feed/item/"/>
 <spring:url var="feedTabUrl" value="/feed/tab/"/>
@@ -32,7 +33,7 @@
 	                <div class="feed-content">
 		                <div class="feed-info">
 		                    <div class="title">
-		                        <span class="select-item-link">${feedItem.title}</span>
+		                        <span class="select-item-action">${feedItem.title}</span>
 		                    </div>
 		                    <div class="summary">
 		                        ${feedItem.summary}
@@ -45,6 +46,7 @@
 	                </div>
 	            </div>
 	        </c:forEach>
+            <button class="btn btn-default show-more-button" type="button">${showMoreNewsButton}</button>
         </c:if>
 	</div>
 	   
@@ -81,17 +83,22 @@
 </div>
 
 <script type="text/javascript">
+    var pageSize = "${pageSize}";
     var feedTabUrl = "${feedTabUrl}";
     var feedItemUrl = "${feedItemUrl}";
     var feedTabMoveUrl = "${feedTabMoveUrl}";
     var removeTabActionIconTitle = "${removeTabActionIconTitle}";
     var addTabActionIconTitle = "${addTabActionIconTitle}";
+    var showMoreNewsButton = "${showMoreNewsButton}";
     
     $(document).ready(function() {
         displayFeedTabList();
-        $(".select-item-link").click(function() {
+        $(".select-item-action").click(function() {
         	var feedItemId = $(this).parents(".item").attr("id").replace(/\D/g, '');
         	displayFeedItemDetails(feedItemId);
        	});
+        $(".show-more-button").click(function() {
+        	showMoreFeedItems();
+        });
 	});
 </script>

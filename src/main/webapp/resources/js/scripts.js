@@ -2,7 +2,7 @@
  * 
  */
 
-$(document).ready(function() {
+$(document).ready(function() {	
 });
 
 
@@ -75,25 +75,25 @@ function displayFeedTabList() {
 
 function appendFeedTabToList(feedItem) {
     var feedTab = $("<li/>", {
-        id: "ft-" +feedItem.id,
+        id: "ft-" + feedItem.id,
         class: "feed-tab",
         draggable: true
     }).appendTo($(".feed-tab-list"));
-    var feedTabText = $("<div/>", {
-    	class: "feed-tab-text"
-    }).appendTo(feedTab);
-    $("<span/>", {
-        class: "source-name",
-        text: feedItem.feedSource.name
-    }).appendTo(feedTabText);
-    $("<span/>", {
-        class: "title",
-        text: "\u00A0|\u00A0" + feedItem.title
-    }).appendTo(feedTabText);
-    $("<span/>", {
-    	class: "glyphicon glyphicon-remove remove-action-icon",
-    	title: removeTabActionIconTitle
-    }).appendTo(feedTab);
+	    var feedTabText = $("<div/>", {
+	    	class: "feed-tab-text"
+	    }).appendTo(feedTab);
+		    $("<span/>", {
+		        class: "source-name",
+		        text: feedItem.feedSource.name
+		    }).appendTo(feedTabText);
+		    $("<span/>", {
+		        class: "title",
+		        text: "\u00A0|\u00A0" + feedItem.title
+		    }).appendTo(feedTabText);
+	    $("<span/>", {
+	    	class: "glyphicon glyphicon-remove remove-action-icon",
+	    	title: removeTabActionIconTitle
+	    }).appendTo(feedTab);
 }
 
 
@@ -138,8 +138,6 @@ function removeFeedTab(feedTab) {
 		}
 	});	
 }
-
-
 
 
 function moveFeedTab(tabOldIndex, tabNewIndex) {
@@ -199,8 +197,76 @@ function displayFeedItemDetails(feedItemId) {
         },
         error: function(error) {
             console.log("Server error");
-            console.log(error);         
+            console.log(error);
         }
 	});
 }
 
+
+function showMoreFeedItems() {
+	var pageIndex = ($("#feed-item-list").children(".item").length / pageSize) + 1;
+//    $.ajax({
+//        url: document.location.href + "/" + pageIndex,
+//        type: "get",
+//        success: function(response) {
+//	        if (response != null) {
+//	        	$(".show-more-button").remove();
+//	        	response.forEach(function(entry) {
+//	        		appendFeedItem(entry);
+//		        });
+//	        	$("<button/>", {
+//	        		class: "btn btn-default show-more-button",
+//	        		type: "button",
+//	        		text: showMoreNewsButton
+//	        	}).appendTo($("#feed-item-list"));
+//	        } else {
+//	        	console.log("Failed to get feed items page");
+//	        }
+//        },
+//        error: function(error) {
+//            console.log("Server error");
+//            console.log(error);        	
+//        }
+//    });
+}
+
+
+function appendFeedItem(feedItem) {
+	var item = $("<div/>", {
+        id: "fi-" +feedItem.id,
+        class: "item"
+    }).appendTo($("#feed-item-list"));
+		$("<div/>", {
+			style: "background-image: url(" + feedItem.imageUrl + ");",
+			class: "feed-logo"
+		}).appendTo(item);
+	
+		var feedContent = $("<div/>", {
+			class: "feed-content"
+		}).appendTo(item);
+			var feedInfo = $("<div/>", {
+				class: "feed-info"
+			}).appendTo(feedContent);
+				var title = $("<div/>", {
+					class: "title"
+				}).appendTo(feedInfo);
+					$("<span/>", {
+						class: "select-item-action",
+						text: feedItem.title
+					}).appendTo(title);
+				$("<div/>", {
+					class: "summary",
+					text: feedItem.summary
+				});
+			var pubInfo = $("<div/>", {
+				class: "pub-info"
+			});
+				$("<span/>", {
+					class: "source-name",
+					text: feedItem.feedSource.name
+				});
+				$("<span/>", {
+					class: "published-date",
+					text: "\u00A0|\u00A0" + feedItem.publishedDateString
+				});
+}

@@ -34,7 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class FeedItemService implements IFeedItemService {
-    public static final int DEFAULT_PAGE_SIZE = 20;
+    public static final int DEFAULT_PAGE_SIZE = 5;
     private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
     private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
     
@@ -157,7 +157,7 @@ public class FeedItemService implements IFeedItemService {
                 return exp.in(feedSources);
             }
         }; 
-        PageRequest pageRequest = new PageRequest(0, count, Sort.Direction.DESC, "publishedDate");
+        PageRequest pageRequest = new PageRequest(pageIndex, count, Sort.Direction.DESC, "publishedDate");
         return feedItemRepository.findAll(sp, pageRequest).getContent();        
     }
 
@@ -165,13 +165,13 @@ public class FeedItemService implements IFeedItemService {
     @Override
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex) {
-        return findPage(feedSource, 0, DEFAULT_PAGE_SIZE);
+        return findPage(feedSource, pageIndex, DEFAULT_PAGE_SIZE);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex) {
-        return findPage(feedSources, 0, DEFAULT_PAGE_SIZE);        
+        return findPage(feedSources, pageIndex, DEFAULT_PAGE_SIZE);        
     }
     
     @Override

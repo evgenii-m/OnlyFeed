@@ -7,8 +7,8 @@
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 
 <spring:url var="logoutUrl" value="/j_spring_security_logout"/>
-<spring:url var="feedUrl" value="/feed"/>
-<spring:url var="sourceUrl" value="/source"/>
+<spring:url var="feedUrl" value="/feed/"/>
+<spring:url var="sourceUrl" value="/source/"/>
 
 <nav class="navbar navbar-default   navbar-fixed-top">
     <div class="container">

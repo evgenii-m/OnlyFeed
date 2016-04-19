@@ -1,9 +1,79 @@
-/**
- * 
- */
+function displayFeedItems() {
+	showMoreFeedItems(0);
 
-$(document).ready(function() {	
-});
+    $(".feed-item-list").on("click", ".select-item-action", function() {
+    	var feedItemId = $(this).parents(".item").attr("id").replace(/\D/g, '');
+    	displayFeedItemDetails(feedItemId);
+    });
+    
+    $(".show-more-button").click(function() {
+        var pageIndex = ($(".feed-item-list").children(".item").length / pageSize) + 1;
+        console.log(pageIndex);
+    	showMoreFeedItems(pageIndex);
+    });
+}
+
+
+function showMoreFeedItems(pageIndex) {
+    $.ajax({
+        url: window.location + "/page/" + pageIndex,
+        type: "get",
+        success: function(response) {
+	        if (response != null) {
+	        	response.forEach(function(entry) {
+	        		appendFeedItem(entry);
+		        });
+	        } else {
+	        	console.log("Failed to get feed items page");
+	        }
+        },
+        error: function(error) {
+            console.log("Server error");
+            console.log(error);        	
+        }
+    });
+}
+
+
+function appendFeedItem(feedItem) {
+	var item = $("<div/>", {
+        id: "fi-" +feedItem.id,
+        class: "item"
+    }).appendTo($(".feed-item-list"));
+		$("<div/>", {
+			style: "background-image: url(" + feedItem.imageUrl + ");",
+			class: "feed-logo"
+		}).appendTo(item);
+		var feedContent = $("<div/>", {
+			class: "feed-content"
+		}).appendTo(item);
+			var feedInfo = $("<div/>", {
+				class: "feed-info"
+			}).appendTo(feedContent);
+				var title = $("<div/>", {
+					class: "title"
+				}).appendTo(feedInfo);
+					$("<span/>", {
+						class: "select-item-action",
+						text: feedItem.title
+					}).appendTo(title);
+				$("<div/>", {
+					class: "summary",
+					text: feedItem.summary
+				}).appendTo(feedInfo);
+			var pubInfo = $("<div/>", {
+				class: "pub-info"
+			}).appendTo(feedContent);
+				$("<span/>", {
+					class: "source-name",
+					text: feedItem.feedSource.name
+				}).appendTo(pubInfo);
+				$("<span/>", {
+					class: "published-date",
+					text: "\u00A0|\u00A0" + feedItem.publishedDateString
+				}).appendTo(pubInfo);
+}
+
 
 
 function displayFeedTabList() {
@@ -200,73 +270,4 @@ function displayFeedItemDetails(feedItemId) {
             console.log(error);
         }
 	});
-}
-
-
-function showMoreFeedItems() {
-	var pageIndex = ($("#feed-item-list").children(".item").length / pageSize) + 1;
-//    $.ajax({
-//        url: document.location.href + "/" + pageIndex,
-//        type: "get",
-//        success: function(response) {
-//	        if (response != null) {
-//	        	$(".show-more-button").remove();
-//	        	response.forEach(function(entry) {
-//	        		appendFeedItem(entry);
-//		        });
-//	        	$("<button/>", {
-//	        		class: "btn btn-default show-more-button",
-//	        		type: "button",
-//	        		text: showMoreNewsButton
-//	        	}).appendTo($("#feed-item-list"));
-//	        } else {
-//	        	console.log("Failed to get feed items page");
-//	        }
-//        },
-//        error: function(error) {
-//            console.log("Server error");
-//            console.log(error);        	
-//        }
-//    });
-}
-
-
-function appendFeedItem(feedItem) {
-	var item = $("<div/>", {
-        id: "fi-" +feedItem.id,
-        class: "item"
-    }).appendTo($("#feed-item-list"));
-		$("<div/>", {
-			style: "background-image: url(" + feedItem.imageUrl + ");",
-			class: "feed-logo"
-		}).appendTo(item);
-	
-		var feedContent = $("<div/>", {
-			class: "feed-content"
-		}).appendTo(item);
-			var feedInfo = $("<div/>", {
-				class: "feed-info"
-			}).appendTo(feedContent);
-				var title = $("<div/>", {
-					class: "title"
-				}).appendTo(feedInfo);
-					$("<span/>", {
-						class: "select-item-action",
-						text: feedItem.title
-					}).appendTo(title);
-				$("<div/>", {
-					class: "summary",
-					text: feedItem.summary
-				});
-			var pubInfo = $("<div/>", {
-				class: "pub-info"
-			});
-				$("<span/>", {
-					class: "source-name",
-					text: feedItem.feedSource.name
-				});
-				$("<span/>", {
-					class: "published-date",
-					text: "\u00A0|\u00A0" + feedItem.publishedDateString
-				});
 }

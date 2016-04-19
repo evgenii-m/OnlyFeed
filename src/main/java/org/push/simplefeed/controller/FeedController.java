@@ -76,43 +76,43 @@ public class FeedController {
 
 
     @RequestMapping(method = GET)
-    public String showFeedItems(Model uiModel, Principal principal, Locale locale) {        
+    public String showFeed(Model uiModel, Principal principal, Locale locale) {        
         logger.debug("showFeedItems");
-        UserEntity user = userService.findByEmail(principal.getName());
+//        UserEntity user = userService.findByEmail(principal.getName());
 //        boolean refreshResult = feedSourceService.refresh(user.getFeedSources());
 //        if (!refreshResult) {
 //            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
 //                    "feed.refreshErrorMessage", new Object[]{}, locale));
 //        }
-        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources());
-        uiModel.addAttribute("feedItems", feedItems);
+//        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources());
+//        uiModel.addAttribute("feedItems", feedItems);
         uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
         return "feed";
     }
     
     
     @RequestMapping(value = "/{feedSourceId}", method = GET)
-    public String showFeedItemsFromSource(@PathVariable Long feedSourceId, Model uiModel, 
+    public String showFeedFromSource(@PathVariable Long feedSourceId, Model uiModel, 
             Principal principal, Locale locale) {
         logger.debug("showFeedItemsFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
-        if ((feedSource != null) && (feedSource.getUser().equals(user))) {
-            uiModel.addAttribute("currentFeedSource", feedSource);
-//            boolean refreshResult = feedSourceService.refresh(feedSource);
-//            if (!refreshResult) {
-//                uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
-//                        "feed.refreshErrorMessage", new Object[]{}, locale));
-//            }
-            List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource);
-            uiModel.addAttribute("feedItems", feedItems);
-            uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
-            return "feed";
-        } else {
+        if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
             logger.error("Feed source (feedSource.id=" + feedSourceId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return "redirect:/feed";
         }
+        
+        uiModel.addAttribute("currentFeedSource", feedSource);
+//        boolean refreshResult = feedSourceService.refresh(feedSource);
+//        if (!refreshResult) {
+//            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
+//                    "feed.refreshErrorMessage", new Object[]{}, locale));
+//        }
+//        List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource);
+//        uiModel.addAttribute("feedItems", feedItems);
+        uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
+        return "feed";
     }
     
     
@@ -132,7 +132,13 @@ public class FeedController {
             @PathVariable int pageIndex, Principal principal) {
         logger.debug("getFeedItemsPageFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
-        List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
+        FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
+        if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
+            logger.error("Feed source (feedSource.id=" + feedSourceId 
+                    + ") not found for user (user.id=" + user.getId() + ")");
+            return null;
+        }
+        List<FeedItemEntity> feedItems = feedItemService.findPage(feedSource, pageIndex);
         return feedItems;
     }
     

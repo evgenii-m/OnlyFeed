@@ -9,6 +9,10 @@
 <spring:message var="deleteLink" code="list.deleteLink"/>
 <spring:message var="noFeedSourcesMessage" code="list.noFeedSourcesMessage"/>
 
+<spring:url var="feedUrl" value="/feed/"/>
+<spring:url var="sourceEditUrl" value="/source/edit/"/>
+<spring:url var="sourceDeleteUrl" value="/source/delete/"/>
+
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
 	    <div class="form-row">
@@ -63,17 +67,17 @@
         });
 
         $(".show-feeds-link").click(function() {
-        	window.location.href = "feed/" + $(this).parents(".item").attr("id");
+        	window.location.href = "${feedUrl}" + $(this).parents(".item").attr("id");
         });
         
         $(".edit-link").click(function() {
-            window.location.href = "source/edit/" + $(this).parents(".item").attr("id");
+            window.location.href = "${sourceEditUrl}" + $(this).parents(".item").attr("id");
         });
         
         $(".delete-link").click(function() {
         	var feedItem = $(this).parents(".item");
         	$.ajax({
-        		url: "source/delete/" + feedItem.attr("id"),
+        		url: "${sourceDeleteUrl}" + feedItem.attr("id"),
         		type: "delete",
         		success: function(response) {
         			if (response == true) {

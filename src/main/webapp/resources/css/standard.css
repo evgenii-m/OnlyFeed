@@ -121,7 +121,7 @@ a.action-icon:focus,
 
 .show-more-button {
 	width: 50%;
-	margin: 15px auto 9px auto;
+	margin: 15px auto 0px auto;
 	position: relative;
 	display: block;
 	text-align: center;
@@ -254,7 +254,6 @@ li.sortable-placeholder {
 /*************************************************************************************************/
 
 
-
 /* index view */
 .index-container {
 	width: 800px;
@@ -376,49 +375,49 @@ li.sortable-placeholder {
 
 /* feed view */
 .feed-container {
-	margin-top: 15px;
-}
-
-#feed-item-list {
-	width: 50%;
-	margin-top: 0px;
-	margin-bottom: 15px;
-	min-width: 380px;
+    margin-top: 10px;
+    width: 50%;
+    margin-bottom: 25px;
+    min-width: 380px;
     float: left;
 }
 
-#feed-item-list .item .feed-content {
+.feed-item-list {
+	margin: 0px;
+}
+
+.feed-item-list .item .feed-content {
     line-height: 16px;
 }
 
 
-#feed-item-list .item .feed-info {
+.feed-item-list .item .feed-info {
     height: 100px;
     overflow: hidden;
 }
 
-#feed-item-list .item .title {
+.feed-item-list .item .title {
     margin-bottom: 5px;
 	font-weight: bold;
 }
 
-#feed-item-list .item .title span {
+.feed-item-list .item .title span {
     cursor: pointer;
 }
 
-#feed-item-list .item .title span:hover {
+.feed-item-list .item .title span:hover {
     color: #26b3ff;
 }
 
-#feed-item-list .item .summary {
+.feed-item-list .item .summary {
     color: #5E5E5E;
 }
 
-#feed-item-list .item .pub-info {
+.feed-item-list .item .pub-info {
 	margin-top: 5px;
 }
 
-#feed-item-list .item .pub-info span {
+.feed-item-list .item .pub-info span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -426,15 +425,16 @@ li.sortable-placeholder {
     float: left;
 }
 
-#feed-item-list .item .pub-info .source-name {
+.feed-item-list .item .pub-info .source-name {
     max-width: 150px;
 }
 
-#feed-item-list .item .pub-info .published-date {
+.feed-item-list .item .pub-info .published-date {
     max-width: 150px;
 }
 
 .feed-tab-panel {
+    margin-top: 10px;
 	width: 550px;
     height: 83%;
     position: fixed;

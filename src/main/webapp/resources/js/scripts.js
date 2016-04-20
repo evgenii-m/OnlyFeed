@@ -191,8 +191,9 @@ function addFeedTab(feedItemId) {
 
 
 function removeFeedTab(feedTab) {
+	var feedItemId = feedTab.attr("id").replace(/\D/g, '');
 	$.ajax({
-		url: feedTabUrl + feedTab.index(),
+		url: feedTabUrl + feedItemId,
 		type: "delete",
 		success: function(response) {
 			if (response == true) {

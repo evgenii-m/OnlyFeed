@@ -9,5 +9,11 @@ package org.push.simplefeed.model.entity.types;
  */
 public enum FeedViewType {
     COMPACT, 
-    EXTENDED 
+    EXTENDED;
+    
+    public static final int LENGTH = FeedViewType.values().length;
+    
+    public static FeedViewType value(Byte val) {
+        return FeedViewType.values()[val];
+    }
 }

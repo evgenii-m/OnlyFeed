@@ -199,11 +199,13 @@ li.sortable-placeholder {
     cursor: pointer;
 }
 
-.navbar-nav > li > .dropdown-menu li.selected,
 .navbar-nav > li > .dropdown-menu li:focus,
 .navbar-nav > li > .dropdown-menu li:hover {
-    color: #26b3ff;
     background-color: #D2D2D2;
+}
+
+.navbar-nav > li > .dropdown-menu li.selected {
+    color: #26b3ff;
 }
 
 .navbar-nav > li > .dropdown-menu li.dropdown-header {
@@ -215,7 +217,6 @@ li.sortable-placeholder {
 
 .navbar-nav > li > .dropdown-menu li.dropdown-header:focus,
 .navbar-nav > li > .dropdown-menu li.dropdown-header:hover {
-    color: #3d3d3d;
     background-color: #EBEBEB;
 }
 
@@ -429,19 +430,33 @@ li.sortable-placeholder {
 	margin: 0px;
 }
 
+.feed-item-list.compact .item .feed-logo {
+    display: none;
+}
+
 .feed-item-list .item .feed-content {
     line-height: 16px;
 }
-
 
 .feed-item-list .item .feed-info {
     height: 100px;
     overflow: hidden;
 }
 
+.feed-item-list.compact .item .feed-info {
+    height: 15px;
+}
+
 .feed-item-list .item .title {
     margin-bottom: 5px;
 	font-weight: bold;
+}
+
+.feed-item-list.compact .item .title {
+    margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .feed-item-list .item .title span {
@@ -456,6 +471,10 @@ li.sortable-placeholder {
     color: #5E5E5E;
 }
 
+.feed-item-list.compact .item .summary {
+    display: none;
+}
+
 .feed-item-list .item .pub-info {
 	margin-top: 5px;
 }
@@ -468,13 +487,15 @@ li.sortable-placeholder {
     float: left;
 }
 
+.feed-item-list .item .pub-info .published-date,
 .feed-item-list .item .pub-info .source-name {
     max-width: 150px;
 }
 
-.feed-item-list .item .pub-info .published-date {
-    max-width: 150px;
+.feed-item-list.compact .item .pub-info .source-name {
+    max-width: 250px;
 }
+
 
 .feed-tab-panel {
     margin-top: 10px;

@@ -10,6 +10,7 @@
 <spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
+<spring:url var="feedSettingsUrl" value="/feed/settings/"/>
 <spring:url var="feedItemUrl" value="/feed/item/"/>
 <spring:url var="feedTabUrl" value="/feed/tab/"/>
 <spring:url var="feedTabMoveUrl" value="/feed/tab/move/"/>
@@ -61,14 +62,21 @@
 
 <script type="text/javascript">
     var pageSize = "${pageSize}";
+    var feedViewType = "${feedViewType}";
+    var feedSortingType = "${feedSortingType}";
+    var feedFilterType = "${feedFilterType}";
+    
     var feedUrl = "${feedUrl}";
+    var feedSettingsUrl = "${feedSettingsUrl}";
     var feedTabUrl = "${feedTabUrl}";
     var feedItemUrl = "${feedItemUrl}";
     var feedTabMoveUrl = "${feedTabMoveUrl}";
+    
     var removeTabActionIconTitle = "${removeTabActionIconTitle}";
     var addTabActionIconTitle = "${addTabActionIconTitle}";
     
     $(document).ready(function() {
+    	setFeedSettingsMenu();
     	displayFeedItems();
         displayFeedTabList();
 	});

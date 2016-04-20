@@ -21,7 +21,7 @@ function showMoreFeedItems(pageIndex) {
         success: function(response) {
 	        if (response != null) {
 	        	response.forEach(function(entry) {
-	        		appendFeedItem(entry);
+        			appendFeedItem(entry);
 		        });
 	        } else {
 	        	console.log("Failed to get feed items page");
@@ -40,6 +40,9 @@ function appendFeedItem(feedItem) {
         id: "fi-" +feedItem.id,
         class: "item"
     }).appendTo($(".feed-item-list"));
+	if (feedViewType == 0) {
+		$(".feed-item-list").addClass("compact");
+	}
 		$("<div/>", {
 			style: "background-image: url(" + feedItem.imageUrl + ");",
 			class: "feed-logo"
@@ -272,3 +275,39 @@ function displayFeedItemDetails(feedItemId) {
         }
 	});
 }
+
+
+
+function setFeedSettingsMenu() {
+	$("#view-type-" + feedViewType).addClass("selected");
+	$("#sorting-type-" + feedSortingType).addClass("selected");
+	$("#filter-type-" + feedFilterType).addClass("selected");
+	
+	$(".view-type-item").click(function() {
+		var newFeedViewType = $(this).attr("id").replace(/\D/g, '');
+		if (newFeedViewType != feedViewType) {
+			$.ajax({
+				url: feedSettingsUrl + "view/",
+				type: "post",
+				data: { "feedViewType" : newFeedViewType },
+				success: function(response) {
+					if (response == true) {
+						$("#view-type-" + feedViewType).removeClass("selected");
+						feedViewType = newFeedViewType;
+						$("#view-type-" + feedViewType).addClass("selected");
+						if (feedViewType == 0) {
+							$(".feed-item-list").addClass("compact");
+						} else {
+							$(".feed-item-list").removeClass("compact");
+						}						
+					}
+				},
+				error: function(error) {
+					console.log("Server error");
+					console.log(error);				
+				}
+			});
+		}
+	});
+}
+

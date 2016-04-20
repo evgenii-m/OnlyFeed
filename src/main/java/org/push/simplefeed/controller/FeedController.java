@@ -3,21 +3,22 @@
  */
 package org.push.simplefeed.controller;
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
+import org.push.simplefeed.model.entity.types.*;
 import org.push.simplefeed.model.service.FeedItemService;
 import org.push.simplefeed.model.service.IFeedItemService;
 import org.push.simplefeed.model.service.IFeedSourceService;
@@ -27,9 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author push
@@ -71,12 +70,19 @@ public class FeedController {
         this.feedTabService = feedTabService;
     }
 
+    
+    private void setFeedSettings(Model uiModel, UserEntity user) {
+        uiModel.addAttribute("feedViewType", user.getFeedViewType().ordinal());
+        uiModel.addAttribute("feedSortingType", user.getFeedSortingType().ordinal());
+        uiModel.addAttribute("feedFilterType", user.getFeedFilterType().ordinal());
+        uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
+    }
 
 
     @RequestMapping(method = GET)
     public String showFeed(Model uiModel, Principal principal, Locale locale) {        
         logger.debug("showFeedItems");
-//        UserEntity user = userService.findByEmail(principal.getName());
+        UserEntity user = userService.findByEmail(principal.getName());
 //        boolean refreshResult = feedSourceService.refresh(user.getFeedSources());
 //        if (!refreshResult) {
 //            uiModel.addAttribute("refreshErrorMessage", messageSource.getMessage(
@@ -84,7 +90,7 @@ public class FeedController {
 //        }
 //        List<FeedItemEntity> feedItems = feedItemService.findLatest(user.getFeedSources());
 //        uiModel.addAttribute("feedItems", feedItems);
-        uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
+        setFeedSettings(uiModel, user);
         return "feed";
     }
     
@@ -109,7 +115,7 @@ public class FeedController {
 //        }
 //        List<FeedItemEntity> feedItems = feedItemService.findLatest(feedSource);
 //        uiModel.addAttribute("feedItems", feedItems);
-        uiModel.addAttribute("pageSize", FeedItemService.DEFAULT_PAGE_SIZE);
+        setFeedSettings(uiModel, user);
         return "feed";
     }
     
@@ -156,7 +162,51 @@ public class FeedController {
     }
     
     
-//    @RequestMapping(value = "/settings", method = POST)
+    @RequestMapping(value = "/settings/view", method = POST)
+    @ResponseBody
+    public boolean changeFeedViewType(Byte feedViewType, Principal principal) {
+        logger.debug("changeFeedViewType (feedViewType=" + feedViewType + ")");
+        if ((feedViewType == null) || (feedViewType >= FeedViewType.LENGTH)) {
+            logger.error("Unavaliable FeedViewType");
+            return false;
+        }
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (user.getFeedViewType().equals(FeedViewType.value(feedViewType))) {
+            logger.info("FeedViewType not changed");
+            return false;
+        }
+        user.setFeedViewType(FeedViewType.value(feedViewType));
+        userService.save(user);
+        return true;
+    }
+    
+    @RequestMapping(value = "/settings/sorting", method = POST)
+    @ResponseBody
+    public boolean changeFeedSortingType(Byte feedSortingType, Principal principal) {
+        logger.debug("changeFeedSortingType (feedSortingType=" + feedSortingType + ")");
+        if ((feedSortingType == null) || (feedSortingType >= FeedSortingType.LENGTH)) {
+            logger.error("Unavaliable FeedSortingType");
+            return false;
+        }
+        UserEntity user = userService.findByEmail(principal.getName());
+        user.setFeedSortingType(FeedSortingType.value(feedSortingType));
+        userService.save(user);
+        return true;
+    }
+    
+    @RequestMapping(value = "/settings/filter", method = POST)
+    @ResponseBody
+    public boolean changeFeedFilterType(Byte feedFilterType, Principal principal) {
+        logger.debug("changeFeedFilterType (feedFilterType=" + feedFilterType + ")");
+        if ((feedFilterType == null) || (feedFilterType >= FeedFilterType.LENGTH)) {
+            logger.error("Unavaliable FeedFilterType");
+            return false;
+        }
+        UserEntity user = userService.findByEmail(principal.getName());
+        user.setFeedFilterType(FeedFilterType.value(feedFilterType));
+        userService.save(user);
+        return true;
+    }
     
     
     @RequestMapping(value = "/tab", method = GET)
@@ -197,18 +247,26 @@ public class FeedController {
     }
     
     
-    @RequestMapping(value = "/tab/{tabIndex}", method = DELETE)
+    @SuppressWarnings("deprecation")
+    @RequestMapping(value = "/tab/{feedItemId}", method = DELETE)
     @ResponseBody
-    public boolean deleteFeedTab(@PathVariable int tabIndex, Principal principal) {
-        logger.debug("deleteFeedTab (tabIndex=" + tabIndex + ")");
+    public boolean deleteFeedTab(@PathVariable final Long feedItemId, Principal principal) {
+        logger.debug("deleteFeedTab (feedItemId=" + feedItemId + ")");
         UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
-        if ((tabIndex < 0) || (tabIndex >= user.getFeedTabs().size())) {
-            logger.error("Invalid index (tabIndex=" + tabIndex + ", user.feedTabs.size=" 
-                    + user.getFeedTabs().size() + ")");
-            return false;
+        FeedTabEntity feedTab = CollectionUtils.find(user.getFeedTabs(), new Predicate<FeedTabEntity>() {
+            @Override
+            public boolean evaluate(FeedTabEntity feedTab) {
+                return feedTab.getFeedItem().getId().equals(feedItemId);
+            }
+        });
+        if (feedTab == null) {
+            logger.error("Feed tab (feedItemId=" + feedItemId + ") not found for user (user.id=" 
+                    + user.getId() + ")");
+            return false;            
         }
-        logger.debug(user.getFeedTabs().get(tabIndex));
-        feedTabService.delete(user.getFeedTabs().get(tabIndex));
+        
+        logger.debug(feedTab);
+        feedTabService.delete(feedTab);
         return true;
     }
     

@@ -41,18 +41,18 @@
                     <li class="dropdown">
                         <span class="dropdown-toggle glyphicon glyphicon-cog action-icon" data-toggle="dropdown" 
                                 role="button" aria-hidden="true" aria-haspopup="true" aria-expanded="true"></span>
-                        <ul class="dropdown-menu">
+                        <ul id="settings-menu" class="dropdown-menu">
                             <li class="dropdown-header">${viewLabel}</li>
-                            <li>${compactViewLabel}</li>
-                            <li>${extendedViewLabel}</li>
+                            <li id="view-type-0" class="view-type-item">${compactViewLabel}</li>
+                            <li id="view-type-1" class="view-type-item">${extendedViewLabel}</li>
                             <li class="dropdown-header">${sortingLabel}</li>
-                            <li>${newestSortingLabel}</li>
-                            <li>${oldestSortingLabel}</li>
+                            <li id="sorting-type-0" class="sorting-type-item">${newestSortingLabel}</li>
+                            <li id="sorting-type-1" class="sorting-type-item">${oldestSortingLabel}</li>
                             <li class="dropdown-header">${filterLabel}</li>
-                            <li>${allFilterLabel}</li>
-                            <li>${unreadFilterLabel}</li>
-                            <li>${readFilterLabel}</li>
-                            <li>${latestDayFilterLabel}</li>
+                            <li id="filter-type-0" class="sorting-type-item">${allFilterLabel}</li>
+                            <li id="filter-type-1" class="sorting-type-item">${unreadFilterLabel}</li>
+                            <li id="filter-type-2" class="sorting-type-item">${readFilterLabel}</li>
+                            <li id="filter-type-3" class="sorting-type-item">${latestDayFilterLabel}</li>
                         </ul>
                     </li>
                     <li><a href="#"><sec:authentication property="principal.username"/></a></li>

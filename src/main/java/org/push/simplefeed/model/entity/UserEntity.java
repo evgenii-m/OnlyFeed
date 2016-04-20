@@ -15,6 +15,7 @@ import javax.validation.constraints.*;
 
 import org.apache.commons.collections4.list.TreeList;
 import org.hibernate.validator.constraints.*;
+import org.push.simplefeed.model.entity.types.*;
 
 
 /**
@@ -55,6 +56,18 @@ public class UserEntity {
     
     @Column(name = "enabled")
     private boolean enabled;
+
+    @Column(name = "feed_view_type")
+    @Enumerated(EnumType.ORDINAL)
+    private FeedViewType feedViewType;
+    
+    @Column(name = "feed_sorting_type")
+    @Enumerated(EnumType.ORDINAL)
+    private FeedSortingType feedSortingType;
+
+    @Column(name = "feed_filter_type")
+    @Enumerated(EnumType.ORDINAL)
+    private FeedFilterType feedFilterType;
     
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
@@ -126,7 +139,32 @@ public class UserEntity {
         this.enabled = enabled;
     }
     
+        
+    public FeedViewType getFeedViewType() {
+        return feedViewType;
+    }
+
+    public void setFeedViewType(FeedViewType feedViewType) {
+        this.feedViewType = feedViewType;
+    }
+
+    public FeedSortingType getFeedSortingType() {
+        return feedSortingType;
+    }
+
+    public void setFeedSortingType(FeedSortingType feedSortingType) {
+        this.feedSortingType = feedSortingType;
+    }
+
+    public FeedFilterType getFeedFilterType() {
+        return feedFilterType;
+    }
+
+    public void setFeedFilterType(FeedFilterType feedFilterType) {
+        this.feedFilterType = feedFilterType;
+    }
     
+
     public Set<RoleEntity> getRoles() {
         return roles;
     }
@@ -153,13 +191,14 @@ public class UserEntity {
         this.feedTabs = feedTabs;
     }
 
-    
-    
+
+
     @Override
     public String toString() {
-        return "UserEntity [id=" + id + ", name=" + name + ", password="
-                + password + ", email=" + email + ", pictureUrl=" + pictureUrl + 
-                ", enabled=" + enabled + ", roles=" + roles + "]";
+        return "UserEntity [id=" + id + ", name=" + name + ", password=" + password 
+                + ", email=" + email + ", pictureUrl=" + pictureUrl + ", enabled=" + enabled 
+                + ", feedViewType=" + feedViewType + ", feedSortingType=" + feedSortingType 
+                + ", feedFilterType=" + feedFilterType + ", roles=" + roles + "]";
     }
 
     @Override
@@ -186,5 +225,5 @@ public class UserEntity {
             return false;
         return true;
     }
-   
+
 }

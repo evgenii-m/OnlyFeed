@@ -15,6 +15,9 @@ CREATE TABLE users (
     email VARCHAR(100) NOT NULL UNIQUE,
     picture_url VARCHAR(1024) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT 1,
+    feed_view_type TINYINT NOT NULL DEFAULT 0,
+    feed_sorting_type TINYINT NOT NULL DEFAULT 0,
+    feed_filter_type TINYINT NOT NULL DEFAULT 0,
     PRIMARY KEY (id)
 );
 

@@ -33,8 +33,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author push
- *
- * TODO: add script for display brief description on feed item view
  * 
  */
 @Controller
@@ -156,6 +154,9 @@ public class FeedController {
         }
         return feedItem;
     }
+    
+    
+//    @RequestMapping(value = "/settings", method = POST)
     
     
     @RequestMapping(value = "/tab", method = GET)

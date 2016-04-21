@@ -7,8 +7,7 @@ function displayFeedItems() {
     });
     
     $(".show-more-button").click(function() {
-        var pageIndex = ($(".feed-item-list").children(".item").length / pageSize) + 1;
-        console.log(pageIndex);
+        var pageIndex = Math.ceil($(".feed-item-list").children(".item").length / pageSize);
     	showMoreFeedItems(pageIndex);
     });
 }
@@ -23,6 +22,9 @@ function showMoreFeedItems(pageIndex) {
 	        	response.forEach(function(entry) {
         			appendFeedItem(entry);
 		        });
+	        	if (response.length < pageSize) {
+	        		$(".show-more-button").remove();
+	        	}
 	        } else {
 	        	console.log("Failed to get feed items page");
 	        }

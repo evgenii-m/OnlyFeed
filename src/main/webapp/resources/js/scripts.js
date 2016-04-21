@@ -354,6 +354,10 @@ function changeFeedViewType(newFeedViewType) {
 
 
 function refreshFeed() {
+	if ($(".loading-indicator").length != 0) {
+		return;
+	}
+	
 	$(".feed-container .alert-warning").remove();
 	$(".show-more-button").hide();
 	$(".feed-item-list").empty();

@@ -36,7 +36,7 @@ public class FeedSourceService implements IFeedSourceService {
     private IFeedItemService feedItemService;
     private IFeedTabService feedTabService;
 
-    
+
     @Autowired
     public void setFeedSourceRepository(FeedSourceRepository feedSourceRepository) {
         this.feedSourceRepository = feedSourceRepository;
@@ -66,7 +66,6 @@ public class FeedSourceService implements IFeedSourceService {
         if (user.getFeedSources().contains(feedSource) != true) {
             user.getFeedSources().add(feedSource);
         }
-//        refresh(feedSource);
     }
 
     @Override

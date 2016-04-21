@@ -87,17 +87,16 @@ public class FeedItemService implements IFeedItemService {
     
     @Override
     public List<FeedItemEntity> save(List<RssChannelItem> rssItems, FeedSourceEntity feedSource) {
-        logger.debug("Save feed items form: " + feedSource.getUrl());
-        logger.debug("Source items count: " + rssItems.size());
+        logger.debug("Save feed items form: " + feedSource.getUrl() + " (itemsCount=" + rssItems.size() + ")");
         List<FeedItemEntity> feedItems = new ArrayList<>();        
         for (RssChannelItem rssItem : rssItems) {
             if (feedItemRepository.findByFeedSourceAndLink(feedSource, rssItem.getLink()) == null) {
                 FeedItemEntity feedItem = formFeedItem(rssItem, feedSource);
                 feedItems.add(feedItem);
             } else {
-                logger.debug("Feed item already saved (feedSource.id=" + feedSource.getId()
-                        + ", feedSource.url=" + feedSource.getUrl()
-                        + ", feedItem.link=" + rssItem.getLink() + ")");
+//                logger.debug("Feed item already saved (feedSource.id=" + feedSource.getId()
+//                        + ", feedSource.url=" + feedSource.getUrl()
+//                        + ", feedItem.link=" + rssItem.getLink() + ")");
             }
         }
         feedItems = feedItemRepository.save(feedItems);

@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedSourceService implements IFeedSourceService {    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
-    private RssService rssService;
+    private IRssService rssService;
     private IFeedItemService feedItemService;
     private IFeedTabService feedTabService;
 
@@ -43,7 +43,7 @@ public class FeedSourceService implements IFeedSourceService {
     }
 
     @Autowired
-    public void setRssService(RssService rssService) {
+    public void setRssService(IRssService rssService) {
         this.rssService = rssService;
     }
     

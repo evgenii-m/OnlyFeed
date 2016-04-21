@@ -18,6 +18,7 @@ function showFeedItemsByPage(pageIndex) {
         url: window.location + "/page/" + pageIndex,
         type: "get",
         success: function(response) {
+        	console.log(response);
 	        if (response != null) {
 	        	response.forEach(function(entry) {
         			appendFeedItem(entry);
@@ -31,11 +32,11 @@ function showFeedItemsByPage(pageIndex) {
 	        	console.log("Failed to get feed items page");
 	        }
 	        if ($(".feed-item-list").children(".item").length == 0) {
-	    		$("<span/>", {
-	    			class: "alert alert-warning",
-	    			role: "alert",
-	    			html: noFeedItemsMessage
-	    		}).appendTo($(".feed-container"));
+//	    		$("<span/>", {
+//	    			class: "alert alert-warning",
+//	    			role: "alert",
+//	    			html: noFeedItemsMessage
+//	    		}).appendTo($(".feed-container"));
 	    	}
         },
         error: function(error) {
@@ -373,13 +374,13 @@ function refreshFeed() {
 			if (response != true) {
 				var warning = $("<div/>", {
 					class: "alert alert-warning alert-dismissible",
-					role: "alert",
-					html: refreshErrorMessage
-				}).appendTo($(".feed-container"));
+					role: "alert"
+				});
 				warning.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
-						+ '<span aria-hidden="true">&times;</span></button>)');
+						+ '<span aria-hidden="true">&times;</span></button>');
+				warning.append(refreshErrorMessage);
+				$(".feed-item-list").before(warning);
 			}
-			$(".feed-item-list").empty();
 			showFeedItemsByPage(0);
 		},
 		error: function(error) {

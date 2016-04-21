@@ -76,7 +76,7 @@ public class FeedController {
 
     @RequestMapping(method = GET)
     public String showFeed(Model uiModel, Principal principal) {        
-        logger.debug("showFeedItems");
+        logger.debug("showFeed");
         UserEntity user = userService.findByEmail(principal.getName());
         setFeedSettings(uiModel, user);
         return "feed";
@@ -85,7 +85,7 @@ public class FeedController {
     
     @RequestMapping(value = "/{feedSourceId}", method = GET)
     public String showFeedFromSource(@PathVariable Long feedSourceId, Model uiModel, Principal principal) {
-        logger.debug("showFeedItemsFromSource");
+        logger.debug("showFeedFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
@@ -103,7 +103,7 @@ public class FeedController {
     @RequestMapping(value = "/page/{pageIndex}", method = GET)
     @ResponseBody
     public List<FeedItemEntity> getFeedPage(@PathVariable int pageIndex, Principal principal) {
-        logger.debug("getFeedItemsPage");
+        logger.debug("getFeedPage");
         UserEntity user = userService.findByEmail(principal.getName());
         List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
         return feedItems;
@@ -114,7 +114,7 @@ public class FeedController {
     @ResponseBody
     public List<FeedItemEntity> getFeedPageFromSource(@PathVariable Long feedSourceId, 
             @PathVariable int pageIndex, Principal principal) {
-        logger.debug("getFeedItemsPageFromSource");
+        logger.debug("getFeedPageFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource == null) || (!feedSource.getUser().equals(user))) {

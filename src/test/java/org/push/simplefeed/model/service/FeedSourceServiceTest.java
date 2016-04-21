@@ -63,7 +63,7 @@ public class FeedSourceServiceTest extends AbstractTestNGSpringContextTests {
 
     public void prepareEnvironment(String testDataFileName) throws Exception {
         feedSourceService = new FeedSourceService();
-        RssService rssService = mock(RssService.class);
+        IRssService rssService = mock(RssService.class);
         FileReader testDataFileReader = new FileReader(testDataFileName);
         Rss rss = (Rss) xmlConverter.xmlToObject(testDataFileReader);
         RssChannel rssChannel = rss.getChannel();

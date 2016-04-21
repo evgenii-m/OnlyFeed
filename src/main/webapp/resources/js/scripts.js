@@ -1,5 +1,5 @@
 function displayFeedItems() {
-	showMoreFeedItems(0);
+	refreshFeed();
 
     $(".feed-item-list").on("click", ".select-item-action", function() {
     	var feedItemId = $(this).parents(".item").attr("id").replace(/\D/g, '');
@@ -8,12 +8,12 @@ function displayFeedItems() {
     
     $(".show-more-button").click(function() {
         var pageIndex = Math.ceil($(".feed-item-list").children(".item").length / pageSize);
-    	showMoreFeedItems(pageIndex);
+    	showFeedItemsByPage(pageIndex);
     });
 }
 
 
-function showMoreFeedItems(pageIndex) {
+function showFeedItemsByPage(pageIndex) {
     $.ajax({
         url: window.location + "/page/" + pageIndex,
         type: "get",
@@ -175,7 +175,7 @@ function displayFeedTabList() {
         removeFeedTab(feedTab);
     });
 
-    $("#back-action").click(function() {
+    $("#back-to-tabs-action").click(function() {
     	$(".feed-item-details").hide();
     	$("#feed-details-actions").hide();
     	$(".feed-tab-list").show();
@@ -292,10 +292,13 @@ function moveFeedTab(tabOldIndex, tabNewIndex) {
 
 function setFeedToolPane() {
 	var navbarToolPane = $("ul.navbar-nav.tool-pane");
-	navbarToolPane.append('<li class="glyphicon glyphicon-refresh action-icon" aria-hidden="true"></li>');
+	navbarToolPane.append('<li id="refresh-action" class="glyphicon glyphicon-refresh action-icon" '
+			+ 'title=' + refreshIconTitle + ' aria-hidden="true"></li>');
+	
 	var dropdown = $('<li class="dropdown">').appendTo(navbarToolPane);
 	dropdown.append('<span class="dropdown-toggle glyphicon glyphicon-cog action-icon" role="button" ' 
-			+ 'data-toggle="dropdown" aria-hidden="true" aria-haspopup="true" aria-expanded="true"></span>');
+			+ 'title=' + settingsIconTitle + ' data-toggle="dropdown" aria-hidden="true" aria-haspopup="true" '
+			+ 'aria-expanded="true"></span>');
 	var settingsMenu = $('<ul id="settings-menu" class="dropdown-menu">').appendTo(dropdown);
 	settingsMenu.append('<li class="dropdown-header">' + viewLabel + '</li>');
 	settingsMenu.append('<li id="view-type-0" class="view-type-item">' + compactViewLabel + '</li>');
@@ -312,6 +315,10 @@ function setFeedToolPane() {
 	$("#view-type-" + feedViewType).addClass("selected");
 	$("#sorting-type-" + feedSortingType).addClass("selected");
 	$("#filter-type-" + feedFilterType).addClass("selected");
+	
+	$("#refresh-action").click(function() {
+		refreshFeed();
+	});
 	
 	$(".view-type-item").click(function() {
 		changeFeedViewType($(this).attr("id").replace(/\D/g, ''));
@@ -345,3 +352,35 @@ function changeFeedViewType(newFeedViewType) {
 	}
 }
 
+
+function refreshFeed() {
+	$(".feed-container .alert-warning").remove();
+	$(".show-more-button").hide();
+	$(".feed-item-list").empty();
+	$(".feed-container").append($("<div/>", { 
+		class: "loading-indicator",
+		text: "Loading..."
+	}));
+	$.ajax({
+		url: window.location + "/refresh",
+		type: "post",
+		success: function(response) {
+			$(".loading-indicator").remove();
+			if (response != true) {
+				var warning = $("<div/>", {
+					class: "alert alert-warning alert-dismissible",
+					role: "alert",
+					html: refreshErrorMessage
+				}).appendTo($(".feed-container"));
+				warning.append('<button type="button" class="close" data-dismiss="alert" aria-label="Close">'
+						+ '<span aria-hidden="true">&times;</span></button>)');
+			}
+			$(".feed-item-list").empty();
+			showFeedItemsByPage(0);
+		},
+		error: function(error) {
+			console.log("Server error");
+			console.log(error);			
+		}
+	});
+}

@@ -122,7 +122,7 @@ public class FeedController {
     
     @RequestMapping(value = "/page/{pageIndex}", method = GET)
     @ResponseBody
-    public List<FeedItemEntity> getFeedItemsPage(@PathVariable int pageIndex, Principal principal) {
+    public List<FeedItemEntity> getFeedPage(@PathVariable int pageIndex, Principal principal) {
         logger.debug("getFeedItemsPage");
         UserEntity user = userService.findByEmail(principal.getName());
         List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
@@ -132,7 +132,7 @@ public class FeedController {
     
     @RequestMapping(value = "/{feedSourceId}/page/{pageIndex}", method = GET)
     @ResponseBody
-    public List<FeedItemEntity> getFeedItemsPageFromSource(@PathVariable Long feedSourceId, 
+    public List<FeedItemEntity> getFeedPageFromSource(@PathVariable Long feedSourceId, 
             @PathVariable int pageIndex, Principal principal) {
         logger.debug("getFeedItemsPageFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
@@ -146,7 +146,22 @@ public class FeedController {
         return feedItems;
     }
     
-    
+
+    @RequestMapping(value = "/{feedSourceId}/refresh", method = POST)
+    @ResponseBody
+    public boolean refreshFeedFromSource(@PathVariable Long feedSourceId, Principal principal) {
+        logger.debug("refreshFeedFromSource");
+        UserEntity user = userService.findByEmail(principal.getName());
+        FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
+        if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
+            logger.error("Feed source (feedSource.id=" + feedSourceId 
+                    + ") not found for user (user.id=" + user.getId() + ")");
+            return false;
+        }
+        return feedSourceService.refresh(feedSource);
+    }
+
+
     @RequestMapping(value = "/item/{feedItemId}", method = GET)
     @ResponseBody
     public FeedItemEntity getFeedItem(@PathVariable Long feedItemId, Principal principal) {

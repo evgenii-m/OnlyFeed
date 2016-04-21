@@ -132,6 +132,17 @@ a.action-icon:focus,
 .show-more-button:hover {
     color: #26b3ff;
 }
+
+.loading-indicator {
+    background-image: url(../img/loading.gif);
+    width: 206px;
+    height: 130px;
+    margin: 0 auto;
+    color: #777;
+    font-size: 20px;
+    font-style: italic;
+    text-align: center;
+}
 /*************************************************************************************************/
 
 

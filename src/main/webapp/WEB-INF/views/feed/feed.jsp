@@ -3,21 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
-
+<spring:message var="openOriginalIconTitle" code="feed.openOriginalIconTitle"/>
+<spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 
 <div class="feed-container">
 	<div class="feed-list feed-item-list">
-        <c:if test="${not empty refreshErrorMessage}">
-            <div class="alert alert-warning alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                ${refreshErrorMessage}
-            </div>
-        </c:if>
-	</div>
+    </div>
     <button class="btn btn-default show-more-button" type="button" style="display: none;">
-        <spring:message code="feed.showMoreNewsButton"/>
+        ${showMoreNewsButton}
     </button>
 </div>
 
@@ -25,12 +18,12 @@
 	<div class="tool-pane">
         <div id="feed-details-actions" style="display: none;">
             <div class="float-left">
-			    <span id="back-action" class="glyphicon glyphicon-arrow-left action-icon"
+			    <span id="back-to-tabs-action" class="glyphicon glyphicon-arrow-left action-icon"
                         title="${backActionIconTitle}" aria-hidden="true"></span>
             </div>
             <div class="float-right">
                 <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
-                        aria-hidden="true" target="_blank"></a>
+                        aria-hidden="true" target="_blank" title="${openOriginalIconTitle}"></a>
 			    <span id="add-tab-action" class="glyphicon glyphicon-plus action-icon"
 			            aria-hidden="true"></span>
 		    </div>
@@ -64,9 +57,12 @@
     var feedTabUrl = "<spring:url value='/feed/tab/'/>";
     var feedTabMoveUrl = "<spring:url value='/feed/tab/move/'/>";
 
+    var refreshErrorMessage = "<spring:message code='feed.refreshErrorMessage'/>";
+    var noFeedItemsMessage = "<spring:message code='feed.noFeedItemsMessage'/>";
     var addTabActionIconTitle = "<spring:message code='feed.addTabActionIconTitle'/>";
     var removeTabActionIconTitle = "<spring:message code='feed.removeTabActionIconTitle'/>";
-    var noFeedItemsMessage = "<spring:message code='feed.noFeedItemsMessage'/>";
+    var refreshIconTitle = "<spring:message code='header.refreshIconTitle'/>";
+    var settingsIconTitle = "<spring:message code='header.settingsIconTitle'/>";
     var viewLabel = "<spring:message code='header.viewLabel'/>";
     var compactViewLabel = "<spring:message code='header.compactViewLabel'/>";
     var extendedViewLabel = "<spring:message code='header.extendedViewLabel'/>";

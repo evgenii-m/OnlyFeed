@@ -6,17 +6,6 @@
 <spring:message var="projectName" code="projectName"/>
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 <spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
-<spring:message var="viewLabel" code="header.viewLabel"/>
-<spring:message var="compactViewLabel" code="header.compactViewLabel"/>
-<spring:message var="extendedViewLabel" code="header.extendedViewLabel"/>
-<spring:message var="sortingLabel" code="header.sortingLabel"/>
-<spring:message var="newestSortingLabel" code="header.newestSortingLabel"/>
-<spring:message var="oldestSortingLabel" code="header.oldestSortingLabel"/>
-<spring:message var="filterLabel" code="header.filterLabel"/>
-<spring:message var="allFilterLabel" code="header.allFilterLabel"/>
-<spring:message var="unreadFilterLabel" code="header.unreadFilterLabel"/>
-<spring:message var="readFilterLabel" code="header.readFilterLabel"/>
-<spring:message var="latestDayFilterLabel" code="header.latestDayFilterLabel"/>
 
 <spring:url var="logoutUrl" value="/j_spring_security_logout"/>
 <spring:url var="feedUrl" value="/feed/"/>
@@ -37,26 +26,11 @@
                     </c:if>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="glyphicon glyphicon-refresh action-icon" aria-hidden="true"></li>
-                    <li class="dropdown">
-                        <span class="dropdown-toggle glyphicon glyphicon-cog action-icon" data-toggle="dropdown" 
-                                role="button" aria-hidden="true" aria-haspopup="true" aria-expanded="true"></span>
-                        <ul id="settings-menu" class="dropdown-menu">
-                            <li class="dropdown-header">${viewLabel}</li>
-                            <li id="view-type-0" class="view-type-item">${compactViewLabel}</li>
-                            <li id="view-type-1" class="view-type-item">${extendedViewLabel}</li>
-                            <li class="dropdown-header">${sortingLabel}</li>
-                            <li id="sorting-type-0" class="sorting-type-item">${newestSortingLabel}</li>
-                            <li id="sorting-type-1" class="sorting-type-item">${oldestSortingLabel}</li>
-                            <li class="dropdown-header">${filterLabel}</li>
-                            <li id="filter-type-0" class="sorting-type-item">${allFilterLabel}</li>
-                            <li id="filter-type-1" class="sorting-type-item">${unreadFilterLabel}</li>
-                            <li id="filter-type-2" class="sorting-type-item">${readFilterLabel}</li>
-                            <li id="filter-type-3" class="sorting-type-item">${latestDayFilterLabel}</li>
-                        </ul>
-                    </li>
                     <li><a href="#"><sec:authentication property="principal.username"/></a></li>
                     <li><a href="${logoutUrl}">${logoutLabel}</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right tool-pane">
+                    
                 </ul>
             </sec:authorize>
         </div> <!--/.nav-collapse -->

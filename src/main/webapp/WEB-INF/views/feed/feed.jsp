@@ -3,17 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
-<spring:message var="addTabActionIconTitle" code="feed.addTabActionIconTitle"/>
-<spring:message var="removeTabActionIconTitle" code="feed.removeTabActionIconTitle"/>
-<spring:message var="tabAddedActionIconTitle" code="feed.tabAddedActionIconTitle"/>
-<spring:message var="noFeedItemsMessage" code="feed.noFeedItemsMessage"/>
-<spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 
-<spring:url var="feedUrl" value="/feed/"/>
-<spring:url var="feedSettingsUrl" value="/feed/settings/"/>
-<spring:url var="feedItemUrl" value="/feed/item/"/>
-<spring:url var="feedTabUrl" value="/feed/tab/"/>
-<spring:url var="feedTabMoveUrl" value="/feed/tab/move/"/>
 
 <div class="feed-container">
 	<div class="feed-list feed-item-list">
@@ -26,7 +16,9 @@
             </div>
         </c:if>
 	</div>
-    <button class="btn btn-default show-more-button" type="button" style="display: none;">${showMoreNewsButton}</button>
+    <button class="btn btn-default show-more-button" type="button" style="display: none;">
+        <spring:message code="feed.showMoreNewsButton"/>
+    </button>
 </div>
 
 <div class="feed-tab-panel">
@@ -40,7 +32,7 @@
                 <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
                         aria-hidden="true" target="_blank"></a>
 			    <span id="add-tab-action" class="glyphicon glyphicon-plus action-icon"
-			            title="${addTabActionIconTitle}" aria-hidden="true"></span>
+			            aria-hidden="true"></span>
 		    </div>
         </div>
 	</div>
@@ -65,19 +57,30 @@
     var feedViewType = "${feedViewType}";
     var feedSortingType = "${feedSortingType}";
     var feedFilterType = "${feedFilterType}";
-    
-    var feedUrl = "${feedUrl}";
-    var feedSettingsUrl = "${feedSettingsUrl}";
-    var feedTabUrl = "${feedTabUrl}";
-    var feedItemUrl = "${feedItemUrl}";
-    var feedTabMoveUrl = "${feedTabMoveUrl}";
-    
-    var removeTabActionIconTitle = "${removeTabActionIconTitle}";
-    var addTabActionIconTitle = "${addTabActionIconTitle}";
-    var noFeedItemsMessage = "${noFeedItemsMessage}";
+
+    var feedUrl = "<spring:url value='/feed/'/>";
+    var feedSettingsUrl = "<spring:url value='/feed/settings/'/>";
+    var feedItemUrl = "<spring:url value='/feed/item/'/>";
+    var feedTabUrl = "<spring:url value='/feed/tab/'/>";
+    var feedTabMoveUrl = "<spring:url value='/feed/tab/move/'/>";
+
+    var addTabActionIconTitle = "<spring:message code='feed.addTabActionIconTitle'/>";
+    var removeTabActionIconTitle = "<spring:message code='feed.removeTabActionIconTitle'/>";
+    var noFeedItemsMessage = "<spring:message code='feed.noFeedItemsMessage'/>";
+    var viewLabel = "<spring:message code='header.viewLabel'/>";
+    var compactViewLabel = "<spring:message code='header.compactViewLabel'/>";
+    var extendedViewLabel = "<spring:message code='header.extendedViewLabel'/>";
+    var sortingLabel = "<spring:message code='header.sortingLabel'/>";
+    var newestSortingLabel = "<spring:message code='header.newestSortingLabel'/>";
+    var oldestSortingLabel = "<spring:message code='header.oldestSortingLabel'/>";
+    var filterLabel = "<spring:message code='header.filterLabel'/>";
+    var allFilterLabel = "<spring:message code='header.allFilterLabel'/>";
+    var unreadFilterLabel = "<spring:message code='header.unreadFilterLabel'/>";
+    var readFilterLabel = "<spring:message code='header.readFilterLabel'/>";
+    var latestDayFilterLabel = "<spring:message code='header.latestDayFilterLabel'/>";
     
     $(document).ready(function() {
-    	setFeedSettingsMenu();
+    	setFeedToolPane();
     	displayFeedItems();
         displayFeedTabList();
 	});

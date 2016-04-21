@@ -6,7 +6,7 @@
 <spring:message var="addTabActionIconTitle" code="feed.addTabActionIconTitle"/>
 <spring:message var="removeTabActionIconTitle" code="feed.removeTabActionIconTitle"/>
 <spring:message var="tabAddedActionIconTitle" code="feed.tabAddedActionIconTitle"/>
-<spring:message var="noFeedsMessage" code="feed.noFeedsMessage"/>
+<spring:message var="noFeedItemsMessage" code="feed.noFeedItemsMessage"/>
 <spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
@@ -26,7 +26,7 @@
             </div>
         </c:if>
 	</div>
-    <button class="btn btn-default show-more-button" type="button">${showMoreNewsButton}</button>
+    <button class="btn btn-default show-more-button" type="button" style="display: none;">${showMoreNewsButton}</button>
 </div>
 
 <div class="feed-tab-panel">
@@ -74,6 +74,7 @@
     
     var removeTabActionIconTitle = "${removeTabActionIconTitle}";
     var addTabActionIconTitle = "${addTabActionIconTitle}";
+    var noFeedItemsMessage = "${noFeedItemsMessage}";
     
     $(document).ready(function() {
     	setFeedSettingsMenu();

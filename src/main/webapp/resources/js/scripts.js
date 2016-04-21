@@ -1,5 +1,12 @@
 function displayFeedItems() {
 	showMoreFeedItems(0);
+	if ($(".feed-item-list").children(".item").length == 0) {
+		$("<span/>", {
+			class: "alert alert-warning",
+			role: "alert",
+			html: noFeedItemsMessage
+		}).appendTo($(".feed-container"));
+	}
 
     $(".feed-item-list").on("click", ".select-item-action", function() {
     	var feedItemId = $(this).parents(".item").attr("id").replace(/\D/g, '');
@@ -23,7 +30,9 @@ function showMoreFeedItems(pageIndex) {
         			appendFeedItem(entry);
 		        });
 	        	if (response.length < pageSize) {
-	        		$(".show-more-button").remove();
+	        		$(".show-more-button").hide();
+	        	} else {
+	        		$(".show-more-button").show();
 	        	}
 	        } else {
 	        	console.log("Failed to get feed items page");

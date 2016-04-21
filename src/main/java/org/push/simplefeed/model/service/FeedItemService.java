@@ -36,7 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class FeedItemService implements IFeedItemService {
     public static final int DEFAULT_PAGE_SIZE = 10;
     private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
-    private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*/>";
+    private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*>";
     
     private static Logger logger = LogManager.getLogger(FeedItemService.class);
     private FeedItemRepository feedItemRepository;

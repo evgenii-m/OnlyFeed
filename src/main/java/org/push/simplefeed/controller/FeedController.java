@@ -8,7 +8,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
@@ -25,7 +24,6 @@ import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.model.service.IFeedTabService;
 import org.push.simplefeed.model.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -130,7 +128,7 @@ public class FeedController {
     @RequestMapping(value = "/refresh", method = POST)
     @ResponseBody
     public boolean refreshFeed(Principal principal) {
-        logger.debug("refreshFeedFromSource");
+        logger.debug("refreshFeed");
         UserEntity user = userService.findByEmail(principal.getName());
         return feedSourceService.refresh(user.getFeedSources());
     }

@@ -2,16 +2,16 @@
 
 <suite name="default">
 
-    <test name="util">
-        <classes>
-            <class name="org.push.simplefeed.util.xml.XmlConverterTest"/>
-        </classes>
-    </test>
+<!--     <test name="util"> -->
+<!--         <classes> -->
+<!--             <class name="org.push.simplefeed.util.xml.XmlConverterTest"/> -->
+<!--         </classes> -->
+<!--     </test> -->
 
-    <test name="service">  
-        <classes>
-            <class name="org.push.simplefeed.model.service.FeedSourceServiceTest"/>
-        </classes>
-    </test>
+<!--     <test name="service">   -->
+<!--         <classes> -->
+<!--             <class name="org.push.simplefeed.model.service.FeedSourceServiceTest"/> -->
+<!--         </classes> -->
+<!--     </test> -->
 
 </suite>

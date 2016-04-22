@@ -10,7 +10,6 @@
     
     <import resource="classpath:spring/datasource-tx-jpa.xml"/>
     <import resource="classpath:spring/security-context.xml"/>
-    <import resource="classpath:spring/xml-converter-context.xml"/>
     
     <context:component-scan base-package="org.push.simplefeed"/>
     

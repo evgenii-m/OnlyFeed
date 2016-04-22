@@ -4,6 +4,7 @@
 package org.push.simplefeed.model.service;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,37 +15,47 @@ import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.repository.FeedSourceRepository;
 import org.push.simplefeed.model.service.IFeedSourceService;
-import org.push.simplefeed.util.xml.rsstypes.Image;
-import org.push.simplefeed.util.xml.rsstypes.RssChannel;
-import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.oxm.XmlMappingException;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rometools.fetcher.FeedFetcher;
+import com.rometools.fetcher.FetcherException;
+import com.rometools.fetcher.impl.FeedFetcherCache;
+import com.rometools.fetcher.impl.HashMapFeedInfoCache;
+import com.rometools.fetcher.impl.HttpURLFeedFetcher;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.feed.synd.SyndImage;
+import com.rometools.rome.io.FeedException;
 
 /**
  * @author push
- *
+ * 
+ * @warning com.rometools.fetcher.FeedFetcher is deprecated
+ * ROME Fetcher will be dropped in the next major version of ROME (version 2). For more information and some migration hints, 
+ * please have a look at our <a href="https://github.com/rometools/rome/issues/276">detailed explanation</a>
+ * 
  */
 @Service
 @Transactional
+@SuppressWarnings("deprecation")
 public class FeedSourceService implements IFeedSourceService {    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
-    private IRssService rssService;
     private IFeedItemService feedItemService;
     private IFeedTabService feedTabService;
+    private FeedFetcher feedFetcher;
 
 
+    public FeedSourceService() {
+        // TODO: replace on com.rometools.fetcher.impl.DiskFeedInfoCache (?) or establish periodic cache cleaning
+        FeedFetcherCache feedInfoCache = HashMapFeedInfoCache.getInstance();
+        feedFetcher = new HttpURLFeedFetcher(feedInfoCache);
+    }
+    
     @Autowired
     public void setFeedSourceRepository(FeedSourceRepository feedSourceRepository) {
         this.feedSourceRepository = feedSourceRepository;
-    }
-
-    @Autowired
-    public void setRssService(IRssService rssService) {
-        this.rssService = rssService;
     }
     
     @Autowired
@@ -122,17 +133,17 @@ public class FeedSourceService implements IFeedSourceService {
     @Override
     public boolean fillBlank(FeedSourceEntity feedSource) {
         try {
-            RssChannel rssChannel = rssService.getChannel(feedSource.getUrl());
-            feedSource.setName(rssChannel.getTitle());
-            Image rssChannelImage = rssChannel.getImage();
-            if ((rssChannelImage == null) || (rssChannelImage.getUrl() == null)) {
+            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSource.getUrl()));
+            feedSource.setName(syndFeed.getTitle());
+            SyndImage syndImage = syndFeed.getImage();
+            if ((syndImage == null) || (syndImage.getUrl() == null)) {
                 feedSource.setLogoUrl(FeedSourceEntity.DEFAULT_LOGO_URL);
             } else {
-                feedSource.setLogoUrl(rssChannelImage.getUrl());
+                feedSource.setLogoUrl(syndImage.getUrl());
             }
-            feedSource.setDescription(rssChannel.getDescription());
+            feedSource.setDescription(syndFeed.getDescription());
             return true;
-        } catch (XmlMappingException | IOException e) {
+        } catch (IOException | IllegalArgumentException | FeedException | FetcherException e) {
             logger.error("Exception when form Feed Source from RSS service! (url=" 
                     + feedSource.getUrl() + ")");
             // TODO: modify for printStackTrace to logger
@@ -144,7 +155,13 @@ public class FeedSourceService implements IFeedSourceService {
 
     @Override
     public boolean isSupported(String feedSourceUrl) {
-        return rssService.isRssSource(feedSourceUrl);
+        try {
+            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSourceUrl));
+            return true;
+        } catch (IllegalArgumentException | IOException | FeedException| FetcherException e) {
+            logger.error("Unsupported feed source (feedSourceUrl=" + feedSourceUrl + ")");
+            return false;
+        }
     }
 
     
@@ -153,10 +170,10 @@ public class FeedSourceService implements IFeedSourceService {
         logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" + feedSource.getName()
                 + ", url=" + feedSource.getUrl() + ")");
         try {
-            List<RssChannelItem> rssItemList = rssService.getItems(feedSource.getUrl());
-            feedItemService.save(rssItemList, feedSource);
+            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSource.getUrl()));
+            feedItemService.save(syndFeed.getEntries(), feedSource);
             return true;
-        } catch (XmlMappingException | IOException e) {
+        } catch (IOException | IllegalArgumentException | FeedException | FetcherException e) {
             logger.error("Exception when fetch Feed Items from RSS service! RSS source url " 
                     + "(id=" + feedSource.getId() + ", name=" + feedSource.getName() 
                     + ", url=" + feedSource.getUrl() + ")");

@@ -49,6 +49,16 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>3.2.5.RELEASE</version>
         </dependency>
+        <dependency>
+		    <groupId>com.rometools</groupId>
+		    <artifactId>rome</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.rometools</groupId>
+		    <artifactId>rome-fetcher</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
 	    <dependency>
 	        <groupId>jstl</groupId>
 	        <artifactId>jstl</artifactId>

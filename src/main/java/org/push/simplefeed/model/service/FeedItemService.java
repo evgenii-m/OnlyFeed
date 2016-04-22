@@ -3,12 +3,8 @@
  */
 package org.push.simplefeed.model.service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,13 +15,14 @@ import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.repository.FeedItemRepository;
-import org.push.simplefeed.util.xml.rsstypes.RssChannelItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.rometools.rome.feed.synd.SyndEntry;
 
 /**
  * @author push
@@ -35,7 +32,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class FeedItemService implements IFeedItemService {
     public static final int DEFAULT_PAGE_SIZE = 10;
-    private static final String RSS_DATE_PATTERN = "EEE, dd MMM yyyy HH:mm:ss Z";
     private static final String IMG_TAG_PATTERN = "<img .*src=\".+\\.(jpeg|jpg|bmp|gif|png)\".*>";
     
     private static Logger logger = LogManager.getLogger(FeedItemService.class);
@@ -49,28 +45,18 @@ public class FeedItemService implements IFeedItemService {
     
 
     
-    private FeedItemEntity formFeedItem(RssChannelItem rssItem, FeedSourceEntity feedSource) {
+    private FeedItemEntity formFeedItem(SyndEntry syndEntry, FeedSourceEntity feedSource) {
         FeedItemEntity feedItem = new FeedItemEntity();
-        feedItem.setTitle(rssItem.getTitle());
-        feedItem.setDescription(rssItem.getDescription());
-        feedItem.setLink(rssItem.getLink());
-        if (rssItem.getAuthor() != null) {
-            feedItem.setAuthor(rssItem.getAuthor());
+        feedItem.setTitle(syndEntry.getTitle());
+        feedItem.setDescription(syndEntry.getDescription().getValue());
+        feedItem.setLink(syndEntry.getLink());
+        if (syndEntry.getAuthor() != null) {
+            feedItem.setAuthor(syndEntry.getAuthor());
         }
-
-        Date rssPubDate;
-        try {
-            SimpleDateFormat rssDateFormat = new SimpleDateFormat(RSS_DATE_PATTERN, Locale.ENGLISH);
-            rssPubDate = rssDateFormat.parse(rssItem.getPubDate());
-        } catch (ParseException e) {
-            logger.error("RSS published date parse exception! (" + rssItem + ")");
-            e.printStackTrace();
-            rssPubDate = new Date();
-        }
-        feedItem.setPublishedDate(rssPubDate);
+        feedItem.setPublishedDate(syndEntry.getPublishedDate());
         
         Pattern pattern = Pattern.compile(IMG_TAG_PATTERN);
-        Matcher matcher = pattern.matcher(rssItem.getDescription());
+        Matcher matcher = pattern.matcher(syndEntry.getDescription().getValue());
         if (matcher.find()) {
             String imgTagStr = matcher.group();
             int imgUrlBeginIndex = imgTagStr.indexOf("src=\"") + 5;
@@ -86,12 +72,12 @@ public class FeedItemService implements IFeedItemService {
 
     
     @Override
-    public List<FeedItemEntity> save(List<RssChannelItem> rssItems, FeedSourceEntity feedSource) {
-        logger.debug("Save feed items form: " + feedSource.getUrl() + " (itemsCount=" + rssItems.size() + ")");
+    public List<FeedItemEntity> save(List<SyndEntry> syndEntries, FeedSourceEntity feedSource) {
+        logger.debug("Save feed items from: " + feedSource.getUrl() + " (entriesCount=" + syndEntries.size() + ")");
         List<FeedItemEntity> feedItems = new ArrayList<>();        
-        for (RssChannelItem rssItem : rssItems) {
-            if (feedItemRepository.findByFeedSourceAndLink(feedSource, rssItem.getLink()) == null) {
-                FeedItemEntity feedItem = formFeedItem(rssItem, feedSource);
+        for (SyndEntry syndEntry : syndEntries) {
+            if (feedItemRepository.findByFeedSourceAndLink(feedSource, syndEntry.getLink()) == null) {
+                FeedItemEntity feedItem = formFeedItem(syndEntry, feedSource);
                 feedItems.add(feedItem);
             } else {
 //                logger.debug("Feed item already saved (feedSource.id=" + feedSource.getId()

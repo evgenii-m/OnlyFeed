@@ -21,6 +21,9 @@
 <!--         <Logger name="org.push.simplefeed.model.service.FeedItemService" level="ERROR"> -->
 <!--             <AppenderRef ref="Console"/> -->
 <!--         </Logger>  -->
+        <Logger name="org.push.simplefeed.model.service.HttpFeedFetcherThread" level="ERROR">
+            <AppenderRef ref="Console"/>
+        </Logger>
     </Loggers>
 
 </Configuration>

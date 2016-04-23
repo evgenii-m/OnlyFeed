@@ -3,10 +3,9 @@
  */
 package org.push.simplefeed.model.service;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,14 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.rometools.fetcher.FeedFetcher;
-import com.rometools.fetcher.FetcherException;
-import com.rometools.fetcher.impl.FeedFetcherCache;
-import com.rometools.fetcher.impl.HashMapFeedInfoCache;
-import com.rometools.fetcher.impl.HttpURLFeedFetcher;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndImage;
-import com.rometools.rome.io.FeedException;
 
 /**
  * @author push
@@ -38,20 +31,13 @@ import com.rometools.rome.io.FeedException;
  */
 @Service
 @Transactional
-@SuppressWarnings("deprecation")
 public class FeedSourceService implements IFeedSourceService {    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
     private FeedSourceRepository feedSourceRepository;
     private IFeedItemService feedItemService;
     private IFeedTabService feedTabService;
-    private FeedFetcher feedFetcher;
+    private IFeedFetchService feedFetchService;
 
-
-    public FeedSourceService() {
-        // TODO: replace on com.rometools.fetcher.impl.DiskFeedInfoCache (?) or establish periodic cache cleaning
-        FeedFetcherCache feedInfoCache = HashMapFeedInfoCache.getInstance();
-        feedFetcher = new HttpURLFeedFetcher(feedInfoCache);
-    }
     
     @Autowired
     public void setFeedSourceRepository(FeedSourceRepository feedSourceRepository) {
@@ -66,6 +52,11 @@ public class FeedSourceService implements IFeedSourceService {
     @Autowired
     public void setFeedTabService(IFeedTabService feedTabService) {
         this.feedTabService = feedTabService;
+    }
+    
+    @Autowired
+    public void setFeedFetchService(IFeedFetchService feedFetchService) {
+        this.feedFetchService = feedFetchService;
     }
     
 
@@ -132,36 +123,33 @@ public class FeedSourceService implements IFeedSourceService {
     
     @Override
     public boolean fillBlank(FeedSourceEntity feedSource) {
-        try {
-            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSource.getUrl()));
-            feedSource.setName(syndFeed.getTitle());
-            SyndImage syndImage = syndFeed.getImage();
-            if ((syndImage == null) || (syndImage.getUrl() == null)) {
-                feedSource.setLogoUrl(FeedSourceEntity.DEFAULT_LOGO_URL);
-            } else {
-                feedSource.setLogoUrl(syndImage.getUrl());
-            }
-            feedSource.setDescription(syndFeed.getDescription());
-            return true;
-        } catch (IOException | IllegalArgumentException | FeedException | FetcherException e) {
-            logger.error("Exception when form Feed Source from RSS service! (url=" 
+        SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSource.getUrl());
+        if (syndFeed == null) {
+            logger.error("Exception when fetch feed from source (feedSource.url="
                     + feedSource.getUrl() + ")");
-            // TODO: modify for printStackTrace to logger
-            e.printStackTrace();
             return false;
         }
+
+        feedSource.setName(syndFeed.getTitle());
+        SyndImage syndImage = syndFeed.getImage();
+        if ((syndImage == null) || (syndImage.getUrl() == null)) {
+            feedSource.setLogoUrl(FeedSourceEntity.DEFAULT_LOGO_URL);
+        } else {
+            feedSource.setLogoUrl(syndImage.getUrl());
+        }
+        feedSource.setDescription(syndFeed.getDescription());
+        return true;
     }
     
 
     @Override
     public boolean isSupported(String feedSourceUrl) {
-        try {
-            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSourceUrl));
-            return true;
-        } catch (IllegalArgumentException | IOException | FeedException| FetcherException e) {
+        SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSourceUrl);
+        if (syndFeed == null) {
             logger.error("Unsupported feed source (feedSourceUrl=" + feedSourceUrl + ")");
             return false;
         }
+        return true;
     }
 
     
@@ -169,28 +157,39 @@ public class FeedSourceService implements IFeedSourceService {
     public boolean refresh(FeedSourceEntity feedSource) {
         logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" + feedSource.getName()
                 + ", url=" + feedSource.getUrl() + ")");
-        try {
-            SyndFeed syndFeed = feedFetcher.retrieveFeed(new URL(feedSource.getUrl()));
-            feedItemService.save(syndFeed.getEntries(), feedSource);
-            return true;
-        } catch (IOException | IllegalArgumentException | FeedException | FetcherException e) {
-            logger.error("Exception when fetch Feed Items from RSS service! RSS source url " 
-                    + "(id=" + feedSource.getId() + ", name=" + feedSource.getName() 
-                    + ", url=" + feedSource.getUrl() + ")");
-            // TODO: modify for printStackTrace to logger
-            e.printStackTrace();
+        SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSource.getUrl());
+        if (syndFeed == null) {
+            logger.error("Exception when fetch feed from source (feedSource.url="
+                    + feedSource.getUrl() + ")");
             return false;
         }
+        feedItemService.save(syndFeed.getEntries(), feedSource);
+        logger.debug("Refresh end");
+        return true;
     }
     
     
     @Override
     public boolean refresh(List<FeedSourceEntity> feedSources) {
-        for (FeedSourceEntity feedSource : feedSources) {
-            if (refresh(feedSource) != true)
-                return false;
+        logger.debug("Refresh all feed sources of user (user.id=" + feedSources.get(0).getUser().getId() + ")");
+        boolean refreshResult = true;
+        String[] sourcesUrl = new String[feedSources.size()];
+        for (int i = 0; i < feedSources.size(); ++i) {
+            sourcesUrl[i] = feedSources.get(i).getUrl();
         }
-        return true;
+        Map<String, SyndFeed> syndFeedsMap = feedFetchService.retrieveFeeds(sourcesUrl);
+        for (final FeedSourceEntity feedSource : feedSources) {
+            SyndFeed syndFeed = syndFeedsMap.get(feedSource.getUrl());
+            if (syndFeed != null) {
+                feedItemService.save(syndFeed.getEntries(), feedSource);
+            } else {
+                logger.error("Error occured when refresh source (feedSource.url=" + feedSource.getUrl() 
+                        + "), see HttpFeedFetcherThread log for details.");
+                refreshResult = false;                
+            }
+        }
+        logger.debug("Refresh end");
+        return refreshResult;
     }
 
 }

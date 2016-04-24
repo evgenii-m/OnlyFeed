@@ -1,9 +1,18 @@
 function displayFeedItems() {
 	refreshFeed();
-
-    $(".feed-item-list").on("click", ".select-item-action", function() {
-    	var feedItemId = $(this).parents(".item").attr("id").replace(/\D/g, '');
-    	displayFeedItemDetails(feedItemId);
+	
+	$(".feed-item-list").on("click", ".item", function() {
+		var feedItemId = $(this).attr("id").replace(/\D/g, '');
+		displayFeedItemDetails(feedItemId);
+	});
+	
+    $(".feed-item-list").on("mouseenter", ".item", function() {
+    	var itemTitle = $(this).children(".feed-content").children(".feed-info").children(".title");
+    	itemTitle.css("color", "#26B3FF");
+    });
+    $(".feed-item-list").on("mouseleave", ".item", function() {
+    	var itemTitle = $(this).children(".feed-content").children(".feed-info").children(".title");
+    	itemTitle.css("color", "#3D3D3D");
     });
     
     $(".show-more-button").click(function() {
@@ -18,7 +27,6 @@ function showFeedItemsByPage(pageIndex) {
         url: window.location + "/page/" + pageIndex,
         type: "get",
         success: function(response) {
-        	console.log(response);
 	        if (response != null) {
 	        	response.forEach(function(entry) {
         			appendFeedItem(entry);
@@ -69,7 +77,6 @@ function appendFeedItem(feedItem) {
 					class: "title"
 				}).appendTo(feedInfo);
 					$("<span/>", {
-						class: "select-item-action",
 						text: feedItem.title
 					}).appendTo(title);
 				$("<div/>", {

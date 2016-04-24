@@ -448,6 +448,18 @@ li.sortable-placeholder {
 	margin: 0px;
 }
 
+.feed-item-list .item {
+    cursor: pointer;
+}
+
+.feed-item-list .item:hover {
+    border-color: #26B3FF;
+    background-color: #ebf4f2;
+    border: 1px solid #26B3FF;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
+}
+
 .feed-item-list.compact .item .feed-logo {
     display: none;
 }
@@ -475,14 +487,6 @@ li.sortable-placeholder {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.feed-item-list .item .title span {
-    cursor: pointer;
-}
-
-.feed-item-list .item .title span:hover {
-    color: #26b3ff;
 }
 
 .feed-item-list .item .summary {

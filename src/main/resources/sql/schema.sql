@@ -6,14 +6,22 @@ DROP TABLE IF EXISTS feed_sources;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS persistent_logins;
 
+CREATE TABLE persistent_logins (
+    username VARCHAR(64) NOT NULL,
+    series VARCHAR(64) NOT NULL,
+    token VARCHAR(64) NOT NULL,
+    last_used TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (series)
+);
 
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    password VARCHAR(60) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    picture_url VARCHAR(1024) NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    email VARCHAR(64) NOT NULL UNIQUE,
+    picture_url VARCHAR(512) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT 1,
     feed_view_type TINYINT NOT NULL DEFAULT 0,
     feed_sorting_type TINYINT NOT NULL DEFAULT 0,

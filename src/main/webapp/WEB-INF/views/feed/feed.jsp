@@ -1,10 +1,19 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
 <spring:message var="openOriginalIconTitle" code="feed.openOriginalIconTitle"/>
 <spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
+
+<sec:authorize access="isRememberMe()">
+    <h2># This user is login by "Remember Me Cookies".</h2>
+</sec:authorize>
+
+<sec:authorize access="isFullyAuthenticated()">
+    <h2># This user is login by username / password.</h2>
+</sec:authorize>
 
 <div class="feed-container">
 	<div class="feed-list feed-item-list">

@@ -14,8 +14,14 @@
         <intercept-url pattern="/feed/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/source/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
-        <form-login login-page="/" default-target-url="/feed" authentication-failure-url="/loginfail"/>
-        <logout logout-success-url="/"/>
+        <form-login login-page="/" 
+                default-target-url="/feed" 
+                authentication-failure-url="/loginfail"/>
+        <logout logout-success-url="/" 
+                delete-cookies="JSESSIONID"/>
+        <remember-me data-source-ref="dataSource"  
+		        remember-me-parameter="remember-me-param"
+                token-validity-seconds="604800"/>
     </http>
 
     <authentication-manager>

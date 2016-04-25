@@ -39,12 +39,12 @@ public class UserEntity {
     private String name;
     
     @Column(name = "password")
-    @Size(min = 6, max = 60, message = "{validation.lengthRange}")
+    @Size(min = 6, max = 64, message = "{validation.lengthRange}")
     @NotNull
     private String password;
     
     @Column(name = "email")
-    @Size(min = 3, max = 100, message = "{validation.lengthRange}")
+    @Size(min = 3, max = 64, message = "{validation.lengthRange}")
     @Email(message = "{validation.email}")
     @NotNull
     private String email;

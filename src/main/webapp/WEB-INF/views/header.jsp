@@ -12,7 +12,7 @@
 <spring:url var="userSettingsUrl" value="/user/settings/"/>
 <spring:url var="logoutUrl" value="/j_spring_security_logout"/>
 
-<nav class="navbar navbar-default   navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <a class="navbar-brand" href="${feedUrl}">${projectName}</a>
@@ -26,12 +26,13 @@
                         <li id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
                     </c:if>
                 </ul>
+                
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="${userSettingsUrl}"><sec:authentication property="principal.username"/></a></li>
                     <li><a href="${logoutUrl}">${logoutLabel}</a></li>
                 </ul>
+                
                 <ul class="nav navbar-nav navbar-right tool-pane">
-                    
                 </ul>
             </sec:authorize>
         </div> <!--/.nav-collapse -->

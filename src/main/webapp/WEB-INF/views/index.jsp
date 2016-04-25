@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" session="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -30,9 +30,9 @@
 	    </c:if>
 	    <input type="text" name="j_username" class="form-control" placeholder="${emailPlaceholder}" required autofocus>
 	    <input type="password" name="j_password" class="form-control" placeholder="${passwordPlaceholder}" required>
-	    <div class="checkbox">
-            <label><input type="checkbox" value="remember-me"> ${remembermeCheckbox}</label>
-	    </div>
+        <div class="checkbox">
+             <label><input type="checkbox" value="remember-me" name="remember-me-param"> ${remembermeCheckbox}</label>
+ 	    </div>
 	    <button type="submit" name="submit" class="btn btn-primary btn-block">${loginButton}</button>
         <span>${noAccountLabel} <a href="${registerUrl}">${registerLink}</a></span>
     </form>

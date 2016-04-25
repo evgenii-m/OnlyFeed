@@ -73,17 +73,17 @@
                 email: {
                     required: true,
                     email: true,
-                    maxlength: 100
+                    maxlength: 64
                 },
                 password: {
                     required: true,
                     minlength: 6,
-                    maxlength: 50
+                    maxlength: 64
                 },
                 confirmPassword: {
                     required: true,
                     minlength: 6,
-                    maxlength: 50,
+                    maxlength: 64,
                     equalTo: "#password"
                 }
             }

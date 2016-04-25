@@ -58,6 +58,9 @@
 			<param-value>classpath:spring/mvc-dispatcher-servlet-context.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+            <max-file-size>5000000</max-file-size>
+		</multipart-config>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>mvc-dispatcher</servlet-name>

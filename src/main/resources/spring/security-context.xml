@@ -13,12 +13,14 @@
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/feed/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/source/**" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
         <form-login login-page="/" default-target-url="/feed" authentication-failure-url="/loginfail"/>
         <logout logout-success-url="/"/>
     </http>
 
     <authentication-manager>
         <authentication-provider user-service-ref="customUserDetailService">
+            <password-encoder hash="bcrypt"/>
         </authentication-provider>
     </authentication-manager>
 

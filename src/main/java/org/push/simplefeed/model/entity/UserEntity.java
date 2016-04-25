@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 import org.apache.commons.collections4.list.TreeList;
 import org.hibernate.validator.constraints.*;
 import org.push.simplefeed.model.entity.types.*;
+import org.springframework.beans.factory.annotation.Value;
 
 
 /**
@@ -25,7 +26,7 @@ import org.push.simplefeed.model.entity.types.*;
 @Entity
 @Table(name = "users")
 public class UserEntity {
-    public static final String DEFAULT_PICTURE_URL = "http://localhost:8080/SimpleFeed/resources/img/no_picture.jpg";
+    public static final String DEFAULT_PICTURE_NAME = "no_picture_3.jpg";
         
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -38,7 +39,7 @@ public class UserEntity {
     private String name;
     
     @Column(name = "password")
-    @Size(min = 6, max = 50, message = "{validation.lengthRange}")
+    @Size(min = 6, max = 60, message = "{validation.lengthRange}")
     @NotNull
     private String password;
     
@@ -120,9 +121,6 @@ public class UserEntity {
     
     
     public String getPictureUrl() {
-        if (pictureUrl == null) {
-            pictureUrl = DEFAULT_PICTURE_URL;
-        }
         return pictureUrl;
     }
     

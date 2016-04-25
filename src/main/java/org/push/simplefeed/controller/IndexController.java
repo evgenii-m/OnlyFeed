@@ -6,6 +6,7 @@ package org.push.simplefeed.controller;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.security.Principal;
 import java.util.Locale;
 
 import javax.validation.Valid;
@@ -14,13 +15,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.service.IUserService;
+import org.push.simplefeed.util.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 /**
@@ -33,6 +39,9 @@ public class IndexController {
     private static Logger logger = LogManager.getLogger(IndexController.class);
     private MessageSource messageSource;
     private IUserService userService;
+    private FileUploader fileUploader;
+    @Value("${resources.img.baseUrl}")
+    private String resourcesImgBaseUrl;
 
     
     @Autowired
@@ -45,9 +54,19 @@ public class IndexController {
         this.userService = userService;
     }
     
+    @Autowired
+    public void setFileUploader(FileUploader fileUploader) {
+        this.fileUploader = fileUploader;
+    }
+    
     
     @RequestMapping(method = GET)
-    public String index() {
+    public String index(Principal principal) {
+        logger.debug("index");
+        if (principal != null) {
+            logger.debug("User is logged - redirect to feed page");
+            return "redirect:/feed";
+        }
         return "index";
     }
     
@@ -64,6 +83,7 @@ public class IndexController {
     @RequestMapping(value = "/register", method = GET)
     public String showRegisterForm(Model uiModel) {
         UserEntity user = new UserEntity();
+        user.setPictureUrl(resourcesImgBaseUrl + UserEntity.DEFAULT_PICTURE_NAME);
         uiModel.addAttribute("user", user);
         return "register";
     }
@@ -71,7 +91,9 @@ public class IndexController {
 
     @RequestMapping(value = "/register", method = POST)
     public String register(@ModelAttribute("user") @Valid UserEntity user, BindingResult bindingResult, 
-            Model uiModel, Locale locale) {
+            Model uiModel, @RequestParam(value = "picture", required=false) MultipartFile picture,
+            Locale locale, RedirectAttributes redirectAttributes) {
+        logger.debug("register");
         if (userService.findByEmail(user.getEmail()) != null) {
             bindingResult.rejectValue("email", "validation.emailAlreadyUsed");
         }        
@@ -80,12 +102,24 @@ public class IndexController {
                     + bindingResult.toString());
             return "register";
         }
-
+        
+        if ((picture != null) && !picture.isEmpty()) {
+            if (!fileUploader.validateImage(picture)) {
+                logger.debug("Invalid image");
+                bindingResult.rejectValue("pictureUrl", "validation.invalidImage");
+                return "register";
+            }
+            String pictureUrl = fileUploader.uploadJpeg(picture);
+            if (pictureUrl != null) {
+                user.setPictureUrl(pictureUrl);
+            }
+        }
+        
         userService.save(user);
-        logger.debug("Added user (" + user + ")");
-        uiModel.addAttribute("registerSuccessMessage", messageSource.getMessage("index.registerSuccessMessage", 
-                new Object[]{}, locale));
-        return "index";
+        logger.debug("Registered user (" + user + ")");
+        redirectAttributes.addFlashAttribute("registerSuccessMessage", messageSource.getMessage(
+                "index.registerSuccessMessage", new Object[]{}, locale));
+        return "redirect:/";
     }
     
     

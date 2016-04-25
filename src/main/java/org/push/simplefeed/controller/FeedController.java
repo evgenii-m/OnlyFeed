@@ -130,6 +130,10 @@ public class FeedController {
     public boolean refreshFeed(Principal principal) {
         logger.debug("refreshFeed");
         UserEntity user = userService.findByEmail(principal.getName());
+        if (user.getFeedSources().isEmpty()) {
+            logger.debug("User doesn't have feed sources, nothing refresh (user.id=" + user.getId() + ")");
+            return true;
+        }
         return feedSourceService.refresh(user.getFeedSources());
     }
     

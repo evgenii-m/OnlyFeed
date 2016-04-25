@@ -18,14 +18,11 @@
     <definition name="register" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
     </definition>
-    
+
     <definition name="feed" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
     </definition>
-    
-    <definition name="feed/tab" template="/WEB-INF/views/feed/tab.jsp">
-    </definition>
-    
+
     <definition name="source/list" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/source/list.jsp"/>
     </definition>
@@ -34,4 +31,8 @@
        <put-attribute name="body" value="/WEB-INF/views/source/edit.jsp"/>
     </definition>
     
+    <definition name="user/settings" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/user/settings.jsp"/>
+    </definition>
+
 </tiles-definitions>

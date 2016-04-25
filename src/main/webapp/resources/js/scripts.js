@@ -27,7 +27,7 @@ function showFeedItemsByPage(pageIndex) {
         url: window.location + "/page/" + pageIndex,
         type: "get",
         success: function(response) {
-	        if (response != null) {
+	        if (response != "") {
 	        	response.forEach(function(entry) {
         			appendFeedItem(entry);
 		        });
@@ -37,15 +37,12 @@ function showFeedItemsByPage(pageIndex) {
 	        		$(".show-more-button").show();
 	        	}
 	        } else {
-	        	console.log("Failed to get feed items page");
+	    		$("<span/>", {
+	    			class: "alert alert-warning",
+	    			role: "alert",
+	    			html: noFeedItemsMessage
+	    		}).appendTo($(".feed-container"));
 	        }
-	        if ($(".feed-item-list").children(".item").length == 0) {
-//	    		$("<span/>", {
-//	    			class: "alert alert-warning",
-//	    			role: "alert",
-//	    			html: noFeedItemsMessage
-//	    		}).appendTo($(".feed-container"));
-	    	}
         },
         error: function(error) {
             console.log("Server error");
@@ -53,6 +50,7 @@ function showFeedItemsByPage(pageIndex) {
         }
     });
 }
+
 
 
 function appendFeedItem(feedItem) {
@@ -95,6 +93,7 @@ function appendFeedItem(feedItem) {
 					text: "\u00A0|\u00A0" + feedItem.publishedDateString
 				}).appendTo(pubInfo);
 }
+
 
 
 function displayFeedItemDetails(feedItemId) {
@@ -140,15 +139,24 @@ function displayFeedItemDetails(feedItemId) {
 
 
 
+
+
 function displayFeedTabList() {
     $.ajax({
 	    url: feedTabUrl,
 	    type: "get",
 	    success: function(response) {
-	        response.forEach(function(entry) {
-	        	appendFeedTabToList(entry);
-	        });
-	        
+	        if (response != "") {
+		        response.forEach(function(entry) {
+		        	appendFeedTabToList(entry);
+		        });   
+	        } else {
+//	    		$("<span/>", {
+//	    			class: "alert alert-warning",
+//	    			role: "alert",
+//	    			html: noFeedTabsMessage
+//	    		}).appendTo($(".feed-tab-panel"));
+	        }
 	        $("ul.sortable").sortable({
 	            forcePlaceholderSize: true
 	        }).bind("sortupdate", function(e, ui) {
@@ -229,6 +237,7 @@ function appendFeedTabToList(feedItem) {
 	    	title: removeTabActionIconTitle
 	    }).appendTo(feedTab);
 }
+
 
 
 function addFeedTab(feedItemId) {
@@ -395,4 +404,28 @@ function refreshFeed() {
 			console.log(error);			
 		}
 	});
+}
+
+
+
+function handleFileSelect(event) {
+    var file = event.target.files[0];
+    // Only process image files
+    if (!file.type.match('image.*')) {
+    	console.log("Selected file not image");
+    	return;
+    }
+
+    // Closure to capture the file information
+    var reader = new FileReader();
+    reader.onload = (function(theFile) {
+    	return function(e) {
+    		// Render picture
+    		$(".picture-thumbnail").attr("src", e.target.result);
+    		$(".picture-thumbnail").attr("title", escape(theFile.name));
+    	};
+    })(file);
+
+    // Read in the image file as a data URL.
+    reader.readAsDataURL(file);
 }

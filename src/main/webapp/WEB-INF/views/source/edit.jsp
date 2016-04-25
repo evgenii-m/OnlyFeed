@@ -3,15 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<spring:message var="addFormTitle" code="edit.addFormTitle"/>
-<spring:message var="editFormTitle" code="edit.editFormTitle"/>
-<spring:message var="nameLabel" code="edit.nameLabel"/>
-<spring:message var="urlLabel" code="edit.urlLabel"/>
-<spring:message var="logoLabel" code="edit.logoLabel"/>
-<spring:message var="descriptionLabel" code="edit.descriptionLabel"/>
-<spring:message var="cancelButton" code="edit.cancelButton"/>
-<spring:message var="saveButton" code="edit.saveButton"/>
-<spring:message var="feedSourceNotFoundAlert" code="edit.feedSourceNotFoundAlert"/>
+<spring:message var="addFormTitle" code="source.edit.addFormTitle"/>
+<spring:message var="editFormTitle" code="source.edit.editFormTitle"/>
+<spring:message var="nameLabel" code="source.edit.nameLabel"/>
+<spring:message var="urlLabel" code="source.edit.urlLabel"/>
+<spring:message var="logoLabel" code="source.edit.logoLabel"/>
+<spring:message var="descriptionLabel" code="source.edit.descriptionLabel"/>
+<spring:message var="cancelButton" code="source.edit.cancelButton"/>
+<spring:message var="saveButton" code="source.edit.saveButton"/>
+<spring:message var="feedSourceNotFoundAlert" code="source.edit.feedSourceNotFoundAlert"/>
 
 <spring:url var="listFeedSourceUrl" value="/source"/>
 
@@ -24,8 +24,8 @@
 	<form:form modelAttribute="feedSource" method="post" class="form-container" id="edit-feed-source-form">
 	    <div class="form-title">${formTitle}</div>
 	    <div class="form-row">
-               <form:label path="name" class="required-field-label">${nameLabel}</form:label>
-               <form:input path="name" class="form-control"/>
+            <form:label path="name" class="required-field-label">${nameLabel}</form:label>
+            <form:input path="name" class="form-control"/>
 	        <form:errors path="name" class="alert alert-danger error" element="div"/>
 	    </div>
 	    <div class="form-row">

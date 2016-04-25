@@ -15,6 +15,8 @@
     
     <mvc:resources mapping="/resources/**" location="/resources/"/>
     
+    <context:property-placeholder location="classpath:properties/app.properties"/>
+    
     <mvc:default-servlet-handler/>
     
     <context:component-scan base-package="org.push.simplefeed.controller"/>
@@ -39,10 +41,6 @@
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver"
         p:cookieName="locale" p:defaultLocale="en_US"/>
         
-<!--     <bean id="jacksonMessageChanger" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" -->
-<!-- 	    p:supportedMediaTypes="application/json"/> -->
-
-<!--     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" -->
-<!-- 	    p:messageConverters="jacksonMessageChanger"/> -->
-
+	<bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+	
 </beans>

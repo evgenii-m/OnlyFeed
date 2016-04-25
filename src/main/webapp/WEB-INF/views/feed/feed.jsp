@@ -59,6 +59,7 @@
 
     var refreshErrorMessage = "<spring:message code='feed.refreshErrorMessage'/>";
     var noFeedItemsMessage = "<spring:message code='feed.noFeedItemsMessage'/>";
+    var noFeedTabsMessage = "<spring:message code='feed.noFeedTabsMessage'/>";
     var addTabActionIconTitle = "<spring:message code='feed.addTabActionIconTitle'/>";
     var removeTabActionIconTitle = "<spring:message code='feed.removeTabActionIconTitle'/>";
     var refreshIconTitle = "<spring:message code='header.refreshIconTitle'/>";

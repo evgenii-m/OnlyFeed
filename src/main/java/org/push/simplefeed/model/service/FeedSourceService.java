@@ -170,8 +170,8 @@ public class FeedSourceService implements IFeedSourceService {
     
     
     @Override
-    public boolean refresh(List<FeedSourceEntity> feedSources) {
-        logger.debug("Refresh all feed sources of user (user.id=" + feedSources.get(0).getUser().getId() + ")");
+    public boolean refresh(List<FeedSourceEntity> feedSources) {        
+        logger.debug("Refresh feed sources list");
         boolean refreshResult = true;
         String[] sourcesUrl = new String[feedSources.size()];
         for (int i = 0; i < feedSources.size(); ++i) {

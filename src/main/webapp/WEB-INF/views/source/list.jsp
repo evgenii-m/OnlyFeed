@@ -3,11 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<spring:message var="newFeedSourcePlaceholder" code="list.newFeedSourcePlaceholder"/>
-<spring:message var="newFeedSourceButton" code="list.newFeedSourceButton"/>
-<spring:message var="editLink" code="list.editLink"/>
-<spring:message var="deleteLink" code="list.deleteLink"/>
-<spring:message var="noFeedSourcesMessage" code="list.noFeedSourcesMessage"/>
+<spring:message var="newFeedSourcePlaceholder" code="source.list.newFeedSourcePlaceholder"/>
+<spring:message var="newFeedSourceButton" code="source.list.newFeedSourceButton"/>
+<spring:message var="editLink" code="source.list.editLink"/>
+<spring:message var="deleteLink" code="source.list.deleteLink"/>
+<spring:message var="noFeedSourcesMessage" code="source.list.noFeedSourcesMessage"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
 <spring:url var="sourceEditUrl" value="/source/edit/"/>

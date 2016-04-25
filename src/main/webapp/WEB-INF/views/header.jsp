@@ -7,9 +7,10 @@
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 <spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
 
-<spring:url var="logoutUrl" value="/j_spring_security_logout"/>
 <spring:url var="feedUrl" value="/feed/"/>
 <spring:url var="sourceUrl" value="/source/"/>
+<spring:url var="userSettingsUrl" value="/user/settings/"/>
+<spring:url var="logoutUrl" value="/j_spring_security_logout"/>
 
 <nav class="navbar navbar-default   navbar-fixed-top">
     <div class="container">
@@ -26,7 +27,7 @@
                     </c:if>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><sec:authentication property="principal.username"/></a></li>
+                    <li><a href="${userSettingsUrl}"><sec:authentication property="principal.username"/></a></li>
                     <li><a href="${logoutUrl}">${logoutLabel}</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right tool-pane">

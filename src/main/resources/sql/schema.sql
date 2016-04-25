@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(100) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(60) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     picture_url VARCHAR(1024) NOT NULL,
     enabled BOOLEAN NOT NULL DEFAULT 1,
@@ -26,6 +26,8 @@ CREATE TABLE roles (
     role VARCHAR(20) NOT NULL,
     PRIMARY KEY (id)
 );
+INSERT INTO roles (role) values ("ROLE_ADMIN"); 
+INSERT INTO roles (role) values ("ROLE_USER"); 
 
 CREATE TABLE user_roles (
     user_id INT NOT NULL,

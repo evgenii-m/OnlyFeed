@@ -16,7 +16,6 @@ import javax.validation.constraints.*;
 import org.apache.commons.collections4.list.TreeList;
 import org.hibernate.validator.constraints.*;
 import org.push.simplefeed.model.entity.types.*;
-import org.springframework.beans.factory.annotation.Value;
 
 
 /**

@@ -9,18 +9,20 @@
 
     <global-method-security pre-post-annotations="enabled"/>
 
-    <http use-expressions="true">
+    <http auto-config="true" use-expressions="true">
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/feed/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/source/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
         <form-login login-page="/" 
                 default-target-url="/feed" 
-                authentication-failure-url="/loginfail"/>
+                authentication-failure-url="/loginfail"
+                login-processing-url="/j_spring_security_check"
+                authentication-success-handler-ref="savedRequestAwareAuthenticationSuccessHandler"/>
         <logout logout-success-url="/" 
                 delete-cookies="JSESSIONID"/>
         <remember-me data-source-ref="dataSource"  
-		        remember-me-parameter="remember-me-param"
+		        remember-me-parameter="remember-me"
                 token-validity-seconds="604800"/>
     </http>
 

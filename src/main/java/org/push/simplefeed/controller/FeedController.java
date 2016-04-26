@@ -76,6 +76,7 @@ public class FeedController {
     public String showFeed(Model uiModel, Principal principal) {        
         logger.debug("showFeed");
         UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
         setFeedSettings(uiModel, user);
         return "feed";
     }
@@ -85,6 +86,7 @@ public class FeedController {
     public String showFeedFromSource(@PathVariable Long feedSourceId, Model uiModel, Principal principal) {
         logger.debug("showFeedFromSource");
         UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
             logger.error("Feed source (feedSource.id=" + feedSourceId 

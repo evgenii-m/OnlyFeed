@@ -177,12 +177,52 @@ li.sortable-placeholder {
 	color: #777;
 }
 
+.user-panel {
+    position: relative;
+    display: block;
+    color: #777;
+    font-weight: bold;
+    margin-left: 15px;
+    padding-right: 15px;
+}
+
+.user-panel span {
+    position: relative;
+    display: inline-block;
+    padding: 15px;
+}
+
+.user-panel .user-picture {
+    float: right;
+    margin: 6px 0px;
+    width: 36px;
+    height: 36px;
+    opacity: 1;
+    overflow: hidden;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #AAA;
+    border-radius: 18px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+
+.user-panel .user-picture img {
+    width: 36px;
+    position: relative;
+    left: 50%;
+    margin-left: -50%;
+    top: 50%;
+    margin-top: -50%;
+}
+
 .navbar-default .navbar-nav > li:hover, 
 .navbar-default .navbar-nav > li:focus,
 .navbar-default .navbar-nav > li > a:hover, 
 .navbar-default .navbar-nav > li > a:focus, 
 .navbar-default .navbar-nav > li > span:hover, 
 .navbar-default .navbar-nav > li > span:focus, 
+.navbar-default .navbar-nav > li > div:hover, 
+.navbar-default .navbar-nav > li > div:focus, 
 .navbar-default .navbar-brand:hover, 
 .navbar-default .navbar-brand:focus {
     color: #26b3ff;
@@ -191,7 +231,10 @@ li.sortable-placeholder {
 
 .navbar-default .navbar-nav > .open > span, 
 .navbar-default .navbar-nav > .open > span:focus, 
-.navbar-default .navbar-nav > .open > span:hover {
+.navbar-default .navbar-nav > .open > span:hover,
+.navbar-default .navbar-nav > .open > div, 
+.navbar-default .navbar-nav > .open > div:focus, 
+.navbar-default .navbar-nav > .open > div:hover {
     color: #26b3ff;
     background-color: #EBEBEB;
 }
@@ -201,6 +244,9 @@ li.sortable-placeholder {
     border: 1px solid #C4C4C4;
     min-width: 200px;
 }
+.navbar-nav > li > .dropdown-menu.user-panel-menu {
+    min-width: 170px;
+}
 
 .navbar-nav > li > .dropdown-menu li {
     padding: 2px 25px;
@@ -208,6 +254,11 @@ li.sortable-placeholder {
     font-size: 14px;
     line-height: 1.25;
     cursor: pointer;
+}
+
+.navbar-nav > li > .dropdown-menu.user-panel-menu li {
+    padding: 2px 15px;
+    line-height: 1.5;
 }
 
 .navbar-nav > li > .dropdown-menu li:focus,
@@ -253,6 +304,7 @@ li.sortable-placeholder {
 	cursor: default;
     color: #3D3D3D;
 }
+
 /*************************************************************************************************/
 
 

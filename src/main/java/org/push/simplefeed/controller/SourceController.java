@@ -67,6 +67,7 @@ public class SourceController {
     public String showSources(Model uiModel, Principal principal) {
         logger.debug("showSources");
         UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
         uiModel.addAttribute("feedSources", user.getFeedSources());
         if (!uiModel.containsAttribute("newFeedSource")) {
             uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
@@ -97,8 +98,10 @@ public class SourceController {
 
 
     @RequestMapping(value = "/add", method = GET)
-    public String showAddFeedSourceForm(Model uiModel) {
+    public String showAddFeedSourceForm(Model uiModel, Principal principal) {
         logger.debug("showAddFeedSourceForm");
+        UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
         if (!uiModel.containsAttribute("feedSource")) {
             FeedSourceEntity feedSource = feedSourceService.getBlank();
             uiModel.addAttribute("feedSource", feedSource);
@@ -112,6 +115,7 @@ public class SourceController {
     public String showEditFeedSourceForm(@PathVariable("id") Long id, Model uiModel, Principal principal) {
         logger.debug("showEditFeedSourceForm (id=" + id + ")");
         UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
         FeedSourceEntity feedSource = feedSourceService.findById(id);
         if ((feedSource != null) && (feedSource.getUser().equals(user))) {
             uiModel.addAttribute("feedSource", feedSource);

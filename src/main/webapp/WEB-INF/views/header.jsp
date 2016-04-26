@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <spring:message var="projectName" code="projectName"/>
+<spring:message var="profileSettingsLabel" code="header.profileSettingsLabel"/>
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 <spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
 
@@ -28,8 +29,17 @@
                 </ul>
                 
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="${userSettingsUrl}"><sec:authentication property="principal.username"/></a></li>
-                    <li><a href="${logoutUrl}">${logoutLabel}</a></li>
+                    <li class="dropdown">
+                        <div class="dropdown-toggle user-panel" role="button" data-toggle="dropdown" aria-hidden="true" 
+                                aria-haspopup="true" aria-expanded="true">
+                            <span>${user.name}</span>
+                            <div class="user-picture"><img src="${user.pictureUrl}"></div>
+                        </div>
+                        <ul class="dropdown-menu user-panel-menu">
+                            <li onclick="window.location.href='${userSettingsUrl}'">${profileSettingsLabel}</li>
+                            <li onclick="window.location.href='${logoutUrl}'">${logoutLabel}</li>
+                        </ul>
+                    </li>
                 </ul>
                 
                 <ul class="nav navbar-nav navbar-right tool-pane">

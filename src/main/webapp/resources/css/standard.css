@@ -197,22 +197,7 @@ li.sortable-placeholder {
     margin: 6px 0px;
     width: 36px;
     height: 36px;
-    opacity: 1;
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-    border: 1px solid #AAA;
     border-radius: 18px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-}
-
-.user-panel .user-picture img {
-    width: 36px;
-    position: relative;
-    left: 50%;
-    margin-left: -50%;
-    top: 50%;
-    margin-top: -50%;
 }
 
 .navbar-default .navbar-nav > li:hover, 

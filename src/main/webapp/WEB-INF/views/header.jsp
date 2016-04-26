@@ -33,7 +33,7 @@
                         <div class="dropdown-toggle user-panel" role="button" data-toggle="dropdown" aria-hidden="true" 
                                 aria-haspopup="true" aria-expanded="true">
                             <span>${user.name}</span>
-                            <div class="user-picture"><img src="${user.pictureUrl}"></div>
+                            <div class="feed-logo user-picture" style="background-image: url(${user.pictureUrl});"></div>
                         </div>
                         <ul class="dropdown-menu user-panel-menu">
                             <li onclick="window.location.href='${userSettingsUrl}'">${profileSettingsLabel}</li>

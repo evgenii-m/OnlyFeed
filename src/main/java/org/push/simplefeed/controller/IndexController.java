@@ -81,7 +81,11 @@ public class IndexController {
     
     
     @RequestMapping(value = "/register", method = GET)
-    public String showRegisterForm(Model uiModel) {
+    public String showRegisterForm(Model uiModel, Principal principal) {
+        if (principal != null) {
+            logger.debug("User is logged - redirect to feed page");
+            return "redirect:/feed";
+        }
         UserEntity user = new UserEntity();
         user.setPictureUrl(resourcesImgBaseUrl + UserEntity.DEFAULT_PICTURE_NAME);
         uiModel.addAttribute("user", user);

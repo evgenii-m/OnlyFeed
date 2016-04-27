@@ -35,6 +35,10 @@ function showFeedItemsByPage(pageIndex) {
 	        		$(".show-more-button").hide();
 	        	} else {
 	        		$(".show-more-button").show();
+//	        		$(document).on("scroll", feedScrolling);
+	        	    $(document).scroll(function() {
+	        	    	feedScrolling();
+	        	    });
 	        	}
 	        } else {
 	    		$("<span/>", {
@@ -50,7 +54,6 @@ function showFeedItemsByPage(pageIndex) {
         }
     });
 }
-
 
 
 function appendFeedItem(feedItem) {
@@ -95,7 +98,6 @@ function appendFeedItem(feedItem) {
 }
 
 
-
 function displayFeedItemDetails(feedItemId) {
     $.ajax({
 		url: feedItemUrl + feedItemId,
@@ -137,6 +139,17 @@ function displayFeedItemDetails(feedItemId) {
 	});
 }
 
+
+function feedScrolling() {
+	var currentHeight = $(".feed-container").height();
+	
+	if ($(this).scrollTop() >= (currentHeight - $(window).height() - 100)) {
+//		console.log($(this).scrollTop());
+		$(document).off("scroll");
+        var pageIndex = Math.ceil($(".feed-item-list").children(".item").length / pageSize);
+    	showFeedItemsByPage(pageIndex);
+	}
+}
 
 
 
@@ -374,7 +387,8 @@ function refreshFeed() {
 	if ($(".loading-indicator").length != 0) {
 		return;
 	}
-	
+
+	$(document).off("scroll");
 	$(".feed-container .alert-warning").remove();
 	$(".show-more-button").hide();
 	$(".feed-item-list").empty();
@@ -409,6 +423,7 @@ function refreshFeed() {
 
 
 
+
 function deleteUserPicture() {
 	$(".update-alert").remove();
 	$.ajax({
@@ -424,8 +439,6 @@ function deleteUserPicture() {
 				console.log("Error when delete user picture!");
 				return;
 			}
-			$("#picture-thumbnail").attr("src", response);
-    		setPictureThumbnailSize();
 			$(".user-picture").css("background-image", "url(" + response + ")");
             var successAlert = $("<div/>", {
             	class: "alert alert-success update-alert",
@@ -439,6 +452,7 @@ function deleteUserPicture() {
 		}
 	});	
 }
+
 
 function removeUser() {
 	$.ajax({

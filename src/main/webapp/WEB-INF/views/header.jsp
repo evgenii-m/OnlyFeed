@@ -23,10 +23,10 @@
             <sec:authorize access="isAuthenticated()">
                 <ul class="nav navbar-nav navbar-source">
                     <c:if test="${empty currentFeedSource}">
-                    <li>${showAllSourcesLabel}</li>
+                        <li onclick="window.location.href='${sourceUrl}'">${showAllSourcesLabel}</li>
                     </c:if>
                     <c:if test="${not empty currentFeedSource}">
-                        <li id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
+                        <li onclick="window.location.href='${sourceUrl}'" id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
                     </c:if>
                 </ul>
                 

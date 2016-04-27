@@ -252,6 +252,8 @@ li.sortable-placeholder {
     border-radius: 18px;
 }
 
+.navbar-default .navbar-nav > li:hover, 
+.navbar-default .navbar-nav > li:focus,
 .navbar-default .navbar-nav > li > a:hover, 
 .navbar-default .navbar-nav > li > a:focus, 
 .navbar-default .navbar-nav > li > span:hover, 
@@ -333,6 +335,7 @@ li.sortable-placeholder {
 	font-size: 15px;
 	font-weight: bold;
 	color: #3D3D3D;
+	cursor: pointer;
 }
 
 /*************************************************************************************************/

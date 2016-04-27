@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <spring:message var="projectName" code="projectName"/>
+<spring:message var="feedSourcesLabel" code="header.feedSourcesLabel"/>
 <spring:message var="accountSettingsLabel" code="header.accountSettingsLabel"/>
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 <spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
@@ -21,9 +22,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <sec:authorize access="isAuthenticated()">
                 <ul class="nav navbar-nav navbar-source">
-                    <li onclick="window.location.href='${sourceUrl}'">${showAllSourcesLabel}</li>
+                    <c:if test="${empty currentFeedSource}">
+                    <li>${showAllSourcesLabel}</li>
+                    </c:if>
                     <c:if test="${not empty currentFeedSource}">
-                        <li class="glyphicon glyphicon-menu-right delimiter" aria-hidden="true"></li>
                         <li id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
                     </c:if>
                 </ul>
@@ -36,8 +38,9 @@
                             <div class="feed-logo user-picture" style="background-image: url(${user.pictureUrl});"></div>
                         </div>
                         <ul class="dropdown-menu user-panel-menu">
-                            <li onclick="window.location.href='${userSettingsUrl}'">${accountSettingsLabel}</li>
-                            <li onclick="window.location.href='${logoutUrl}'">${logoutLabel}</li>
+                            <li><a href="${sourceUrl}">${feedSourcesLabel}</a></li>
+                            <li><a href="${userSettingsUrl}">${accountSettingsLabel}</a></li>
+                            <li><a href="${logoutUrl}">${logoutLabel}</a></li>
                         </ul>
                     </li>
                 </ul>

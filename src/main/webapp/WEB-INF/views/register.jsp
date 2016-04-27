@@ -18,7 +18,7 @@
 <form:form modelAttribute="user" method="post" id="register-user-form" class="form-container" enctype="multipart/form-data">
     <div class="form-title">${formTitle}</div>
     <div class="form-row">
-        <form:label path="pictureUrl">${pictureLabel}</form:label>
+        <form:label path="pictureUrl" class="required-field-label">${pictureLabel}</form:label>
         <form:hidden path="pictureUrl" value="${user.pictureUrl}"/>
         <div class="user-picture"><img src="${user.pictureUrl}" class="picture-thumbnail"></div>
         <input type="file" name="picture" id="picture-file" class="select-picture-input"/>
@@ -51,6 +51,8 @@
 
 <script type="text/javascript">
     $(document).ready(function() {        
+        document.getElementById('picture-file').addEventListener('change', handleFileSelect, false);
+        
         $("#register-user-form").validate({
             errorElement: "div",
             errorPlacement: function(error, element) {
@@ -88,7 +90,5 @@
                 }
             }
         });
-        
-        document.getElementById('picture-file').addEventListener('change', handleFileSelect, false);
     });
 </script>

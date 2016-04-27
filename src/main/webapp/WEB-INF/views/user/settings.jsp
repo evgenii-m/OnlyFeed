@@ -52,10 +52,10 @@
     
     <div class="form-row bottom-border">
         <c:if test="${updateInfoResult == true}">
-            <div class="alert alert-success picture-alert">${updateInfoSuccessMessage}</div>
+            <div class="alert alert-success user-info-alert">${updateInfoSuccessMessage}</div>
         </c:if>
         <c:if test="${updateInfoResult == false}">
-            <div class="alert alert-danger picture-alert">${updateInfoErrorMessage}</div>
+            <div class="alert alert-danger user-info-alert">${updateInfoErrorMessage}</div>
         </c:if>
         <form:form modelAttribute="user" action="${updateInfoUrl}" method="post" id="user-info-form">
             <div class="form-row">
@@ -112,6 +112,43 @@
         
         $("#delete-picture-button").click(function() {
         	deleteUserPicture();
+        });
+        
+        $("#user-info-form").validate({
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+            	$(".user-info-alert").remove();
+                error.addClass("alert alert-danger");
+                error.appendTo(element.parent());
+            },
+            focusInvalid: true,
+            onkeyup: false,
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 100
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 64,
+                    remote: {
+                        url: "<spring:url value='/user/settings/email/available'/>",
+                        type: "get",
+                        data: {
+                            email: function () {
+                                return $("#email").val();
+                            }
+                        }
+                    }
+                }
+            },
+            messages: {
+                email: {
+                    remote: "<spring:message code='validation.emailAlreadyUsed'/>"
+                }
+            }
         });
     });
 </script>

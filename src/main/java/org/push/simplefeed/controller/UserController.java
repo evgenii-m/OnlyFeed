@@ -127,23 +127,39 @@ public class UserController {
         return user.getPictureUrl();
     }
     
+
+    @RequestMapping(value = "/settings/email/available")
+    @ResponseBody
+    public boolean checkEmailAvailability(@RequestParam(value = "email", required = true) String email,
+            Principal principal) {
+        logger.debug("checkEmailAvailability");
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (!user.getEmail().equals(email)) {
+            if (userService.findByEmail(email) != null) {
+                return false;
+            }
+        }
+        return true;
+    }
     
-    private boolean validateUserInfo(UserEntity userInfo) {
+    private boolean validateUserInfo(UserEntity userInfo, String userCurrentEmail) {
         String name = userInfo.getName();
         if ((name == null) || (name.length() < 2) || (name.length() > 100)) {
             return false;
         }
         String email = userInfo.getEmail();
-        if ((email == null) || !EmailValidator.getInstance().isValid(email) || (email.length() < 3)
-                || (email.length() > 64) || (userService.findByEmail(email) != null)) {
-            return false;
+        if (!userCurrentEmail.equals(email)) {
+            if ((email == null) || (email.length() < 3) || (email.length() > 64) 
+                    || (!EmailValidator.getInstance().isValid(email))
+                    || (userService.findByEmail(email) != null)) {
+                return false;
+            }
         }
         Integer newsStorageTime = userInfo.getNewsStorageTime();
         if (newsStorageTime == null) {
             return false;
         }
         return true;
-//        (userService.findByEmail(email) != null)
     }
     
 
@@ -153,7 +169,7 @@ public class UserController {
         logger.debug("updateUserInfo");
         boolean updateInfoResult = false;
         UserEntity user = userService.findByEmail(principal.getName());
-        if (!validateUserInfo(userInfo)) {
+        if (!validateUserInfo(userInfo, user.getEmail())) {
             logger.error("Invalid user info (name=" + userInfo.getName() + ", email=" + userInfo.getEmail() 
                     + ", newsStorageTime=" + userInfo.getNewsStorageTime() + ")");
         } else {
@@ -164,9 +180,9 @@ public class UserController {
             updateInfoResult = true;
             CustomUser principalUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             principalUser.setUsername(user.getEmail());
+            logger.debug("User info sucessfully updated (user.id=" + user.getId() + ")");
         }
         redirectAttributes.addFlashAttribute("updateInfoResult", updateInfoResult);
-        logger.debug("User info sucessfully updated (user.id" + user.getId() + ")");
         return "redirect:/user/settings";
     }
 

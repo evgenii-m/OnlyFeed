@@ -21,7 +21,7 @@
         <form:label path="pictureUrl">${pictureLabel}</form:label>
         <form:hidden path="pictureUrl" value="${user.pictureUrl}"/>
         <div class="user-picture"><img src="${user.pictureUrl}" class="picture-thumbnail"></div>
-        <input type="file" name="picture" id="picture-file"/>
+        <input type="file" name="picture" id="picture-file" class="select-picture-input"/>
         <form:errors path="pictureUrl" class="alert alert-danger error" element="div"/>
     </div>
     <div class="form-row">

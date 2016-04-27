@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.push.simplefeed.model.service;
+package org.push.simplefeed.model.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -10,10 +10,10 @@ import java.util.Set;
 
 import org.push.simplefeed.model.entity.RoleEntity;
 import org.push.simplefeed.model.entity.UserEntity;
+import org.push.simplefeed.model.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -46,7 +46,7 @@ public class CustomUserDetailService implements UserDetailsService {
             setAuths.add(new SimpleGrantedAuthority(role.getRole()));
         }
         List<GrantedAuthority> authorities = new ArrayList<>(setAuths);
-        return new User(user.getEmail(), user.getPassword(), user.getEnabled(), 
+        return new CustomUser(user.getEmail(), user.getPassword(), user.getEnabled(), 
                 true, true, true, authorities);
     }
     

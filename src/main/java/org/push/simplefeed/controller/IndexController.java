@@ -86,6 +86,7 @@ public class IndexController {
             logger.debug("User is logged - redirect to feed page");
             return "redirect:/feed";
         }
+        logger.debug("showRegisterForm");
         UserEntity user = new UserEntity();
         user.setPictureUrl(resourcesImgBaseUrl + UserEntity.DEFAULT_PICTURE_NAME);
         uiModel.addAttribute("user", user);
@@ -95,7 +96,7 @@ public class IndexController {
 
     @RequestMapping(value = "/register", method = POST)
     public String register(@ModelAttribute("user") @Valid UserEntity user, BindingResult bindingResult, 
-            Model uiModel, @RequestParam(value = "picture", required=false) MultipartFile picture,
+            Model uiModel, @RequestParam(value = "picture", required = false) MultipartFile picture,
             Locale locale, RedirectAttributes redirectAttributes) {
         logger.debug("register");
         if (userService.findByEmail(user.getEmail()) != null) {

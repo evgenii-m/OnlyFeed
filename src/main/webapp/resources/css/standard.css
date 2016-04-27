@@ -9,12 +9,7 @@ body {
     background-color: #ededed;
 }
 
-.content-container {
-    width: 600px;
-    position: relative;
-    display: block; 
-}
-
+.content-container,
 .form-container {
     width: 600px;
     position: relative;
@@ -24,11 +19,18 @@ body {
 .form-container .form-title {
     font-size: 22px;
     font-weight: bold; 
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-container .form-row {
     margin-bottom: 15px;
+    position: relative;
+    display: inline-block;
+}
+
+.form-container .form-row.bottom-border {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #AAA;
 }
 
 .form-container .form-row label {
@@ -50,6 +52,22 @@ body {
     display: inline-block;
 }
 
+.form-container .form-row .select-picture {
+    width: 270px;
+    margin-top: 5px;
+    margin-left: 30px;
+    float: right;
+}
+
+.form-container .form-row .select-picture input {
+    width: 250px;
+    margin-bottom: 10px;
+}
+
+.form-container .form-row .select-picture span {
+    width: 250px;
+}
+
 .form-container .form-row  div.error {
     width: 400px;
     min-height: 35px;
@@ -58,15 +76,47 @@ body {
     margin-left: 150px;
 }
 
+.form-container .form-row select {
+    min-width: 100px;
+    height: 30px;
+    color: #555;
+    line-height: 1.42857;
+    padding: 4px 9px;
+}
+
+.form-container .form-row select option {
+    color: #555;
+    line-height: 1.42857;
+    padding: 4px 9px;
+}
+
 .form-container .form-buttons {
     text-align: right;
     margin-top: 20px; 
     border-top: 1px solid #AAA;
 }
 
+.form-container .form-row .form-buttons {
+    margin-top: 0;
+    border-top: 0;
+} 
+
+.form-container .form-row .form-buttons button {
+    margin: 0px 10px 5px 0px; 
+}
+
+.form-container .select-picture .form-buttons {
+    border-top: 0px;
+    margin-top: 20px;
+}
+
 .form-container .form-buttons button {
-    width: 100px;
+    min-width: 100px;
     margin: 10px 15px 10px 10px;
+}
+
+.form-container .select-picture .form-buttons button {
+    margin: 0px 10px 0px 0px;
 }
 
 .feed-logo {

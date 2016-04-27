@@ -78,7 +78,7 @@ public class SourceController {
 
     @RequestMapping(method = POST)
     public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
-            BindingResult bindingResult, Model uiModel, RedirectAttributes redirectAttributes) {
+            BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         logger.debug("addFeedSource");
         validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {

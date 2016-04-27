@@ -26,6 +26,7 @@ import org.push.simplefeed.model.entity.types.*;
 @Table(name = "users")
 public class UserEntity {
     public static final String DEFAULT_PICTURE_NAME = "no_picture_3.jpg";
+    public static final Integer DEFAULT_NEWS_STORAGE_TIME = 24;
         
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -69,6 +70,9 @@ public class UserEntity {
     @Enumerated(EnumType.ORDINAL)
     private FeedFilterType feedFilterType;
     
+    @Column(name = "news_storage_time_hours")
+    private Integer newsStorageTime;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -161,6 +165,14 @@ public class UserEntity {
         this.feedFilterType = feedFilterType;
     }
     
+    public Integer getNewsStorageTime() {
+        return newsStorageTime;
+    }
+
+    public void setNewsStorageTime(Integer newsStorageTime) {
+        this.newsStorageTime = newsStorageTime;
+    }
+    
 
     public Set<RoleEntity> getRoles() {
         return roles;
@@ -187,6 +199,15 @@ public class UserEntity {
     public void setFeedTabs(List<FeedTabEntity> feedTabs) {
         this.feedTabs = feedTabs;
     }
+    
+    
+    public void setDefaultSettings() {
+        this.setEnabled(true);
+        this.setFeedViewType(FeedViewType.EXTENDED);
+        this.setFeedSortingType(FeedSortingType.NEWEST_FIRST);
+        this.setFeedFilterType(FeedFilterType.ALL);
+        this.setNewsStorageTime(DEFAULT_NEWS_STORAGE_TIME);
+    }
 
 
 
@@ -195,7 +216,8 @@ public class UserEntity {
         return "UserEntity [id=" + id + ", name=" + name + ", password=" + password 
                 + ", email=" + email + ", pictureUrl=" + pictureUrl + ", enabled=" + enabled 
                 + ", feedViewType=" + feedViewType + ", feedSortingType=" + feedSortingType 
-                + ", feedFilterType=" + feedFilterType + ", roles=" + roles + "]";
+                + ", feedFilterType=" + feedFilterType + ", newsStorageTime=" + newsStorageTime 
+                + ", roles=" + roles + "]";
     }
 
     @Override

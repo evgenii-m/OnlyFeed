@@ -429,3 +429,35 @@ function handleFileSelect(event) {
     // Read in the image file as a data URL.
     reader.readAsDataURL(file);
 }
+
+
+function deleteUserPicture() {
+	$(".picture-alert").remove();
+	$.ajax({
+		url: updatePictureUrl,
+		method: "delete",
+		success: function(response) {
+			if (response == null) {
+                var errorAlert = $("<div/>", {
+                	class: "alert alert-danger picture-alert",
+                	html: deletePictureErrorMessage
+                });
+                $("#user-picture-form").before(errorAlert);
+				console.log("Error when delete user picture!");
+				return;
+			}
+			$(".picture-thumbnail").attr("src", response);
+			$(".user-picture").css("background-image", "url(" + response + ")");
+            var successAlert = $("<div/>", {
+            	class: "alert alert-success picture-alert",
+            	html: deletePictureSuccessMessage
+            });
+            $("#user-picture-form").before(successAlert);
+		},
+		error: function(error) {
+	        console.log("Server error");
+	        console.log(error);	        			
+		}
+	});	
+}
+

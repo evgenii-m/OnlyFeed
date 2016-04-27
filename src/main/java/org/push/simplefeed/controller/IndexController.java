@@ -122,7 +122,7 @@ public class IndexController {
         
         userService.save(user);
         logger.debug("Registered user (" + user + ")");
-        redirectAttributes.addFlashAttribute("registerSuccessMessage", messageSource.getMessage(
+        redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage(
                 "index.registerSuccessMessage", new Object[]{}, locale));
         return "redirect:/";
     }

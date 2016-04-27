@@ -16,8 +16,8 @@
 
 
 <div class="index-container">
-	<c:if test="${not empty registerSuccessMessage}">
-	    <div class="alert alert-success">${registerSuccessMessage}</div>
+	<c:if test="${not empty successMessage}">
+	    <div class="alert alert-success">${successMessage}</div>
 	</c:if>
 	
 	<div class="welcome-panel">

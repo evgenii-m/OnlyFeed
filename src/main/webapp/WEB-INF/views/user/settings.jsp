@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<spring:message var="profileSettingsTitle" code="user.settings.profileSettingsTitle"/>
+<spring:message var="accountSettingsTitle" code="user.settings.accountSettingsTitle"/>
 <spring:message var="pictureLabel" code="register.pictureLabel"/>
 <spring:message var="pictureSelectMessage" code="register.pictureSelectMessage"/>
 <spring:message var="deleteButton" code="user.settings.deleteButton"/>
@@ -21,6 +21,7 @@
 <spring:message var="updateInfoSuccessMessage" code="user.settings.updateInfoSuccessMessage"/>
 <spring:message var="updatePasswordErrorMessage" code="user.settings.updatePasswordErrorMessage"/>
 <spring:message var="updatePasswordSuccessMessage" code="user.settings.updatePasswordSuccessMessage"/>
+<spring:message var="removeAccountButton" code="user.settings.removeAccountButton"/>
 
 <spring:url var="updatePictureUrl" value="/user/settings/picture"/>
 <spring:url var="updateInfoUrl" value="/user/settings/info"/>
@@ -28,7 +29,7 @@
 
 
 <div class="form-container">
-    <div class="form-title">${profileSettingsTitle}</div>
+    <div class="form-title">${accountSettingsTitle}</div>
 
     <div class="form-row bottom-border">
         <c:if test="${updatePictureResult == true}">
@@ -80,7 +81,7 @@
         </form:form> 
     </div>
     
-    <div class="form-row">
+    <div class="form-row bottom-border">
         <c:if test="${updatePasswordResult == true}">
             <div class="alert alert-success update-alert">${updatePasswordSuccessMessage}</div>
         </c:if>
@@ -105,17 +106,29 @@
             </div>
         </form:form>
     </div>
+    
+    <div class="form-row" style="width: 100%;">
+        <button type="button" id="remove-user-button" class="btn btn-danger" style="display: block; margin: 0 auto;">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ${removeAccountButton}</button>
+    </div>
 </div>
 
 
 <script type="text/javascript">
+    var userUrl = "<spring:url value='/user'/>";
+    var indexUrl = "<spring:url value='/'/>";
     var updatePictureUrl = "${updatePictureUrl}";
+    
     var deletePictureErrorMessage = "<spring:message code='user.settings.deletePictureErrorMessage'/>";
     var deletePictureSuccessMessage = "<spring:message code='user.settings.deletePictureSuccessMessage'/>";
 
     $(document).ready(function() {
         $("#delete-picture-button").click(function() {
         	deleteUserPicture();
+        });
+        
+        $("#remove-user-button").click(function() {
+        	removeUser();
         });
         
         $("#user-info-form").validate({

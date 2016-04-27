@@ -440,3 +440,17 @@ function deleteUserPicture() {
 	});	
 }
 
+function removeUser() {
+	$.ajax({
+		url: userUrl,
+		type: "delete",
+		success: function() {
+			console.log("delete success!");
+			window.location.href = indexUrl;
+		},
+		error: function(error) {
+			console.log("Server error");
+			console.log(error);				
+		}
+	});
+}

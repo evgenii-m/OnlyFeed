@@ -53,8 +53,8 @@ public class UserService implements IUserService {
     }
     
     @Override
-    public void delete(Long id) {
-        userRepository.delete(id);
+    public void delete(UserEntity user) {
+        userRepository.delete(user);
     }
     
     

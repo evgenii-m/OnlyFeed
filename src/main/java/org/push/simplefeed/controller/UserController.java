@@ -10,6 +10,9 @@ import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.validator.routines.EmailValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -60,7 +63,23 @@ public class UserController {
     public void setUserService(IUserService userService) {
         this.userService = userService;
     }
-      
+    
+    
+
+    @RequestMapping(method = DELETE)
+    @ResponseBody
+    public void deleteUser(Principal principal, HttpServletRequest request) {
+        logger.debug("deleteUser");
+        UserEntity user = userService.findByEmail(principal.getName());
+        userService.delete(user);
+        logger.info("User successfully deleted (user.id=" + user.getId() + ")");
+        try {
+            request.logout();
+        } catch (ServletException e) {
+            logger.error("Servlet exception when user logout");
+            e.printStackTrace();
+        }
+    }
 
     
     private Map<Long, String> formNewsStorageTimeList(Locale locale) {

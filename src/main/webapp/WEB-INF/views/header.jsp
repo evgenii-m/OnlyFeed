@@ -4,7 +4,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <spring:message var="projectName" code="projectName"/>
-<spring:message var="profileSettingsLabel" code="header.profileSettingsLabel"/>
+<spring:message var="accountSettingsLabel" code="header.accountSettingsLabel"/>
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
 <spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
 
@@ -36,7 +36,7 @@
                             <div class="feed-logo user-picture" style="background-image: url(${user.pictureUrl});"></div>
                         </div>
                         <ul class="dropdown-menu user-panel-menu">
-                            <li onclick="window.location.href='${userSettingsUrl}'">${profileSettingsLabel}</li>
+                            <li onclick="window.location.href='${userSettingsUrl}'">${accountSettingsLabel}</li>
                             <li onclick="window.location.href='${logoutUrl}'">${logoutLabel}</li>
                         </ul>
                     </li>

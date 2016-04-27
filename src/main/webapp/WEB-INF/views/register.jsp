@@ -17,13 +17,7 @@
 
 <form:form modelAttribute="user" method="post" id="register-user-form" class="form-container" enctype="multipart/form-data">
     <div class="form-title">${formTitle}</div>
-    <div class="form-row">
-        <form:label path="pictureUrl" class="required-field-label">${pictureLabel}</form:label>
-        <form:hidden path="pictureUrl" value="${user.pictureUrl}"/>
-        <div class="user-picture"><img src="${user.pictureUrl}" class="picture-thumbnail"></div>
-        <input type="file" name="picture" id="picture-file" class="select-picture-input"/>
-        <form:errors path="pictureUrl" class="alert alert-danger error" element="div"/>
-    </div>
+    <form:hidden path="pictureUrl" value="${user.pictureUrl}"/>
     <div class="form-row">
         <form:label path="name" class="required-field-label">${nameLabel}</form:label>
         <form:input path="name" class="form-control"/>
@@ -51,8 +45,6 @@
 
 <script type="text/javascript">
     $(document).ready(function() {        
-        document.getElementById('picture-file').addEventListener('change', handleFileSelect, false);
-        
         $("#register-user-form").validate({
             errorElement: "div",
             errorPlacement: function(error, element) {
@@ -62,11 +54,6 @@
             focusInvalid: true,
             onkeyup: false,
             rules: {
-                pictureUrl: {
-                    required: true,
-                    url: true,
-                    maxlength: 512
-                },
                 name: {
                     required: true,
                     minlength: 2,

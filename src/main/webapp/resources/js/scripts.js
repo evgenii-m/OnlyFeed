@@ -408,48 +408,27 @@ function refreshFeed() {
 
 
 
-function handleFileSelect(event) {
-    var file = event.target.files[0];
-    // Only process image files
-    if (!file.type.match('image.*')) {
-    	console.log("Selected file not image");
-    	return;
-    }
-
-    // Closure to capture the file information
-    var reader = new FileReader();
-    reader.onload = (function(theFile) {
-    	return function(e) {
-    		// Render picture
-    		$(".picture-thumbnail").attr("src", e.target.result);
-    		$(".picture-thumbnail").attr("title", escape(theFile.name));
-    	};
-    })(file);
-
-    // Read in the image file as a data URL.
-    reader.readAsDataURL(file);
-}
-
 
 function deleteUserPicture() {
-	$(".picture-alert").remove();
+	$(".update-alert").remove();
 	$.ajax({
 		url: updatePictureUrl,
 		method: "delete",
 		success: function(response) {
 			if (response == null) {
                 var errorAlert = $("<div/>", {
-                	class: "alert alert-danger picture-alert",
+                	class: "alert alert-danger update-alert",
                 	html: deletePictureErrorMessage
                 });
                 $("#user-picture-form").before(errorAlert);
 				console.log("Error when delete user picture!");
 				return;
 			}
-			$(".picture-thumbnail").attr("src", response);
+			$("#picture-thumbnail").attr("src", response);
+    		setPictureThumbnailSize();
 			$(".user-picture").css("background-image", "url(" + response + ")");
             var successAlert = $("<div/>", {
-            	class: "alert alert-success picture-alert",
+            	class: "alert alert-success update-alert",
             	html: deletePictureSuccessMessage
             });
             $("#user-picture-form").before(successAlert);

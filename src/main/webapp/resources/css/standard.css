@@ -71,9 +71,10 @@ body {
 .form-container .form-row  div.error {
     width: 400px;
     min-height: 35px;
-    padding: 7px 15px;
+    padding: 7px 17px;
     margin-top: 7px;
     margin-left: 150px;
+    margin-bottom: 5px;
 }
 
 .form-container .form-row select {
@@ -446,22 +447,7 @@ li.sortable-placeholder {
 .form-container .form-row .user-picture {
     width: 150px;
     height: 150px;
-    opacity: 1;
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-    border: 1px solid #AAA;
     border-radius: 75px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-}
-
-.form-container .form-row .user-picture img {
-    width: 150px;
-    position: relative;
-    left: 50%;
-    margin-left: -50%;
-    top: 50%;
-    margin-top: -50%;
 }
 /*************************************************************************************************/
 

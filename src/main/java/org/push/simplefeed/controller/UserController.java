@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -162,7 +163,7 @@ public class UserController {
         return true;
     }
     
-
+    // TODO: replace @ModelAttribute("user") on set of @RequestParam strings
     @RequestMapping(value = "/settings/info", method = POST)
     public String updateUserInfo(@ModelAttribute("user") UserEntity userInfo, Principal principal, 
             RedirectAttributes redirectAttributes) {
@@ -178,6 +179,7 @@ public class UserController {
             user.setNewsStorageTime(userInfo.getNewsStorageTime());
             userService.save(user);
             updateInfoResult = true;
+            // apply changes for user authentication object
             CustomUser principalUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             principalUser.setUsername(user.getEmail());
             logger.debug("User info sucessfully updated (user.id=" + user.getId() + ")");
@@ -186,5 +188,47 @@ public class UserController {
         return "redirect:/user/settings";
     }
 
-   
+
+    @RequestMapping(value = "/settings/password/verify")
+    @ResponseBody
+    public boolean verifyCurrentPassword(@RequestParam(value = "password", required = true) String password,
+            Principal principal) {
+        logger.debug("verifyCurrentPassword");
+        UserEntity user = userService.findByEmail(principal.getName());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return (encoder.matches(password, user.getPassword())); 
+    }
+    
+    private boolean validatePassword(String password) {
+        if ((password == null) || (password.length() < 6) || (password.length() > 64)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @RequestMapping(value = "/settings/password", method = POST)
+    public String updatePassword(@RequestParam(value = "currentPassword", required = true) String currentPassword,
+            @RequestParam(value = "newPassword", required = true) String newPassword, Principal principal,
+            RedirectAttributes redirectAttributes) {
+        logger.debug("updatePassword");
+        boolean updatePasswordResult = false;
+        UserEntity user = userService.findByEmail(principal.getName());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        if (!encoder.matches(currentPassword, user.getPassword()) || !validatePassword(newPassword)) {
+            logger.error("Error when change password (user.id=" + user.getId() + ")");
+        } else {
+            String encodedNewPassword = encoder.encode(newPassword);
+            user.setPassword(encodedNewPassword);
+            userService.save(user);
+            updatePasswordResult = true;
+            // apply changes for user authentication object
+            CustomUser principalUser = (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            principalUser.setPassword(user.getPassword());
+            logger.debug("Password sucessfully updated (user.id=" + user.getId() + ")");
+        }
+        
+        redirectAttributes.addFlashAttribute("updatePasswordResult", updatePasswordResult);
+        return "redirect:/user/settings";
+    }
 }

@@ -4,6 +4,7 @@
 package org.push.simplefeed.model.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,8 +46,12 @@ public class FeedItemService implements IFeedItemService {
         this.feedItemRepository = feedItemRepository;
     }
     
-
     
+    
+    public FeedItemEntity save(FeedItemEntity feedItem) {
+        return feedItemRepository.save(feedItem);
+    }
+
     private FeedItemEntity formFeedItem(SyndEntry syndEntry, FeedSourceEntity feedSource) {
         FeedItemEntity feedItem = new FeedItemEntity();
         feedItem.setTitle(syndEntry.getTitle());
@@ -70,8 +75,6 @@ public class FeedItemService implements IFeedItemService {
         feedItem.setFeedSource(feedSource);
         return feedItem;
     }
-    
-
     
     @Override
     public List<FeedItemEntity> save(List<SyndEntry> syndEntries, FeedSourceEntity feedSource) {
@@ -102,79 +105,72 @@ public class FeedItemService implements IFeedItemService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findAll(FeedSourceEntity feedSource) {
-        return feedItemRepository.findByFeedSource(feedSource);
-    }
-
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findAll(List<FeedSourceEntity> feedSources) {
-        List<FeedItemEntity> feedItems = new ArrayList<>();
-        for (FeedSourceEntity feedSource : feedSources) {
-            feedItems.addAll(findAll(feedSource));
-        }
-        return feedItems;
-    }
-
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
-            Sort.Direction sort, int count) {
+    public List<FeedItemEntity> findPage(final FeedSourceEntity feedSource, int pageIndex, 
+            FeedSortingType feedSortingType, final FeedFilterType feedFilterType) {
         if (feedSource == null) {
             logger.debug("feedSource is null");
             return null;
         }
-        PageRequest pageRequest = new PageRequest(pageIndex, count, sort, "publishedDate");
-        return feedItemRepository.findByFeedSource(feedSource, pageRequest);
+        
+        Sort.Direction sort = (feedSortingType == FeedSortingType.NEWEST_FIRST) ? 
+                Sort.Direction.DESC : Sort.Direction.ASC;
+        Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
+            @Override
+            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(cb.equal(root.get("feedSource"), feedSource));
+                Predicate filterCriteria = buildFeedFilterCriteria(feedFilterType, root, cb);
+                if (filterCriteria != null) {
+                    predicates.add(filterCriteria);
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        
+        PageRequest pageRequest = new PageRequest(pageIndex, DEFAULT_PAGE_SIZE, sort, "publishedDate");
+        return feedItemRepository.findAll(sp, pageRequest).getContent();   
     }
-    
 
+    
     @Override
     @Transactional(readOnly = true)
     public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
-            Sort.Direction sort, int count) {
+            FeedSortingType feedSortingType, final FeedFilterType feedFilterType) {
         if ((feedSources == null) || feedSources.isEmpty()) {
             logger.debug("feedSource is null or empty");
             return null;
         }
+        
+        Sort.Direction sort = (feedSortingType == FeedSortingType.NEWEST_FIRST) ? 
+                Sort.Direction.DESC : Sort.Direction.ASC;
         Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
             @Override
             public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-                Expression<FeedSourceEntity> exp = root.get("feedSource");
-                return exp.in(feedSources);
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(root.get("feedSource").in(feedSources));
+                Predicate filterCriteria = buildFeedFilterCriteria(feedFilterType, root, cb);
+                if (filterCriteria != null) {
+                    predicates.add(filterCriteria);
+                }
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
             }
-        }; 
-        PageRequest pageRequest = new PageRequest(pageIndex, count, sort, "publishedDate");
-        return feedItemRepository.findAll(sp, pageRequest).getContent();        
-    }
-
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
-            FeedSortingType feedSortingType, FeedFilterType feedFilterType) {
-        if (feedSortingType == FeedSortingType.NEWEST_FIRST) {
-            return findPage(feedSource, pageIndex, Sort.Direction.DESC, DEFAULT_PAGE_SIZE);
-        } else if (feedSortingType == FeedSortingType.OLDEST_FIRST) {
-            return findPage(feedSource, pageIndex, Sort.Direction.ASC, DEFAULT_PAGE_SIZE);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
-            FeedSortingType feedSortingType, FeedFilterType feedFilterType) {
-        if (feedSortingType == FeedSortingType.NEWEST_FIRST) {
-            return findPage(feedSources, pageIndex, Sort.Direction.DESC, DEFAULT_PAGE_SIZE);
-        } else if (feedSortingType == FeedSortingType.OLDEST_FIRST) {
-            return findPage(feedSources, pageIndex, Sort.Direction.ASC, DEFAULT_PAGE_SIZE);
-        } else {
-            return null;
-        }
+        };
+        
+        PageRequest pageRequest = new PageRequest(pageIndex, DEFAULT_PAGE_SIZE, sort, "publishedDate");
+        return feedItemRepository.findAll(sp, pageRequest).getContent();   
     }
     
+
+    private Predicate buildFeedFilterCriteria(FeedFilterType feedFilterType, Root<FeedItemEntity> root, CriteriaBuilder cb) {
+        if (feedFilterType == FeedFilterType.READ) {
+            return cb.equal(root.get("viewed"), true);
+        } else if (feedFilterType == FeedFilterType.UNREAD) {
+            return cb.equal(root.get("viewed"), false);
+        } else if (feedFilterType == FeedFilterType.LATEST_DAY) {
+            Date currentDate = new Date();
+            Date yesterdayDate = new Date(currentDate.getTime() - 86400000);
+            return cb.greaterThanOrEqualTo(root.get("publishedDate").as(Date.class), yesterdayDate);
+        }
+        return null;
+    }
 }

@@ -18,16 +18,11 @@ import com.rometools.rome.feed.synd.SyndEntry;
  *
  */
 public interface IFeedItemService {
+    FeedItemEntity save(FeedItemEntity feedItem);
     List<FeedItemEntity> save(List<SyndEntry> syndEntries, FeedSourceEntity feedSource);
     FeedItemEntity findById(Long id);
-    List<FeedItemEntity> findAll(FeedSourceEntity feedSource);
-    List<FeedItemEntity> findAll(List<FeedSourceEntity> feedSources);
-    List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
-            Sort.Direction sort, int count);
-    List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
-            Sort.Direction sort, int count);
     List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
             FeedSortingType feedSortingType, FeedFilterType feedFilterType);
-    List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
+    List<FeedItemEntity> findPage(List<FeedSourceEntity> feedSources, int pageIndex, 
             FeedSortingType feedSortingType, FeedFilterType feedFilterType);
 }

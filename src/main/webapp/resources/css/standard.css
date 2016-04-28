@@ -571,6 +571,11 @@ li.sortable-placeholder {
 	font-weight: bold;
 }
 
+.feed-item-list .item.viewed .title span {
+/*     color: #5E5E5E; */
+    font-weight: normal;
+}
+
 .feed-item-list.compact .item .title {
     margin-bottom: 0px;
     white-space: nowrap;

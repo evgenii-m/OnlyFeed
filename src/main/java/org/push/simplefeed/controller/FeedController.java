@@ -103,7 +103,7 @@ public class FeedController {
     @RequestMapping(value = "/page/{pageIndex}", method = GET)
     @ResponseBody
     public List<FeedItemEntity> getFeedPage(@PathVariable int pageIndex, Principal principal) {
-        logger.debug("getFeedPage");
+        logger.debug("getFeedPage (pageIndex=" + pageIndex + ")");
         UserEntity user = userService.findByEmail(principal.getName());
         List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex, 
                 user.getFeedSortingType(), user.getFeedFilterType());
@@ -115,7 +115,7 @@ public class FeedController {
     @ResponseBody
     public List<FeedItemEntity> getFeedPageFromSource(@PathVariable Long feedSourceId, 
             @PathVariable int pageIndex, Principal principal) {
-        logger.debug("getFeedPageFromSource");
+        logger.debug("getFeedPageFromSource (pageIndex=" + pageIndex + ")");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
@@ -132,13 +132,17 @@ public class FeedController {
     @RequestMapping(value = "/item/{feedItemId}", method = GET)
     @ResponseBody
     public FeedItemEntity getFeedItem(@PathVariable Long feedItemId, Principal principal) {
-        logger.debug("getFeedDetail (feedItemId=" + feedItemId + ")");
+        logger.debug("getFeedItem (feedItemId=" + feedItemId + ")");
         UserEntity user = userService.findByEmail(principal.getName());
         FeedItemEntity feedItem = feedItemService.findById(feedItemId);
         if ((feedItem == null) || (!user.getFeedSources().contains(feedItem.getFeedSource()))) {
             logger.error("Feed item (feedItem.id=" + feedItemId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return null;
+        }
+        if (!feedItem.getViewed()) {
+            feedItem.setViewed(true);
+            feedItemService.save(feedItem);
         }
         return feedItem;
     }
@@ -189,28 +193,20 @@ public class FeedController {
     
     @RequestMapping(value = "/settings/sorting", method = POST)
     @ResponseBody
-    public List<FeedItemEntity> changeFeedSortingType(Byte feedSortingType, Long feedSourceId, 
-            Principal principal) {
+    public boolean changeFeedSortingType(Byte feedSortingType, Principal principal) {
         logger.debug("changeFeedSortingType (feedSortingType=" + feedSortingType + ")");
         if ((feedSortingType == null) || (feedSortingType >= FeedSortingType.LENGTH)) {
             logger.error("Unavaliable FeedSortingType");
-            return null;
+            return false;
         }
         UserEntity user = userService.findByEmail(principal.getName());
         if (user.getFeedSortingType().equals(FeedSortingType.value(feedSortingType))) {
             logger.info("FeedSortingType not changed");
-            return null;
+            return false;
         }
         user.setFeedSortingType(FeedSortingType.value(feedSortingType));
         userService.save(user);
-        if (feedSourceId != null) {
-            FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
-            return feedItemService.findPage(feedSource, 0, user.getFeedSortingType(), 
-                    user.getFeedFilterType());
-        } else {
-            return feedItemService.findPage(user.getFeedSources(), 0, user.getFeedSortingType(), 
-                    user.getFeedFilterType());            
-        }
+        return true;
     }
     
     

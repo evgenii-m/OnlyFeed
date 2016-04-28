@@ -36,7 +36,7 @@
 	
 	<div class="feed-item-details" style="display: none;">
 	    <div class="pub-info">
-	        <span class="source-name"></span>
+	        <span class="source-name"><a href="#"></a></span>
 	        <span class="author"></span>
 	        <span class="published-date"></span>
 	    </div>
@@ -51,8 +51,10 @@
     var feedViewType = "${feedViewType}";
     var feedSortingType = "${feedSortingType}";
     var feedFilterType = "${feedFilterType}";
+    var currentFeedSourceId = "${currentFeedSource.id}";
 
     var feedUrl = "<spring:url value='/feed/'/>";
+    var feedRefreshUrl = "<spring:url value='/feed/refresh/'/>";
     var feedSettingsUrl = "<spring:url value='/feed/settings/'/>";
     var feedItemUrl = "<spring:url value='/feed/item/'/>";
     var feedTabUrl = "<spring:url value='/feed/tab/'/>";

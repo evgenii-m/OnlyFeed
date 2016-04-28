@@ -14,6 +14,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
+import org.push.simplefeed.model.entity.types.FeedFilterType;
+import org.push.simplefeed.model.entity.types.FeedSortingType;
 import org.push.simplefeed.model.repository.FeedItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -118,69 +120,61 @@ public class FeedItemService implements IFeedItemService {
     
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, int count) {
+    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
+            Sort.Direction sort, int count) {
         if (feedSource == null) {
             logger.debug("feedSource is null");
             return null;
         }
-        PageRequest pageRequest = new PageRequest(pageIndex, count, Sort.Direction.DESC, "publishedDate");
+        PageRequest pageRequest = new PageRequest(pageIndex, count, sort, "publishedDate");
         return feedItemRepository.findByFeedSource(feedSource, pageRequest);
     }
     
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, int count) {
+    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
+            Sort.Direction sort, int count) {
         if ((feedSources == null) || feedSources.isEmpty()) {
             logger.debug("feedSource is null or empty");
             return null;
         }
         Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
             @Override
-            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {              
+            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
                 Expression<FeedSourceEntity> exp = root.get("feedSource");
                 return exp.in(feedSources);
             }
         }; 
-        PageRequest pageRequest = new PageRequest(pageIndex, count, Sort.Direction.DESC, "publishedDate");
+        PageRequest pageRequest = new PageRequest(pageIndex, count, sort, "publishedDate");
         return feedItemRepository.findAll(sp, pageRequest).getContent();        
     }
 
-    
+
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex) {
-        return findPage(feedSource, pageIndex, DEFAULT_PAGE_SIZE);
+    public List<FeedItemEntity> findPage(FeedSourceEntity feedSource, int pageIndex, 
+            FeedSortingType feedSortingType, FeedFilterType feedFilterType) {
+        if (feedSortingType == FeedSortingType.NEWEST_FIRST) {
+            return findPage(feedSource, pageIndex, Sort.Direction.DESC, DEFAULT_PAGE_SIZE);
+        } else if (feedSortingType == FeedSortingType.OLDEST_FIRST) {
+            return findPage(feedSource, pageIndex, Sort.Direction.ASC, DEFAULT_PAGE_SIZE);
+        } else {
+            return null;
+        }
     }
 
     @Override
     @Transactional(readOnly = true)
-    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex) {
-        return findPage(feedSources, pageIndex, DEFAULT_PAGE_SIZE);        
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource, int count) {
-        return findPage(feedSource, 0, count);
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources, int count) {
-        return findPage(feedSources, 0, count);
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(FeedSourceEntity feedSource) {
-        return findLatest(feedSource, DEFAULT_PAGE_SIZE);
-    }
-    
-    @Override
-    @Transactional(readOnly = true)
-    public List<FeedItemEntity> findLatest(final List<FeedSourceEntity> feedSources) {
-        return findLatest(feedSources, DEFAULT_PAGE_SIZE);
+    public List<FeedItemEntity> findPage(final List<FeedSourceEntity> feedSources, int pageIndex, 
+            FeedSortingType feedSortingType, FeedFilterType feedFilterType) {
+        if (feedSortingType == FeedSortingType.NEWEST_FIRST) {
+            return findPage(feedSources, pageIndex, Sort.Direction.DESC, DEFAULT_PAGE_SIZE);
+        } else if (feedSortingType == FeedSortingType.OLDEST_FIRST) {
+            return findPage(feedSources, pageIndex, Sort.Direction.ASC, DEFAULT_PAGE_SIZE);
+        } else {
+            return null;
+        }
     }
     
 }

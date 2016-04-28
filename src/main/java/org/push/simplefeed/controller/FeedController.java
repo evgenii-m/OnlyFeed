@@ -105,7 +105,8 @@ public class FeedController {
     public List<FeedItemEntity> getFeedPage(@PathVariable int pageIndex, Principal principal) {
         logger.debug("getFeedPage");
         UserEntity user = userService.findByEmail(principal.getName());
-        List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex);
+        List<FeedItemEntity> feedItems = feedItemService.findPage(user.getFeedSources(), pageIndex, 
+                user.getFeedSortingType(), user.getFeedFilterType());
         return feedItems;
     }
     
@@ -122,36 +123,9 @@ public class FeedController {
                     + ") not found for user (user.id=" + user.getId() + ")");
             return null;
         }
-        List<FeedItemEntity> feedItems = feedItemService.findPage(feedSource, pageIndex);
+        List<FeedItemEntity> feedItems = feedItemService.findPage(feedSource, pageIndex, 
+                user.getFeedSortingType(), user.getFeedFilterType());
         return feedItems;
-    }
-
-    
-    @RequestMapping(value = "/refresh", method = POST)
-    @ResponseBody
-    public boolean refreshFeed(Principal principal) {
-        logger.debug("refreshFeed");
-        UserEntity user = userService.findByEmail(principal.getName());
-        if (user.getFeedSources().isEmpty()) {
-            logger.debug("User doesn't have feed sources, nothing refresh (user.id=" + user.getId() + ")");
-            return true;
-        }
-        return feedSourceService.refresh(user.getFeedSources());
-    }
-    
-
-    @RequestMapping(value = "/{feedSourceId}/refresh", method = POST)
-    @ResponseBody
-    public boolean refreshFeedFromSource(@PathVariable Long feedSourceId, Principal principal) {
-        logger.debug("refreshFeedFromSource");
-        UserEntity user = userService.findByEmail(principal.getName());
-        FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
-        if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
-            logger.error("Feed source (feedSource.id=" + feedSourceId 
-                    + ") not found for user (user.id=" + user.getId() + ")");
-            return false;
-        }
-        return feedSourceService.refresh(feedSource);
     }
 
 
@@ -167,6 +141,30 @@ public class FeedController {
             return null;
         }
         return feedItem;
+    }
+    
+
+    @RequestMapping(value = "/refresh", method = POST)
+    @ResponseBody
+    public boolean refreshFeed(Long feedSourceId, Principal principal) {
+        logger.debug("refreshFeed");
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (feedSourceId != null) {
+            FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
+            if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
+                logger.error("Feed source (feedSource.id=" + feedSourceId 
+                        + ") not found for user (user.id=" + user.getId() + ")");
+                return false;
+            }
+            return feedSourceService.refresh(feedSource);
+        } else {
+            if (user.getFeedSources().isEmpty()) {
+                logger.debug("User doesn't have feed sources, nothing refresh (user.id="
+                        + user.getId() + ")");
+                return true;
+            }
+            return feedSourceService.refresh(user.getFeedSources());            
+        }
     }
     
     
@@ -188,19 +186,33 @@ public class FeedController {
         return true;
     }
     
+    
     @RequestMapping(value = "/settings/sorting", method = POST)
     @ResponseBody
-    public boolean changeFeedSortingType(Byte feedSortingType, Principal principal) {
+    public List<FeedItemEntity> changeFeedSortingType(Byte feedSortingType, Long feedSourceId, 
+            Principal principal) {
         logger.debug("changeFeedSortingType (feedSortingType=" + feedSortingType + ")");
         if ((feedSortingType == null) || (feedSortingType >= FeedSortingType.LENGTH)) {
             logger.error("Unavaliable FeedSortingType");
-            return false;
+            return null;
         }
         UserEntity user = userService.findByEmail(principal.getName());
+        if (user.getFeedSortingType().equals(FeedSortingType.value(feedSortingType))) {
+            logger.info("FeedSortingType not changed");
+            return null;
+        }
         user.setFeedSortingType(FeedSortingType.value(feedSortingType));
         userService.save(user);
-        return true;
+        if (feedSourceId != null) {
+            FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
+            return feedItemService.findPage(feedSource, 0, user.getFeedSortingType(), 
+                    user.getFeedFilterType());
+        } else {
+            return feedItemService.findPage(user.getFeedSources(), 0, user.getFeedSortingType(), 
+                    user.getFeedFilterType());            
+        }
     }
+    
     
     @RequestMapping(value = "/settings/filter", method = POST)
     @ResponseBody
@@ -211,10 +223,16 @@ public class FeedController {
             return false;
         }
         UserEntity user = userService.findByEmail(principal.getName());
+        if (user.getFeedFilterType().equals(FeedFilterType.value(feedFilterType))) {
+            logger.info("FeedFilterType not changed");
+            return false;
+        }
         user.setFeedFilterType(FeedFilterType.value(feedFilterType));
         userService.save(user);
         return true;
     }
+    
+    
     
     
     @RequestMapping(value = "/tab", method = GET)
@@ -222,7 +240,6 @@ public class FeedController {
     public List<FeedItemEntity> getFeedTabs(Principal principal) {
         logger.debug("getFeedTabs");
         UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
-        // TODO: replace on CollectionUtils.collect with transformer (?)
         List<FeedItemEntity> feedItems = new ArrayList<>();
         for (FeedTabEntity feedTab : user.getFeedTabs()) {
             feedItems.add(feedTab.getFeedItem());

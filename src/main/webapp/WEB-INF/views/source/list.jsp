@@ -31,7 +31,7 @@
 		        <div class="item" id="${feedSource.id}">
 	                <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
 	                <div class="name">
-	                    <span class="show-feeds-link">${feedSource.name}</span>
+	                    <a href="${feedUrl}${feedSource.id}">${feedSource.name}</a>
 	                </div>
 	                <div class="description">
 	                    ${feedSource.description}
@@ -60,14 +60,10 @@
             rules: {
             	url: {
                     required: true,
-                    url: true,
-                    maxlength: 256
+//                     url: true,
+                    maxlength: 512
             	}
             }
-        });
-
-        $(".show-feeds-link").click(function() {
-        	window.location.href = "${feedUrl}" + $(this).parents(".item").attr("id");
         });
         
         $(".edit-link").click(function() {

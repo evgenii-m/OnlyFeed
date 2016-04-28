@@ -369,11 +369,14 @@ li.sortable-placeholder {
     font-weight: bold;
 }
 
-.feed-list .item .name span {
+.feed-list .item .name a {
+    color: #3d3d3d;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.feed-list .item .name span:hover {
+.feed-list .item .name a:hover,
+.feed-list .item .name a:focus {
     color: #26b3ff;
 }
 
@@ -387,9 +390,9 @@ li.sortable-placeholder {
     margin-right: 5px;
 }
 
-.feed-list .item .action-links span {
+.feed-list .item .action-links span:hover {
     cursor: pointer;
-    color: #6DA3BD;
+    color: #26b3ff;
 }
 /*************************************************************************************************/
 
@@ -470,6 +473,14 @@ li.sortable-placeholder {
 
 #new-feed-source-form .error {
 	margin-left: 0px;
+}
+
+#feed-source-list .item:hover {
+    border-color: #26B3FF;
+    background-color: #ebf4f2;
+    border: 1px solid #26B3FF;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
 }
 /*************************************************************************************************/
 

@@ -8,6 +8,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 
 import java.security.Principal;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -18,6 +19,7 @@ import org.push.simplefeed.model.entity.FeedSourceEntity;
 import org.push.simplefeed.model.entity.UserEntity;
 import org.push.simplefeed.model.service.IFeedSourceService;
 import org.push.simplefeed.model.service.IUserService;
+import org.push.simplefeed.util.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +28,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
@@ -39,8 +43,14 @@ public class SourceController {
     private static Logger logger = LogManager.getLogger(SourceController.class);
     private IFeedSourceService feedSourceService;
     private IUserService userService;
+    private FileUploader fileUploader;
 
-
+    
+    @Autowired
+    public void setFileUploader(FileUploader fileUploader) {
+        this.fileUploader = fileUploader;
+    }
+    
     @Autowired
     public void setFeedSourceService(IFeedSourceService feedSourceService) {
         this.feedSourceService = feedSourceService;
@@ -51,16 +61,6 @@ public class SourceController {
         this.userService = userService;
     }
 
-    
-    
-    private void validateFeedSourceUrl(String feedSourceUrl, Errors errors) {
-        if (!UrlValidator.getInstance().isValid(feedSourceUrl)) {
-            errors.rejectValue("url", "validation.url");       
-        } else if (!feedSourceService.isSupported(feedSourceUrl)) {
-            errors.rejectValue("url", "validation.unsupportedFeedSource");            
-        }
-    }
-    
     
 
     @RequestMapping(method = GET)
@@ -74,7 +74,44 @@ public class SourceController {
         }
         return "source/list";
     }
+
     
+    private void validateFeedSourceUrl(String feedSourceUrl, Errors errors) {
+        if (!UrlValidator.getInstance().isValid(feedSourceUrl)) {
+            errors.rejectValue("url", "validation.url");       
+        } else if (!feedSourceService.isSupported(feedSourceUrl)) {
+            errors.rejectValue("url", "validation.unsupportedFeedSource");            
+        }
+    }
+    
+    private String findFeedSourceByUrl(String url) {
+        UrlValidator urlValidator = UrlValidator.getInstance();
+        String[] prefixes = { "http://", "https://" };
+        Pattern prefixPattern = Pattern.compile("^(http://|https://).+");
+        String[] suffixes = { "/rss", "/atom" };
+        Pattern suffixPattern = Pattern.compile(".+(/rss|/atom)$");
+
+        // if protocol is not specified, try to append "http://" or "https://"
+        for (String prefix : prefixes) {
+            String prefixUrl = (prefixPattern.matcher(url).matches()) ? url : prefix + url;
+            if (!urlValidator.isValid(prefixUrl)) {
+                continue;
+            }
+
+            // for valid URLs if feed suffix is not specified, try to append "/rss" or "/atom"
+            if (!suffixPattern.matcher(prefixUrl).matches()) {
+                for (String suffix : suffixes) {
+                    String suffixUrl = prefixUrl + suffix;
+                    if (feedSourceService.isSupported(suffixUrl)) {
+                        return suffixUrl;
+                    }                        
+                }                    
+            } else if (feedSourceService.isSupported(prefixUrl)) {
+                return prefixUrl;
+            }
+        }
+        return null;
+    }
 
     @RequestMapping(method = POST)
     public String addFeedSource(@ModelAttribute("newFeedSource") FeedSourceEntity newFeedSource, 
@@ -82,12 +119,16 @@ public class SourceController {
         logger.debug("addFeedSource");
         validateFeedSourceUrl(newFeedSource.getUrl(), bindingResult);
         if (bindingResult.hasErrors()) {
-            logger.error("Error when validate feed source (url=" + newFeedSource.getUrl() + ")\n"
-                    + bindingResult.toString());
-            redirectAttributes.addFlashAttribute("newFeedSource", newFeedSource);
-            redirectAttributes.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.newFeedSource", bindingResult);
-            return "redirect:/source";
+            String modUrl = findFeedSourceByUrl(newFeedSource.getUrl());
+            if (modUrl == null) {
+                logger.error("Error when validate feed source (url=" + newFeedSource.getUrl() + ")\n"
+                        + bindingResult.toString());
+                redirectAttributes.addFlashAttribute("newFeedSource", newFeedSource);
+                redirectAttributes.addFlashAttribute(
+                        "org.springframework.validation.BindingResult.newFeedSource", bindingResult);
+                return "redirect:/source";
+            }
+            newFeedSource.setUrl(modUrl);
         }
 
         // TODO: add check fillBlank() result
@@ -129,16 +170,34 @@ public class SourceController {
     
     @RequestMapping(value = {"/add", "/edit/{id}"}, method = POST)
     public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
+            @RequestParam(value = "picture", required = false) MultipartFile picture, 
             BindingResult bindingResult, Model uiModel, Principal principal) {
         logger.debug("saveFeedSource");
+        UserEntity user = userService.findByEmail(principal.getName());
         validateFeedSourceUrl(feedSource.getUrl(), bindingResult);
+        if ((picture != null) && !picture.isEmpty()) {
+            if (fileUploader.validateImage(picture)) {
+                String pictureUrl = fileUploader.uploadJpeg(picture);
+                if (pictureUrl != null) {
+                    feedSource.setLogoUrl(pictureUrl);
+                } else {
+                    logger.error("Error when upload picture (feedSource.id=" + feedSource.getId() + ")");
+                    bindingResult.rejectValue("logoUrl", "validation.invalidImage");
+                }
+            } else {
+                logger.error("Invalid picture (feedSource.id=" + feedSource.getId() + ")");
+                bindingResult.rejectValue("logoUrl", "validation.invalidImage");
+            }
+        } else {
+            logger.debug("Logo not set");
+        }
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (" + feedSource + ")\n"
                     + bindingResult.toString());
+            uiModel.addAttribute("user", user);
             return "source/edit";
         }
 
-        UserEntity user = userService.findByEmail(principal.getName());
         feedSourceService.save(feedSource, user);
         logger.debug("Added/updated feed source (" + feedSource + ")");
         return "redirect:/source";

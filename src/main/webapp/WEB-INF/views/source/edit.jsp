@@ -12,6 +12,7 @@
 <spring:message var="cancelButton" code="source.edit.cancelButton"/>
 <spring:message var="saveButton" code="source.edit.saveButton"/>
 <spring:message var="feedSourceNotFoundAlert" code="source.edit.feedSourceNotFoundAlert"/>
+<spring:message var="pictureSelectMessage" code="register.pictureSelectMessage"/>
 
 <spring:url var="listFeedSourceUrl" value="/source"/>
 
@@ -21,7 +22,8 @@
 </c:if>
 <c:if test="${not empty feedSource}">
     <spring:eval var="formTitle" expression="feedSource.id == null ? addFormTitle : editFormTitle"/>
-	<form:form modelAttribute="feedSource" method="post" class="form-container" id="edit-feed-source-form">
+	<form:form modelAttribute="feedSource" method="post" class="form-container" id="edit-feed-source-form"
+            enctype="multipart/form-data">
 	    <div class="form-title">${formTitle}</div>
 	    <div class="form-row">
             <form:label path="name" class="required-field-label">${nameLabel}</form:label>
@@ -42,6 +44,10 @@
 	        <form:label path="logoUrl">${logoLabel}</form:label>
 	        <form:hidden path="logoUrl" value="${feedSource.logoUrl}"/>
 	        <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
+            <div class="select-picture" style="width: 250px;">
+                <input type="file" name="picture" id="picture-file" style="width: 250px;"/>
+                <span>${pictureSelectMessage}</span>
+            </div>
 	        <form:errors path="logoUrl" class="alert alert-danger error" element="div"/>
 	    </div>
 	    <div class="form-buttons">

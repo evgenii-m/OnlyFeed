@@ -45,7 +45,7 @@
                     </li>
                 </ul>
                 
-                <ul class="nav navbar-nav navbar-right tool-pane">
+                <ul class="nav navbar-nav navbar-right toolpane">
                 </ul>
             </sec:authorize>
         </div> <!--/.nav-collapse -->

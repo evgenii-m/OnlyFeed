@@ -9,7 +9,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -276,13 +276,22 @@ public class FeedController {
     }
     
     
-    @SuppressWarnings("deprecation")
+    @RequestMapping(value = "/tab", method = DELETE)
+    @ResponseBody
+    public boolean deleteAllFeedTabs(Principal principal) {
+        logger.debug("deleteAllFeedTabs");
+        UserEntity user = userService.findByEmail(principal.getName());
+        feedTabService.delete(user);
+        return true;
+    }
+    
+    
     @RequestMapping(value = "/tab/{feedItemId}", method = DELETE)
     @ResponseBody
     public boolean deleteFeedTab(@PathVariable final Long feedItemId, Principal principal) {
         logger.debug("deleteFeedTab (feedItemId=" + feedItemId + ")");
         UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
-        FeedTabEntity feedTab = CollectionUtils.find(user.getFeedTabs(), new Predicate<FeedTabEntity>() {
+        FeedTabEntity feedTab = IterableUtils.find(user.getFeedTabs(), new Predicate<FeedTabEntity>() {
             @Override
             public boolean evaluate(FeedTabEntity feedTab) {
                 return feedTab.getFeedItem().getId().equals(feedItemId);

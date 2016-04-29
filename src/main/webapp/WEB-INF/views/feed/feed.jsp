@@ -2,9 +2,15 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<spring:message var="feedTabsToolPaneTitle" code='feed.feedTabsToolPaneTitle'/>
+<spring:message var="removeAllActionIconTitle" code='feed.removeAllActionIconTitle'/>
 <spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
 <spring:message var="openOriginalIconTitle" code="feed.openOriginalIconTitle"/>
 <spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
+<spring:message var="confirmRemoveTitle" code="feed.confirmRemoveTitle"/>
+<spring:message var="confirmRemoveMessage" code="feed.confirmRemoveMessage"/>
+<spring:message var="cancelButton" code="feed.cancelButton"/>
+<spring:message var="removeButton" code="feed.removeButton"/>
 
 
 <div class="feed-container">
@@ -16,8 +22,17 @@
 </div>
 
 <div class="feed-tab-panel">
-	<div class="tool-pane">
-        <div id="feed-details-actions" style="display: none;">
+	<div class="toolpane">
+        <div id="feed-tabs-toolpane">
+            <div class="float-left">
+                <span style="font-weight: bold;">${feedTabsToolPaneTitle}</span>
+            </div>
+            <div class="float-right">
+                <span class="action-link" data-toggle="modal" 
+                        data-target="#confirm-remove-modal">${removeAllActionIconTitle}</span>
+            </div>
+        </div>
+        <div id="feed-details-toolpane" style="display: none;">
             <div class="float-left">
 			    <span id="back-to-tabs-action" class="glyphicon glyphicon-arrow-left action-icon"
                         title="${backActionIconTitle}" aria-hidden="true"></span>
@@ -44,7 +59,26 @@
 	    <div class="description"></div>
 	</div>
 </div>
-	
+
+<!-- Confirm Remove Modal -->
+<div id="confirm-remove-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">${confirmRemoveTitle}</h4>
+            </div>
+            <div class="modal-body">
+                ${confirmRemoveMessage}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">${cancelButton}</button>
+                <button type="button" id="remove-all-tabs-action" class="btn btn-danger" data-dismiss="modal">${removeButton}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script type="text/javascript">
     var pageSize = "${pageSize}";

@@ -56,7 +56,6 @@ public class FeedTabService implements IFeedTabService {
         userFeedTabs.remove(feedTabIndex);
     }
     
-    
     @Override
     public void delete(List<FeedTabEntity> feedTabs) {
         for (FeedTabEntity feedTab : feedTabs) {
@@ -67,6 +66,12 @@ public class FeedTabService implements IFeedTabService {
             }
             feedTabRepository.delete(feedTab);
         }
+    }
+    
+    @Override
+    public void delete(UserEntity user) {
+        List<FeedTabEntity> feedTabs = feedTabRepository.findByUser(user);
+        feedTabRepository.delete(feedTabs);
     }
     
     

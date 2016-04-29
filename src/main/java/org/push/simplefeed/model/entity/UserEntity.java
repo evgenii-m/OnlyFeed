@@ -6,6 +6,7 @@ package org.push.simplefeed.model.entity;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -171,6 +172,12 @@ public class UserEntity {
 
     public void setNewsStorageTime(Integer newsStorageTime) {
         this.newsStorageTime = newsStorageTime;
+    }
+    
+    public Date getNewsRelevantDate() {
+        // news storage time specified in hours - need cast to milliseconds (1h = 3600000ms)
+        Date currentDate = new Date();
+        return new Date(currentDate.getTime() - (newsStorageTime * 3600000));        
     }
     
 

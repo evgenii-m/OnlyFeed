@@ -4,9 +4,12 @@
 package org.push.simplefeed.model.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
@@ -18,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.feed.synd.SyndImage;
 
@@ -153,25 +157,44 @@ public class FeedSourceService implements IFeedSourceService {
     }
 
     
+    private List<SyndEntry> filterEntriesByRelevantDate(List<SyndEntry> syndEntries, 
+            final Date relevantDate) {
+        // select only entries with publishedDate > relevantDate
+        Predicate<SyndEntry> predicate = new Predicate<SyndEntry>() {
+            @Override
+            public boolean evaluate(SyndEntry object) {
+                return (object.getPublishedDate().compareTo(relevantDate) >= 0);
+            }
+        };
+        return ListUtils.select(syndEntries, predicate);
+    }
+    
+    
     @Override
-    public boolean refresh(FeedSourceEntity feedSource) {
-        logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" + feedSource.getName()
-                + ", url=" + feedSource.getUrl() + ")");
+    public boolean refresh(FeedSourceEntity feedSource, Date relevantDate) {
+        logger.debug("Refresh feed source (id=" + feedSource.getId() + ", name=" 
+                + feedSource.getName() + ", url=" + feedSource.getUrl() + ")");
+        
         SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSource.getUrl());
         if (syndFeed == null) {
             logger.error("Exception when fetch feed from source (feedSource.url="
                     + feedSource.getUrl() + ")");
             return false;
         }
-        feedItemService.save(syndFeed.getEntries(), feedSource);
+        logger.debug("Retrived syndFeed (feedSource.url=" + feedSource.getUrl() 
+                + ", syndFeed.entries.size=" + syndFeed.getEntries().size() + ")");
+        List<SyndEntry> syndEntries = filterEntriesByRelevantDate(syndFeed.getEntries(), 
+                relevantDate);
+        feedItemService.save(syndEntries, feedSource);
         logger.debug("Refresh end");
         return true;
     }
     
     
     @Override
-    public boolean refresh(List<FeedSourceEntity> feedSources) {        
+    public boolean refresh(List<FeedSourceEntity> feedSources, Date relevantDate) {        
         logger.debug("Refresh feed sources list");
+        
         boolean refreshResult = true;
         String[] sourcesUrl = new String[feedSources.size()];
         for (int i = 0; i < feedSources.size(); ++i) {
@@ -181,7 +204,11 @@ public class FeedSourceService implements IFeedSourceService {
         for (final FeedSourceEntity feedSource : feedSources) {
             SyndFeed syndFeed = syndFeedsMap.get(feedSource.getUrl());
             if (syndFeed != null) {
-                feedItemService.save(syndFeed.getEntries(), feedSource);
+                logger.debug("Retrived syndFeed (feedSource.url=" + feedSource.getUrl() 
+                        + ", syndFeed.entries.size=" + syndFeed.getEntries().size() + ")");
+                List<SyndEntry> syndEntries = filterEntriesByRelevantDate(syndFeed.getEntries(), 
+                        relevantDate);
+                feedItemService.save(syndEntries, feedSource);
             } else {
                 logger.error("Error occured when refresh source (feedSource.url=" + feedSource.getUrl() 
                         + "), see HttpFeedFetcherThread log for details.");

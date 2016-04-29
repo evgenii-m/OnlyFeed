@@ -72,7 +72,7 @@ public class FeedItemEntity {
     private FeedSourceEntity feedSource;
     
     
-    
+
     public Long getId() {
         return id;
     }
@@ -185,6 +185,7 @@ public class FeedItemEntity {
     public void setFeedSource(FeedSourceEntity feedSource) {
         this.feedSource = feedSource;
     }
+
     
 
 

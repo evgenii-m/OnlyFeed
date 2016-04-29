@@ -6,7 +6,7 @@ package org.push.simplefeed.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.Predicate;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedTabEntity;
@@ -94,7 +94,6 @@ public class FeedTabService implements IFeedTabService {
     }
     
     
-    @SuppressWarnings("deprecation")
     @Override
     @Transactional(readOnly = true)
     public List<FeedTabEntity> findByUser(UserEntity user) {
@@ -104,7 +103,7 @@ public class FeedTabService implements IFeedTabService {
         }
         
         List<FeedTabEntity> feedTabOrderedList = new ArrayList<>();
-        feedTabOrderedList.add(CollectionUtils.find(feedTabList, new Predicate<FeedTabEntity>() {
+        feedTabOrderedList.add(IterableUtils.find(feedTabList, new Predicate<FeedTabEntity>() {
             @Override
             public boolean evaluate(FeedTabEntity feedTab) {
                 return (feedTab.getPrevFeedTab() == null);
@@ -112,7 +111,7 @@ public class FeedTabService implements IFeedTabService {
         }));
         for (int i = 0; i < feedTabList.size()-1; i++) {
             final Long curFeedTabId = feedTabOrderedList.get(i).getId();
-            feedTabOrderedList.add(CollectionUtils.find(feedTabList, new Predicate<FeedTabEntity>() {
+            feedTabOrderedList.add(IterableUtils.find(feedTabList, new Predicate<FeedTabEntity>() {
                 @Override
                 public boolean evaluate(FeedTabEntity feedTab) {
                     return (feedTab.getPrevFeedTab() == null) ? false :

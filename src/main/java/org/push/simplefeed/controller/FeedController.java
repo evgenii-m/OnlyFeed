@@ -75,8 +75,14 @@ public class FeedController {
     @RequestMapping(method = GET)
     public String showFeed(Model uiModel, Principal principal) {        
         logger.debug("showFeed");
-        UserEntity user = userService.findByEmail(principal.getName());
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
         uiModel.addAttribute("user", user);
+        
+        List<FeedSourceEntity> feedSources = user.getFeedSources();
+        if (!feedSources.isEmpty()) {
+            feedItemService.deleteOld(feedSources, user.getNewsRelevantDate(), user.getFeedTabs());
+        }
+        
         setFeedSettings(uiModel, user);
         return "feed";
     }
@@ -85,16 +91,18 @@ public class FeedController {
     @RequestMapping(value = "/{feedSourceId}", method = GET)
     public String showFeedFromSource(@PathVariable Long feedSourceId, Model uiModel, Principal principal) {
         logger.debug("showFeedFromSource");
-        UserEntity user = userService.findByEmail(principal.getName());
+        UserEntity user = userService.findByEmailAndLoadFeedTabs(principal.getName());
         uiModel.addAttribute("user", user);
+        
         FeedSourceEntity feedSource = feedSourceService.findById(feedSourceId);
         if ((feedSource == null) || (!feedSource.getUser().equals(user))) {
             logger.error("Feed source (feedSource.id=" + feedSourceId 
                     + ") not found for user (user.id=" + user.getId() + ")");
             return "redirect:/feed";
         }
-        
+        feedItemService.deleteOld(user.getFeedSources(), user.getNewsRelevantDate(), user.getFeedTabs());
         uiModel.addAttribute("currentFeedSource", feedSource);
+        
         setFeedSettings(uiModel, user);
         return "feed";
     }
@@ -160,14 +168,14 @@ public class FeedController {
                         + ") not found for user (user.id=" + user.getId() + ")");
                 return false;
             }
-            return feedSourceService.refresh(feedSource);
+            return feedSourceService.refresh(feedSource, user.getNewsRelevantDate());
         } else {
             if (user.getFeedSources().isEmpty()) {
                 logger.debug("User doesn't have feed sources, nothing refresh (user.id="
                         + user.getId() + ")");
                 return true;
             }
-            return feedSourceService.refresh(user.getFeedSources());            
+            return feedSourceService.refresh(user.getFeedSources(), user.getNewsRelevantDate());
         }
     }
     

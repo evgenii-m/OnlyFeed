@@ -11,10 +11,13 @@ import java.util.regex.Pattern;
 
 import javax.persistence.criteria.*;
 
+import org.apache.commons.collections4.IterableUtils;
+import org.apache.commons.collections4.ListUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.push.simplefeed.model.entity.FeedItemEntity;
 import org.push.simplefeed.model.entity.FeedSourceEntity;
+import org.push.simplefeed.model.entity.FeedTabEntity;
 import org.push.simplefeed.model.entity.types.FeedFilterType;
 import org.push.simplefeed.model.entity.types.FeedSortingType;
 import org.push.simplefeed.model.repository.FeedItemRepository;
@@ -78,7 +81,7 @@ public class FeedItemService implements IFeedItemService {
     
     @Override
     public List<FeedItemEntity> save(List<SyndEntry> syndEntries, FeedSourceEntity feedSource) {
-        logger.debug("Save feed items from: " + feedSource.getUrl() + " (entriesCount=" + syndEntries.size() + ")");
+        logger.debug("Save feed items from: " + feedSource.getUrl() + " (entries.size=" + syndEntries.size() + ")");
         List<FeedItemEntity> feedItems = new ArrayList<>();        
         for (SyndEntry syndEntry : syndEntries) {
             if (feedItemRepository.findByFeedSourceAndLink(feedSource, syndEntry.getLink()) == null) {
@@ -93,6 +96,60 @@ public class FeedItemService implements IFeedItemService {
         feedItems = feedItemRepository.save(feedItems);
         return feedItems;
     } 
+
+    
+    private List<FeedItemEntity> filterItemsByFeedTabs(List<FeedItemEntity> feedItems,
+            final List<FeedTabEntity> feedTabs) {
+        // select only items are not referenced in feedTabs
+        org.apache.commons.collections4.Predicate<FeedItemEntity> predicate = 
+                new org.apache.commons.collections4.Predicate<FeedItemEntity>() {
+            @Override
+            public boolean evaluate(final FeedItemEntity feedItem) {
+                FeedTabEntity feedTab = IterableUtils.find(feedTabs, 
+                        new org.apache.commons.collections4.Predicate<FeedTabEntity>() {
+                    @Override
+                    public boolean evaluate(FeedTabEntity feedTab) {
+                        return (feedTab.getFeedItem().equals(feedItem));
+                    }
+                });
+                return (feedTab == null);
+            }
+        };
+        
+        return ListUtils.select(feedItems, predicate);
+    }
+    
+    @Override
+    public void deleteOld(final FeedSourceEntity feedSource, final Date relevantDate, 
+            final List<FeedTabEntity> feedTabs) {
+        Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
+            @Override
+            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(cb.equal(root.get("feedSource"), feedSource));
+                predicates.add(cb.lessThan(root.get("publishedDate").as(Date.class), relevantDate));
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        List<FeedItemEntity> feedItems = filterItemsByFeedTabs(feedItemRepository.findAll(sp), feedTabs);
+        feedItemRepository.delete(feedItems);
+    }
+    
+    @Override
+    public void deleteOld(final List<FeedSourceEntity> feedSources, final Date relevantDate, 
+            List<FeedTabEntity> feedTabs) {
+        Specification<FeedItemEntity> sp = new Specification<FeedItemEntity>() {
+            @Override
+            public Predicate toPredicate(Root<FeedItemEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(root.get("feedSource").in(feedSources));
+                predicates.add(cb.lessThan(root.get("publishedDate").as(Date.class), relevantDate));
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        List<FeedItemEntity> feedItems = filterItemsByFeedTabs(feedItemRepository.findAll(sp), feedTabs);
+        feedItemRepository.delete(feedItems);
+    }
 
 
 
@@ -168,7 +225,7 @@ public class FeedItemService implements IFeedItemService {
             return cb.equal(root.get("viewed"), false);
         } else if (feedFilterType == FeedFilterType.LATEST_DAY) {
             Date currentDate = new Date();
-            Date yesterdayDate = new Date(currentDate.getTime() - 86400000);
+            Date yesterdayDate = new Date(currentDate.getTime() - 86400000); // 1d = 86400000ms 
             return cb.greaterThanOrEqualTo(root.get("publishedDate").as(Date.class), yesterdayDate);
         }
         return null;

@@ -3,6 +3,7 @@
  */
 package org.push.simplefeed.model.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.push.simplefeed.model.entity.FeedSourceEntity;
@@ -23,6 +24,6 @@ public interface IFeedSourceService {
     FeedSourceEntity getBlank();
     boolean fillBlank(FeedSourceEntity feedSource);
     boolean isSupported(String feedSourceUrl);
-    boolean refresh(FeedSourceEntity feedSource);
-    boolean refresh(List<FeedSourceEntity> feedSources);
+    boolean refresh(FeedSourceEntity feedSource, Date relevantDate);
+    boolean refresh(List<FeedSourceEntity> feedSources, Date relevantDate);
 }

@@ -389,7 +389,6 @@ function changeFeedSortingType(newFeedSortingType) {
 					feedSortingType = newFeedSortingType;
 					$("#sorting-type-" + feedSortingType).addClass("selected");
 					refreshFeed();
-		        	$(document).scrollTop(0);
 				} else {
 					console.log("Failed to change feed sorting type");
 				}
@@ -412,7 +411,6 @@ function changeFeedFilterType(newFeedFilterType) {
 					feedFilterType = newFeedFilterType;
 					$("#filter-type-" + feedFilterType).addClass("selected");
 					refreshFeed();
-		        	$(document).scrollTop(0);
 				} else {
 					console.log("Failed to change feed filter type");
 				}

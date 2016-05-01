@@ -7,7 +7,6 @@
 <spring:message var="feedSourcesLabel" code="header.feedSourcesLabel"/>
 <spring:message var="accountSettingsLabel" code="header.accountSettingsLabel"/>
 <spring:message var="logoutLabel" code="header.logoutLabel"/>
-<spring:message var="showAllSourcesLabel" code="header.showAllSourcesLabel"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
 <spring:url var="sourceUrl" value="/source/"/>
@@ -21,15 +20,6 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <sec:authorize access="isAuthenticated()">
-                <ul class="nav navbar-nav navbar-source">
-                    <c:if test="${empty currentFeedSource}">
-                        <li onclick="window.location.href='${sourceUrl}'">${showAllSourcesLabel}</li>
-                    </c:if>
-                    <c:if test="${not empty currentFeedSource}">
-                        <li onclick="window.location.href='${sourceUrl}'" id="fs-${currentFeedSource.id}">${currentFeedSource.name}</li>
-                    </c:if>
-                </ul>
-                
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <div class="dropdown-toggle user-panel" role="button" data-toggle="dropdown" aria-hidden="true" 

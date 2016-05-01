@@ -86,8 +86,10 @@
     var feedSortingType = "${feedSortingType}";
     var feedFilterType = "${feedFilterType}";
     var currentFeedSourceId = "${currentFeedSource.id}";
+    var currentFeedSourceName = "${currentFeedSource.name}";
 
     var feedUrl = "<spring:url value='/feed/'/>";
+    var sourceUrl = "<spring:url value='/source/'/>";
     var feedRefreshUrl = "<spring:url value='/feed/refresh/'/>";
     var feedSettingsUrl = "<spring:url value='/feed/settings/'/>";
     var feedItemUrl = "<spring:url value='/feed/item/'/>";
@@ -112,6 +114,7 @@
     var unreadFilterLabel = "<spring:message code='header.unreadFilterLabel'/>";
     var readFilterLabel = "<spring:message code='header.readFilterLabel'/>";
     var latestDayFilterLabel = "<spring:message code='header.latestDayFilterLabel'/>";
+    var showAllSourcesLabel = "<spring:message code='header.showAllSourcesLabel'/>";
     
     $(document).ready(function() {
     	setFeedToolPane();

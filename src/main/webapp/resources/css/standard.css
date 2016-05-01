@@ -464,19 +464,20 @@ li.sortable-placeholder {
 /* source list view */
 #new-feed-source-form input {
 	margin-top: 15px;
-	width: 530px;
+	width: 490px;
     height: 35px;
     font-size: 16px;
     display: inline-block;
 }
 
 #new-feed-source-form button {
-	width: 60px;
+	width: 100px;
 	height: 33px;
     font-size: 15px;
     font-weight: bold;
 	margin-top: -3px;
 	margin-left: 5px;
+	text-align: center;
 }
 
 #new-feed-source-form .error {

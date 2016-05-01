@@ -325,6 +325,19 @@ function moveFeedTab(tabOldIndex, tabNewIndex) {
 
 
 function setFeedToolPane() {
+	var navbarSource = $("<ul/>", {
+		class: "nav navbar-nav navbar-source"
+	}).appendTo($("#navbar"));
+	var navbarSourceLi = $("<li/>").appendTo(navbarSource);
+	if (currentFeedSourceName == "") {
+		navbarSourceLi.text(showAllSourcesLabel);
+	} else {
+		navbarSourceLi.text(currentFeedSourceName);
+	}
+	navbarSourceLi.click(function() {
+		window.location.href = sourceUrl;		
+	});
+    
 	var navbarToolPane = $("ul.navbar-nav.toolpane");
 	navbarToolPane.append('<li id="refresh-action" class="glyphicon glyphicon-refresh action-icon" '
 			+ 'title=' + refreshIconTitle + ' aria-hidden="true"></li>');

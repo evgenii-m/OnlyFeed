@@ -13,6 +13,7 @@
 <spring:url var="sourceEditUrl" value="/source/edit/"/>
 <spring:url var="sourceDeleteUrl" value="/source/delete/"/>
 
+
 <div class="content-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
 	    <div class="form-row">
@@ -60,7 +61,6 @@
             rules: {
             	url: {
                     required: true,
-//                     url: true,
                     maxlength: 512
             	}
             }

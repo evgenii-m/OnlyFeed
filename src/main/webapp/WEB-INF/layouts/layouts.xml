@@ -15,6 +15,10 @@
        <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
+    <definition name="help" extends="default">
+       <put-attribute name="body" value="/WEB-INF/views/help.jsp"/>
+    </definition>
+    
     <definition name="register" extends="default">
        <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
     </definition>

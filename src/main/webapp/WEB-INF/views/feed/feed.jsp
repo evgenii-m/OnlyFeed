@@ -60,6 +60,7 @@
 	</div>
 </div>
 
+
 <!-- Confirm Remove Modal -->
 <div id="confirm-remove-modal" class="modal fade" role="dialog">
     <div class="modal-dialog" style="width: 400px;">

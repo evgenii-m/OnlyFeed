@@ -71,6 +71,12 @@ public class IndexController {
     }
     
     
+    @RequestMapping(value = "/help", method = GET) 
+    public String help() {
+        return "help";
+    }
+    
+    
     @RequestMapping(value = "/loginfail")
     public String loginFail(Model uiModel, Locale locale) {
         logger.info("Login fail");

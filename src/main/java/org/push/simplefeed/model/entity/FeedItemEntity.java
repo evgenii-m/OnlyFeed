@@ -40,12 +40,12 @@ public class FeedItemEntity {
     private String title;
     
     @Column(name = "description")
-    @Size(min = 1, max = 10000, message = "{validation.lengthRange}")
+    @Size(min = 0, max = 10000, message = "{validation.lengthRange}")
     @NotNull
     private String description;
     
     @Column(name = "link")
-    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
+    @Size(min = 0, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     @NotNull
     private String link;
@@ -106,7 +106,7 @@ public class FeedItemEntity {
 
     public void setDescription(String description) {
         if (description.length() > DESCRIPTION_LENGTH_MAX) {
-            this.description = description.substring(0, DESCRIPTION_LENGTH_MAX);
+            this.description = description.substring(0, DESCRIPTION_LENGTH_MAX-1);
         } else {
             this.description = description;
         }

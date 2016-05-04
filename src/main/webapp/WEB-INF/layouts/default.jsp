@@ -33,8 +33,9 @@
 
 	<body>
         <tiles:insertAttribute name="header"/>
-		<div class="container">
+		<div class="container content-wrapper">
 			<tiles:insertAttribute name="body"/>
+            <tiles:insertAttribute name="footer"/>
 		</div>
 	</body>
 </html>

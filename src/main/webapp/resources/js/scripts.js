@@ -1,3 +1,18 @@
+$(document).ready(function() {
+	$("#select-lang-en").click(function() {
+		$.get("?lang=en_US", function() {
+			location.reload();
+		});
+	});
+
+	$("#select-lang-ru").click(function() {
+		$.get("?lang=ru_RU", function() {
+			location.reload();
+		});
+	});
+});
+
+
 function displayFeedItems() {
 	refreshFeed();
 	
@@ -341,6 +356,8 @@ function setFeedToolPane() {
 	var navbarToolPane = $("ul.navbar-nav.toolpane");
 	navbarToolPane.append('<li id="refresh-action" class="glyphicon glyphicon-refresh action-icon" '
 			+ 'title=' + refreshIconTitle + ' aria-hidden="true"></li>');
+	navbarToolPane.append('<li id="show-tab-panel-action" class="glyphicon glyphicon-bookmark action-icon" '
+			+ 'title=' + '" "' + ' aria-hidden="true"></li>');
 	
 	var dropdown = $('<li class="dropdown">').appendTo(navbarToolPane);
 	dropdown.append('<span class="dropdown-toggle glyphicon glyphicon-cog action-icon" role="button" ' 

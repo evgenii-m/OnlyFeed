@@ -36,7 +36,6 @@ body {
 }
 
 .footer a {
-/*     text-decoration: none; */
     margin-left: 7px;
     cursor: pointer;
 }
@@ -162,13 +161,13 @@ a.action-icon:focus,
 .action-icon {
     font-size: 20px;
     cursor: pointer;
-    color: #3D3D3D;
+    color: #5E5E5E;
     text-decoration: none;
 }
 
 .action-link {
     cursor: pointer;
-    color: #3D3D3D;
+    color: #5E5E5E;
 }
 
 .action-link:hover,
@@ -374,10 +373,6 @@ li.sortable-placeholder {
 
 
 /* feed list */
-.feed-list {
-    margin-top: 30px;
-}
-
 .feed-list .item {
     margin-bottom: 10px;
     padding: 10px;
@@ -388,6 +383,14 @@ li.sortable-placeholder {
     overflow: hidden;
     box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
     color: #3d3d3d;
+}
+
+.feed-list .item:hover {
+    border-color: #26B3FF;
+    background-color: #ebf4f2;
+    border: 1px solid #26B3FF;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
 }
 
 .feed-list .item .feed-logo {
@@ -506,14 +509,6 @@ li.sortable-placeholder {
 #new-feed-source-form .error {
 	margin-left: 0px;
 }
-
-#feed-source-list .item:hover {
-    border-color: #26B3FF;
-    background-color: #ebf4f2;
-    border: 1px solid #26B3FF;
-    overflow: hidden;
-    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
-}
 /*************************************************************************************************/
 
 
@@ -552,11 +547,18 @@ li.sortable-placeholder {
 /* feed view */
 .feed-container {
     margin-top: 10px;
-    width: 50%;
+    margin-left: 15%;
+    width: 70%;
     min-width: 380px;
     float: left;
 }
 
+.feed-container.narrow {
+    margin-left: 0;
+    width: 50%;
+}
+
+.feed-panel .alert-warning,
 .feed-container .alert-warning {
     width: 100%;
     position: relative;
@@ -564,20 +566,8 @@ li.sortable-placeholder {
     box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
 }
 
-.feed-item-list {
-	margin: 0px;
-}
-
 .feed-item-list .item {
     cursor: pointer;
-}
-
-.feed-item-list .item:hover {
-    border-color: #26B3FF;
-    background-color: #ebf4f2;
-    border: 1px solid #26B3FF;
-    overflow: hidden;
-    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
 }
 
 .feed-item-list.compact .item .feed-logo {
@@ -603,7 +593,6 @@ li.sortable-placeholder {
 }
 
 .feed-item-list .item.viewed .title {
-/*     color: #5E5E5E; */
     font-weight: normal;
 }
 
@@ -643,36 +632,6 @@ li.sortable-placeholder {
     max-width: 250px;
 }
 
-
-.feed-tab-panel {
-    margin-top: 10px;
-	width: 550px;
-    height: 80%;
-    position: fixed;
-    right: 100px;
-/*     padding: 10px; */
-    background-color: #ffffff;
-    border: 1px solid #C4C4C4;
-    border-radius: 4px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-/*     overflow: auto; */
-    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
-    color: #3D3D3D;
-}
-
-.feed-tab-panel .toolpane {
-	height: 40px;
-	padding: 10px 12px;
-    margin-bottom: 5px;
-    background-color: #d2d2d2;
-    border-bottom: 1px solid #c4c4c4;
-}
-
-.feed-tab-panel .feed-tab-list {
-	padding: 10px;
-    overflow: auto;
-    height: 90%;
-}
 
 .feed-tab-list .feed-tab {
     cursor: pointer;
@@ -729,26 +688,67 @@ li.sortable-placeholder {
     color: #ff3e32;
 }
 
-.feed-item-details {
-	padding: 10px;
-    overflow: auto;
+
+.feed-panel {
+    height: 87%;
+    width: 70%;
+    left: 15%;
+    min-width: 480px;
+    background-color: #ffffff;
+    border: 1px solid #C4C4C4;
+    border-radius: 4px;
+    position: fixed;
+    display: block;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+    color: #3D3D3D;
+    z-index: 20;
+    transition: opacity 0.15s linear 0s;
+}
+
+.feed-panel.pinned-panel {
+    margin-top: 10px;
+    width: 550px;
+    height: 80%;
+    position: fixed;
+    left: 50%;
+    margin-left: 20px;
+}
+
+.panel-backdrop {
+    background-color: #000;
+    opacity: 0.5;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 10;
+    transition: opacity 0.15s linear 0s;
+}
+
+.feed-panel .panel-header {
+    height: 40px;
+    padding: 10px 12px;
+    margin-bottom: 5px;
+    background-color: #d2d2d2;
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.feed-panel .panel-content {
+    padding: 10px;
     height: 90%;
+    overflow: auto;
+    display: block;
 }
 
-.feed-item-details .title {
-	margin-top: 10px;
-	margin-bottom: 5px;
-	font-size: 22px;
-	font-weight: bold;
-}
-
-.feed-item-details .pub-info {
+.feed-details-panel .pub-info {
     height: 25px;
-    color: #5E5E5E;
     border-bottom: 1px solid #d0cccc;
+    color: #5E5E5E;
 }
 
-.feed-item-details .pub-info span {
+.feed-details-panel .pub-info span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -756,35 +756,40 @@ li.sortable-placeholder {
     float: left;
 }
 
-.feed-item-details .pub-info .source-name {
-    max-width: 230px;
+.feed-details-panel .pub-info .source-name {
+    max-width: 220px;
 }
 
-.feed-item-details .pub-info .source-name a {
+.feed-details-panel .pub-info .author {
+    max-width: 180px;
+}
+
+.feed-details-panel .pub-info .published-date {
+    max-width: 145px;
+}
+
+.feed-details-panel .pub-info .source-name a {
     text-decoration: none;
     color: #5E5E5E;
 }
 
-.feed-item-details .pub-info .source-name a:hover,
-.feed-item-details .pub-info .source-name a:focus {
+.feed-details-panel .pub-info .source-name a:hover,
+.feed-details-panel .pub-info .source-name a:focus {
     cursor: pointer;
     color: #26B3FF;
 }
 
-.feed-item-details .pub-info .author {
-    max-width: 150px;
+.feed-details-panel .title {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.feed-item-details .pub-info .published-date {
-    max-width: 150px;
-}
-
-.feed-item-details .description {
-}
-
-.feed-item-details .description img {
+.feed-details-panel .description img {
     max-width: 100%;
     padding: 5px;
+    display: block;
 }
 /*************************************************************************************************/
 

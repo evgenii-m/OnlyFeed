@@ -237,6 +237,21 @@ public class FeedController {
     }
     
     
+    @RequestMapping(value = "/settings/panelpos", method = POST)
+    @ResponseBody
+    public boolean changeFeedPanelPosition(boolean feedPanelPosition, Principal principal) {
+        logger.debug("changeFeedPanelPosition (feedPanelPosition=" + feedPanelPosition + ")");
+        UserEntity user = userService.findByEmail(principal.getName());
+        if (user.getFeedPanelPosition() == feedPanelPosition) {
+            logger.info("feedPanelPosition not changed");
+            return false;            
+        }
+        user.setFeedPanelPosition(feedPanelPosition);
+        userService.save(user);
+        return true;
+    }
+    
+    
     
     
     @RequestMapping(value = "/tab", method = GET)

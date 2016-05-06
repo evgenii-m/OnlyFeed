@@ -21,43 +21,54 @@
     </button>
 </div>
 
-<div class="feed-tab-panel">
-	<div class="toolpane">
-        <div id="feed-tabs-toolpane">
-            <div class="float-left">
-                <span style="font-weight: bold;">${feedTabsToolPaneTitle}</span>
-            </div>
-            <div class="float-right">
-                <span class="action-link" data-toggle="modal" 
-                        data-target="#confirm-remove-modal">${removeAllActionIconTitle}</span>
-            </div>
+
+<div class="feed-panel feed-details-panel" style="display: none;">
+    <div class="panel-header">
+        <div class="float-left">
+            <span id="back-to-tabs-action" class="glyphicon glyphicon-arrow-left action-icon"
+                    title="${backActionIconTitle}" aria-hidden="true"></span>
         </div>
-        <div id="feed-details-toolpane" style="display: none;">
-            <div class="float-left">
-			    <span id="back-to-tabs-action" class="glyphicon glyphicon-arrow-left action-icon"
-                        title="${backActionIconTitle}" aria-hidden="true"></span>
-            </div>
-            <div class="float-right">
-                <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
-                        aria-hidden="true" target="_blank" title="${openOriginalIconTitle}"></a>
-			    <span id="add-tab-action" class="glyphicon glyphicon-plus action-icon"
-			            aria-hidden="true"></span>
-		    </div>
+        <div class="float-right">
+            <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
+                    aria-hidden="true" target="_blank" title="${openOriginalIconTitle}"></a>
+            <span id="add-tab-action" class="glyphicon glyphicon-bookmark action-icon"
+                    aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-pushpin action-icon pin-feed-panel-action"
+                    aria-hidden="true" style="margin-left: 20px;"></span>
+            <span class="glyphicon glyphicon-remove action-icon close-feed-panel-action"
+                    aria-hidden="true"></span>
         </div>
-	</div>
-	
-	<ul class="feed-tab-list sortable" aria-dropeffect="move">
+    </div>
+    <div class="panel-content">
+        <div class="pub-info">
+            <span class="source-name"><a href="#"></a></span>
+            <span class="author"></span>
+            <span class="published-date"></span>
+        </div>
+        <div class="title"></div>
+        <div class="description"></div>
+    </div>
+</div>
+
+<div class="panel-backdrop" style="display: none;"></div>
+
+
+<div class="feed-panel feed-tab-panel" style="display: none;">
+    <div class="panel-header">
+        <div class="float-left">
+            <span style="font-weight: bold;">${feedTabsToolPaneTitle}</span>
+            <span class="action-link" data-toggle="modal" style="margin-left: 5px;"
+                    data-target="#confirm-remove-modal">(${removeAllActionIconTitle})</span>
+        </div>
+        <div class="float-right">
+            <span class="glyphicon glyphicon-pushpin action-icon pin-feed-panel-action"
+                    aria-hidden="true" style="margin-left: 20px;"></span>
+            <span class="glyphicon glyphicon-remove action-icon close-feed-panel-action"
+                    aria-hidden="true"></span>
+        </div>
+    </div>
+	<ul class="panel-content feed-tab-list sortable" aria-dropeffect="move">
 	</ul>
-	
-	<div class="feed-item-details" style="display: none;">
-	    <div class="pub-info">
-	        <span class="source-name"><a href="#"></a></span>
-	        <span class="author"></span>
-	        <span class="published-date"></span>
-	    </div>
-	    <div class="title"></div>
-	    <div class="description"></div>
-	</div>
 </div>
 
 
@@ -82,12 +93,13 @@
 
 
 <script type="text/javascript">
-    var pageSize = "${pageSize}";
-    var feedViewType = "${feedViewType}";
-    var feedSortingType = "${feedSortingType}";
-    var feedFilterType = "${feedFilterType}";
+    var pageSize = ${pageSize};
+    var feedViewType = ${feedViewType};
+    var feedSortingType = ${feedSortingType};
+    var feedFilterType = ${feedFilterType};
     var currentFeedSourceId = "${currentFeedSource.id}";
     var currentFeedSourceName = "${currentFeedSource.name}";
+    var feedPanelPosition = ${user.feedPanelPosition};
 
     var feedUrl = "<spring:url value='/feed/'/>";
     var sourceUrl = "<spring:url value='/source/'/>";
@@ -120,6 +132,7 @@
     $(document).ready(function() {
     	setFeedToolPane();
     	displayFeedItems();
-        displayFeedTabList();
+    	prepareFeedTabPanel();
+//     	showTabPanel();
 	});
 </script>

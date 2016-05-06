@@ -23,7 +23,7 @@
         </div>
     </form:form>
 
-	<div class="feed-list" id="feed-source-list">
+	<div class="feed-list" style="margin-top: 30px;">
         <c:if test="${empty feedSources}">
             <h2><i>${noFeedSourcesMessage}</i></h2>
         </c:if>

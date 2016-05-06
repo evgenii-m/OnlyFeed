@@ -71,6 +71,9 @@ public class UserEntity {
     @Enumerated(EnumType.ORDINAL)
     private FeedFilterType feedFilterType;
     
+    @Column(name = "feed_panel_pos")
+    private boolean feedPanelPosition;   // true = pinned panel, false = unpinned panel
+    
     @Column(name = "news_storage_time_hours")
     private Integer newsStorageTime;
 
@@ -179,6 +182,14 @@ public class UserEntity {
         Date currentDate = new Date();
         return new Date(currentDate.getTime() - (newsStorageTime * 3600000));        
     }
+
+    public boolean getFeedPanelPosition() {
+        return feedPanelPosition;
+    }
+
+    public void setFeedPanelPosition(boolean feedPanelPosition) {
+        this.feedPanelPosition = feedPanelPosition;
+    }
     
 
     public Set<RoleEntity> getRoles() {
@@ -214,6 +225,7 @@ public class UserEntity {
         this.setFeedSortingType(FeedSortingType.NEWEST_FIRST);
         this.setFeedFilterType(FeedFilterType.ALL);
         this.setNewsStorageTime(DEFAULT_NEWS_STORAGE_TIME);
+        this.setFeedPanelPosition(false);
     }
 
 

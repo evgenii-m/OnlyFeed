@@ -60,6 +60,8 @@ function displayFeedItems() {
     					pinFeedPanel();
     				} else {
     					unpinFeedPanel();
+    	        		$(".panel-backdrop").show();
+    	        		$("body").css("overflow", "hidden");
     				}
     			} else {
     				console.log("Failed to change feed panel position.");
@@ -118,7 +120,6 @@ function unpinFeedPanel() {
 	$(".feed-panel").removeClass("pinned-panel");
 	$(".pin-feed-panel-action").removeClass("action-icon-blocked");	
 	$(".close-feed-panel-action").show();
-	$(".feed-panel").hide();
 } 
 
 
@@ -291,13 +292,11 @@ function prepareFeedTabPanel() {
     
 
     $(".feed-tab-list").on("mouseenter", ".feed-tab", function() {
-    	var feedTabText = $(this).children(".feed-tab-text");
-    	feedTabText.width(feedTabText.width() - 30);
+    	$(this).children(".feed-tab-text").addClass("selected");
     	$(this).children(".remove-action-icon").show();    	
     });
     $(".feed-tab-list").on("mouseleave", ".feed-tab", function() {
-    	var feedTabText = $(this).children(".feed-tab-text");
-    	feedTabText.width(feedTabText.width() + 30);
+    	$(this).children(".feed-tab-text").removeClass("selected");
     	$(this).children(".remove-action-icon").hide();	     
     });
     

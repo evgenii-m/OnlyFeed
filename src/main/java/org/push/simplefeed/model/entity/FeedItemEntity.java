@@ -35,7 +35,7 @@ public class FeedItemEntity {
     private Long id;
     
     @Column(name = "title")
-    @Size(min = 1, max = 500, message = "{validation.lengthRange}")
+    @Size(min = 0, max = 500, message = "{validation.lengthRange}")
     @NotNull
     private String title;
     
@@ -56,14 +56,14 @@ public class FeedItemEntity {
     private Date publishedDate;
     
     @Column(name = "author")
-    @Size(min = 1, max = 100, message = "{validation.lengthRange}")
+    @Size(min = 0, max = 100, message = "{validation.lengthRange}")
     private String author;
 
     @Column(name = "viewed")
     private boolean viewed;
     
     @Column(name = "image_url")
-    @Size(min = 1, max = 512, message = "{validation.lengthRange}")
+    @Size(min = 0, max = 512, message = "{validation.lengthRange}")
     @URL(message = "{validation.url}")
     private String imageUrl;
     

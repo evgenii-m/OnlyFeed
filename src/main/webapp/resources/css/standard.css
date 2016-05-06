@@ -15,6 +15,7 @@ body {
     position: relative;
     min-height: 100%;
     padding-bottom: 40px;
+    min-width: 480px;
 }
 
 .content-container,
@@ -662,6 +663,9 @@ li.sortable-placeholder {
 	-khtml-user-select: none;
 	-webkit-user-select: none;
 }
+.feed-tab-list .feed-tab .feed-tab-text.selected {
+    width: 95%;
+}
 
 .feed-tab-list .feed-tab .feed-tab-text .source-name {
 	max-width: 120px;
@@ -680,7 +684,7 @@ li.sortable-placeholder {
 .feed-tab-list .feed-tab .remove-action-icon {
 	height: 100%;
 	float: right;
-	padding: 6px;
+	padding: 6px 6px 6px 0px;
 	display: none;
 }
 
@@ -693,7 +697,7 @@ li.sortable-placeholder {
     height: 87%;
     width: 70%;
     left: 15%;
-    min-width: 480px;
+    min-width: 550px;
     background-color: #ffffff;
     border: 1px solid #C4C4C4;
     border-radius: 4px;

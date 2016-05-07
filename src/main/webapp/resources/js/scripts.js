@@ -25,7 +25,7 @@ function displayFeedItems() {
 	
 	$(".feed-item-list").on("click", ".item", function() {
 		var feedItemId = $(this).attr("id").replace(/\D/g, '');
-		$("#back-to-tabs-action").hide();
+//		$("#back-to-tabs-action").hide();
 		displayFeedItemDetails(feedItemId);
 	});
 	
@@ -302,7 +302,7 @@ function prepareFeedTabPanel() {
     
     $(".feed-tab-list").on("click", ".feed-tab-text", function() {
         var feedItemId = $(this).parents(".feed-tab").attr("id").replace(/\D/g, '');
-        $("#back-to-tabs-action").show();
+//        $("#back-to-tabs-action").show();
         displayFeedItemDetails(feedItemId);
     });
     

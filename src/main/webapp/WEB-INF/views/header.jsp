@@ -19,6 +19,7 @@
             <a class="navbar-brand" href="${feedUrl}">${projectName}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+            <sec:authorize access="isAuthenticated()">
             <c:if test="${not empty user}">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -38,6 +39,7 @@
                 <ul class="nav navbar-nav navbar-right toolpane">
                 </ul>
             </c:if>
+            </sec:authorize>
         </div> <!--/.nav-collapse -->
     </div>
 </nav>

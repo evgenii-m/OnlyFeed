@@ -37,7 +37,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
         </property>
-        <property name="packagesToScan" value="org.push.simplefeed.model.entity"/>
+        <property name="packagesToScan" value="org.push.onlyfeed.model.entity"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
@@ -51,7 +51,7 @@
     
     <context:annotation-config/>
     
-    <jpa:repositories base-package="org.push.simplefeed.model.repository" 
+    <jpa:repositories base-package="org.push.onlyfeed.model.repository" 
         entity-manager-factory-ref="entityManagerFactory" 
         transaction-manager-ref="transactionManager"/>
     

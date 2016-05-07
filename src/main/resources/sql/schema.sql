@@ -1,4 +1,4 @@
-USE simplefeed_db;
+USE onlyfeed_db;
 
 DROP TABLE IF EXISTS user_feed_tabs;
 DROP TABLE IF EXISTS feed_items;

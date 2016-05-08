@@ -69,8 +69,8 @@
 	
     <context-param>
         <param-name>spring.profiles.default</param-name>
-<!--         <param-value>dev</param-value> -->
-        <param-value>release</param-value>
+        <param-value>dev</param-value>
+<!--         <param-value>release</param-value> -->
     </context-param>
 	
 </web-app>

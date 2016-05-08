@@ -132,7 +132,7 @@ public class UserController {
             logger.error("Picture empty or invalid (user.id=" + user.getId() + ")");
         }
         redirectAttributes.addFlashAttribute("updatePictureResult", updatePictureResult);
-        logger.debug("Picture sucessfully updated (user.id" + user.getId() + ")");
+        logger.debug("Picture sucessfully updated (user.id=" + user.getId() + ")");
         return "redirect:/user/settings";
     }
 
@@ -143,7 +143,7 @@ public class UserController {
         UserEntity user = userService.findByEmail(principal.getName());
         user.setPictureUrl(resourcesImgBaseUrl + UserEntity.DEFAULT_PICTURE_NAME);
         userService.save(user);
-        logger.debug("Picture sucessfully deleted (user.id" + user.getId() + ")");
+        logger.debug("Picture sucessfully deleted (user.id=" + user.getId() + ")");
         return user.getPictureUrl();
     }
     

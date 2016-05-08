@@ -1,3 +1,4 @@
 /target/
 notes.txt
 /test-output/
+/src/main/resources/properties/app-release.properties

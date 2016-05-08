@@ -16,6 +16,12 @@
     
     <context:component-scan base-package="org.push.onlyfeed"/>
     
-    <context:property-placeholder location="classpath:properties/app.properties"/>
+    <beans profile="dev">
+        <context:property-placeholder location="classpath:properties/app.properties"/>
+    </beans>
+    
+    <beans profile="release">
+        <context:property-placeholder location="classpath:properties/app-release.properties"/>
+    </beans>
     
 </beans>

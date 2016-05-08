@@ -27,7 +27,7 @@ import org.push.onlyfeed.model.entity.types.*;;
 @Table(name = "users")
 public class UserEntity {
     public static final String DEFAULT_PICTURE_NAME = "no_picture_3.jpg";
-    public static final Integer DEFAULT_NEWS_STORAGE_TIME = 24;
+    public static final Integer DEFAULT_NEWS_STORAGE_TIME = 168;
         
     @Id
     @GeneratedValue(strategy = IDENTITY)

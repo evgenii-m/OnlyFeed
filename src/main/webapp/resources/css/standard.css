@@ -402,6 +402,9 @@ li.sortable-placeholder {
 .feed-list .item .name {
     height: 25px;
     font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .feed-list .item .name a {

@@ -27,7 +27,7 @@ CREATE TABLE users (
     feed_sorting_type TINYINT NOT NULL DEFAULT 0,
     feed_filter_type TINYINT NOT NULL DEFAULT 0,
     feed_panel_pos BOOLEAN NOT NULL DEFAULT 0,
-    news_storage_time_hours INT NOT NULL DEFAULT 24,
+    news_storage_time_hours INT NOT NULL DEFAULT 168,
     PRIMARY KEY (id)
 );
 

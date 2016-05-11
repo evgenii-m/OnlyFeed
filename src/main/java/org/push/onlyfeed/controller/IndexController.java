@@ -19,6 +19,9 @@ import org.push.onlyfeed.util.FileUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
+import org.springframework.mail.MailException;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 
 /**
  * @author push
@@ -40,6 +42,9 @@ public class IndexController {
     private MessageSource messageSource;
     private IUserService userService;
     private FileUploader fileUploader;
+    private MailSender mailSender;
+    @Value("${mail.username}")
+    private String mailSenderUsername;
     @Value("${resources.img.baseUrl}")
     private String resourcesImgBaseUrl;
 
@@ -59,9 +64,14 @@ public class IndexController {
         this.fileUploader = fileUploader;
     }
     
+    @Autowired
+    public void setMailSender(MailSender mailSender) {
+        this.mailSender = mailSender;
+    }
+    
     
     @RequestMapping(method = GET)
-    public String index(Principal principal) {
+    public String index(Principal principal, Locale locale) {
         logger.debug("index");
         if (principal != null) {
             logger.debug("User is logged - redirect to feed page");
@@ -127,10 +137,27 @@ public class IndexController {
         }
         
         userService.save(user);
+        sendEmail(user.getEmail(), locale);
         logger.debug("Registered user (" + user + ")");
         redirectAttributes.addFlashAttribute("successMessage", messageSource.getMessage(
                 "index.registerSuccessMessage", new Object[]{}, locale));
         return "redirect:/";
+    }
+    
+
+    private void sendEmail(String email, Locale locale) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo(email);
+        msg.setFrom(mailSenderUsername);
+        msg.setSubject(messageSource.getMessage("mail.registerSuccess.subject", new Object[]{}, locale));
+        msg.setText(messageSource.getMessage("mail.registerSuccess.msg", new Object[]{}, locale));
+        try {
+            mailSender.send(msg);
+        } catch (MailException e) {
+            logger.error("MailException when send email to " + email
+                    + ", exception: " + e + ")");
+            e.printStackTrace();
+        }
     }
     
     

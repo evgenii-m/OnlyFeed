@@ -7,14 +7,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.collections4.ListUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.push.onlyfeed.model.entity.FeedSampleEntity;
 import org.push.onlyfeed.model.entity.FeedSourceEntity;
 import org.push.onlyfeed.model.entity.FeedTabEntity;
 import org.push.onlyfeed.model.entity.UserEntity;
+import org.push.onlyfeed.model.repository.FeedSampleRepository;
 import org.push.onlyfeed.model.repository.FeedSourceRepository;
 import org.push.onlyfeed.model.service.IFeedSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,10 @@ import com.rometools.rome.feed.synd.SyndImage;
 @Transactional
 public class FeedSourceService implements IFeedSourceService {    
     private static Logger logger = LogManager.getLogger(FeedSourceService.class);
+    private static final int FEED_SAMPLES_LIST_SIZE = 3;
+    
     private FeedSourceRepository feedSourceRepository;
+    private FeedSampleRepository feedSampleRepository;
     private IFeedItemService feedItemService;
     private IFeedTabService feedTabService;
     private IFeedFetchService feedFetchService;
@@ -49,6 +55,11 @@ public class FeedSourceService implements IFeedSourceService {
     @Autowired
     public void setFeedSourceRepository(FeedSourceRepository feedSourceRepository) {
         this.feedSourceRepository = feedSourceRepository;
+    }
+    
+    @Autowired
+    public void setFeedSampleRepository(FeedSampleRepository feedSampleRepository) {
+        this.feedSampleRepository = feedSampleRepository;
     }
     
     @Autowired
@@ -220,6 +231,22 @@ public class FeedSourceService implements IFeedSourceService {
         }
         logger.debug("Refresh end");
         return refreshResult;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<FeedSampleEntity> getFeedSamples() {
+        List<FeedSampleEntity> feedSamples = feedSampleRepository.findAll();
+        List<FeedSampleEntity> randomSamples = new ArrayList<>();
+        Random r = new Random();
+        while ((randomSamples.size() < FEED_SAMPLES_LIST_SIZE) || 
+                (randomSamples.size() == feedSamples.size())) {
+            FeedSampleEntity randomSample = feedSamples.get(r.nextInt(feedSamples.size() - 1));
+            if (!randomSamples.contains(randomSample)) {
+                randomSamples.add(randomSample);
+            }
+        }
+        return randomSamples;
     }
 
 }

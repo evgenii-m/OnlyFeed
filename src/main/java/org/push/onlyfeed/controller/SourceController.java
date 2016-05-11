@@ -72,6 +72,7 @@ public class SourceController {
         if (!uiModel.containsAttribute("newFeedSource")) {
             uiModel.addAttribute("newFeedSource", new FeedSourceEntity());
         }
+        uiModel.addAttribute("feedSamples", feedSourceService.getFeedSamples());
         return "source/list";
     }
 

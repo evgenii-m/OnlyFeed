@@ -8,13 +8,14 @@
 <spring:message var="editLink" code="source.list.editLink"/>
 <spring:message var="deleteLink" code="source.list.deleteLink"/>
 <spring:message var="noFeedSourcesMessage" code="source.list.noFeedSourcesMessage"/>
+<spring:message var="feedSamplesPanelTitle" code="source.list.feedSamplesPanelTitle"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
 <spring:url var="sourceEditUrl" value="/source/edit/"/>
 <spring:url var="sourceDeleteUrl" value="/source/delete/"/>
 
 
-<div class="content-container">
+<div class="feed-sources-container">
     <form:form modelAttribute="newFeedSource" method="post" id="new-feed-source-form" class="form-container">
 	    <div class="form-row">
 	        <form:input path="url" class="form-control" placeholder="${newFeedSourcePlaceholder}"/>
@@ -25,7 +26,7 @@
 
 	<div class="feed-list" style="margin-top: 30px;">
         <c:if test="${empty feedSources}">
-            <h2><i>${noFeedSourcesMessage}</i></h2>
+            <h3>${noFeedSourcesMessage}</h3>
         </c:if>
         <c:if test="${not empty feedSources}">
 		    <c:forEach items="${feedSources}" var="feedSource">
@@ -45,6 +46,18 @@
 		    </c:forEach>
 	    </c:if>
 	</div>
+</div>
+
+<div class="feed-samples-panel">
+    <div class="panel-header" style="font-weight: bold;">${feedSamplesPanelTitle}</div>
+    <div class="panel-content">
+        <c:forEach items="${feedSamples}" var="feedSample">
+            <div class="item">
+                <div style="background-image: url(${feedSample.logoUrl});" class="feed-logo"></div>
+                <div class="name">${feedSample.name}</div>
+            </div>
+        </c:forEach>
+    </div>
 </div>
 
 

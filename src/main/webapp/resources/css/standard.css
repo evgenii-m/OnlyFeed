@@ -18,7 +18,6 @@ body {
     min-width: 480px;
 }
 
-.content-container,
 .form-container {
     width: 600px;
     position: relative;
@@ -492,8 +491,53 @@ li.sortable-placeholder {
 
 
 /* source list view */
+.feed-sources-container {
+    width: 600px;
+    position: relative;
+    display: inline-block;
+    float: left;
+}
+
+.feed-samples-panel {
+    float: left;
+    width: 250px;
+    height: 400px;
+    margin-left: 20px;
+    margin-top: 10px;
+    background-color: #ffffff;
+    border: 1px solid #C4C4C4;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
+    color: #3d3d3d;
+}
+
+.feed-samples-panel .item {
+    cursor: pointer;
+    height: 50px;
+    margin-bottom: 5px;
+    background-color: #EBEBEB;
+    border: 1px solid #C4C4C4;
+    border-radius: 4px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    display: block;
+    vertical-align: middle;
+    padding: 3px;
+}
+
+.feed-samples-panel .item .feed-logo {
+    width: 50px;
+    height: 42px;
+    float: left;
+}
+
+.feed-samples-panel .item .name {
+    margin-left: 55px;
+}
+
 #new-feed-source-form input {
-	margin-top: 15px;
+	margin-top: 10px;
 	width: 490px;
     height: 35px;
     font-size: 16px;
@@ -734,7 +778,7 @@ li.sortable-placeholder {
     transition: opacity 0.15s linear 0s;
 }
 
-.feed-panel .panel-header {
+.panel-header {
     height: 40px;
     padding: 10px 12px;
     margin-bottom: 5px;
@@ -742,7 +786,7 @@ li.sortable-placeholder {
     border-bottom: 1px solid #c4c4c4;
 }
 
-.feed-panel .panel-content {
+.panel-content {
     padding: 10px;
     height: 90%;
     overflow: auto;

@@ -6,6 +6,7 @@ package org.push.onlyfeed.model.service;
 import java.util.Date;
 import java.util.List;
 
+import org.push.onlyfeed.model.entity.FeedSampleEntity;
 import org.push.onlyfeed.model.entity.FeedSourceEntity;
 import org.push.onlyfeed.model.entity.UserEntity;
 
@@ -26,4 +27,5 @@ public interface IFeedSourceService {
     boolean isSupported(String feedSourceUrl);
     boolean refresh(FeedSourceEntity feedSource, Date relevantDate);
     boolean refresh(List<FeedSourceEntity> feedSources, Date relevantDate);
+    List<FeedSampleEntity> getFeedSamples();
 }

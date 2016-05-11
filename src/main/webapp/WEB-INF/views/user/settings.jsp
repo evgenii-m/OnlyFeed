@@ -22,13 +22,17 @@
 <spring:message var="updatePasswordErrorMessage" code="user.settings.updatePasswordErrorMessage"/>
 <spring:message var="updatePasswordSuccessMessage" code="user.settings.updatePasswordSuccessMessage"/>
 <spring:message var="removeAccountButton" code="user.settings.removeAccountButton"/>
+<spring:message var="confirmRemoveTitle" code="user.settings.modal.confirmRemoveTitle"/>
+<spring:message var="confirmRemoveMessage" code="user.settings.modal.confirmRemoveMessage"/>
+<spring:message var="cancelButton" code="user.settings.modal.cancelButton"/>
+<spring:message var="removeButton" code="user.settings.modal.removeButton"/>
 
 <spring:url var="updatePictureUrl" value="/user/settings/picture"/>
 <spring:url var="updateInfoUrl" value="/user/settings/info"/>
 <spring:url var="updatePasswordUrl" value="/user/settings/password"/>
 
 
-<div class="form-container">
+<div class="form-container" style="margin: 0 auto;">
     <div class="form-title">${accountSettingsTitle}</div>
 
     <div class="form-row bottom-border">
@@ -108,8 +112,29 @@
     </div>
     
     <div class="form-row" style="width: 100%;">
-        <button type="button" id="remove-user-button" class="btn btn-danger" style="display: block; margin: 0 auto;">
-            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ${removeAccountButton}</button>
+        <button type="button" data-toggle="modal" data-target="#confirm-remove-modal" class="btn btn-danger" 
+                style="display: block; margin: 0 auto;">
+            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span> ${removeAccountButton}
+        </button>
+    </div>
+</div>
+
+<!-- Confirm Remove Modal -->
+<div id="confirm-remove-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">${confirmRemoveTitle}</h4>
+            </div>
+            <div class="modal-body">
+                ${confirmRemoveMessage}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">${cancelButton}</button>
+                <button type="button" id="remove-user-button" class="btn btn-danger" data-dismiss="modal">${removeButton}</button>
+            </div>
+        </div>
     </div>
 </div>
 

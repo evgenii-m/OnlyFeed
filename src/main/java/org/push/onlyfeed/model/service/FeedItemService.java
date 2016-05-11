@@ -63,7 +63,11 @@ public class FeedItemService implements IFeedItemService {
         if (syndEntry.getAuthor() != null) {
             feedItem.setAuthor(syndEntry.getAuthor());
         }
-        feedItem.setPublishedDate(syndEntry.getPublishedDate());
+        if (syndEntry.getPublishedDate() != null) {
+            feedItem.setPublishedDate(syndEntry.getPublishedDate());
+        } else {
+            feedItem.setPublishedDate(new Date());
+        }
         
         Pattern pattern = Pattern.compile(IMG_TAG_PATTERN);
         Matcher matcher = pattern.matcher(syndEntry.getDescription().getValue());

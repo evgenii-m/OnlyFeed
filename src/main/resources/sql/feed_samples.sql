@@ -37,3 +37,48 @@ INSERT INTO feed_samples (name, url, logo_url) values ("N+1: научные ст
 INSERT INTO feed_samples (name, url, logo_url) values ("Naked Science", 
                                                        "http://naked-science.ru/feedrss.xml", 
                                                        "http://science-film.ru/uploads/video/5559eaa2c8fcf.jpg");
+INSERT INTO feed_samples (name, url, logo_url) values ("Fashiony.ru - модное сообщество", 
+                                                       "http://feeds.feedburner.com/fashiony?format=xml", 
+                                                       "http://st2-fashiony.ru/img/fashiony-logo.png");
+INSERT INTO feed_samples (name, url, logo_url) values ("ЯПлакалъ - развлекательное сообщество", 
+                                                       "http://www.yaplakal.com/news.xml", 
+                                                       "http://www.yaplakal.com/html/static/top-logo.png");
+INSERT INTO feed_samples (name, url, logo_url) values ("Drom.ru: Новости", 
+                                                       "http://www.drom.ru/cached_files/xml/news.rss", 
+                                                       "http://images.drom.ru/img/drom_88x31.gif");
+INSERT INTO feed_samples (name, url, logo_url) values ("За рулем - Онлайн", 
+                                                       "http://www.zr.ru/rss-news/", 
+                                                       "http://www.zr.ru/f/media/logo.png");
+INSERT INTO feed_samples (name, url, logo_url) values ("Новости на Колеса.Ру", 
+                                                       "http://www.kolesa.ru/rss/news.xml", 
+                                                       "http://www.kolesa.ru/web/images/logo.png");
+INSERT INTO feed_samples (name, url, logo_url) values ("Анекдоты из России - Anekdot.ru", 
+                                                       "http://www.anekdot.ru/rss/export20.xml", 
+                                                       "http://www.anekdot.ru/i/logo-88-31.gif?rss");
+INSERT INTO feed_samples (name, url, logo_url) values ("Выбор редакции Rutube", 
+                                                       "http://rutube.ru/mrss/video/editorsfeed/", 
+                                                       "https://pbs.twimg.com/profile_images/472011410491207680/za4vFSwp_400x400.jpeg");
+INSERT INTO feed_samples (name, url, logo_url) values ("ВЕСТИ", 
+                                                       "http://www.vesti.ru/vesti.rss", 
+                                                       "http://www.vesti.ru/i/blog_logo_vesti.jpg");
+INSERT INTO feed_samples (name, url, logo_url) values ("Главное — Рамблер/Новости", 
+                                                       "http://news.rambler.ru/rss/head/", 
+                                                       "http://news.rl0.ru/st//i/16.105.106171142/touch-icon-57.png");
+INSERT INTO feed_samples (name, url, logo_url) values ("Газета.Ru - Новость часа", 
+                                                       "http://www.gazeta.ru/export/rss/lastnews.xml", 
+                                                       "http://www.gazeta.ru/i/gazeta_og_image.jpg");
+INSERT INTO feed_samples (name, url, logo_url) values ("Газета.Ru - Политика", 
+                                                       "http://www.gazeta.ru/export/rss/politics.xml", 
+                                                       "http://www.gazeta.ru/i/gazeta_og_image.jpg");
+INSERT INTO feed_samples (name, url, logo_url) values ("Новостной портал Ria.ru: больше, чем просто новости", 
+                                                       "http://ria.ru/export/rss2/index.xml", 
+                                                       "http://cdn12.img22.ria.ru/i/ria_logo.png?0000444");
+INSERT INTO feed_samples (name, url, logo_url) values ("Новостной портал Ria.ru: больше, чем просто новости", 
+                                                       "http://ria.ru/export/rss2/index.xml", 
+                                                       "http://cdn12.img22.ria.ru/i/ria_logo.png?0000444");
+INSERT INTO feed_samples (name, url, logo_url) values ("Афиша: Кино", 
+                                                       "http://feeds.feedburner.com/afisha_msk_cinema", 
+                                                       "http://s.afisha.ru/dsn/logo-afisha-100x100.gif");
+INSERT INTO feed_samples (name, url, logo_url) values ("Афиша: Рестораны", 
+                                                       "http://feeds.feedburner.com/afisha_msk_restaurants", 
+                                                       "http://s.afisha.ru/dsn/logo-afisha-100x100.gif");

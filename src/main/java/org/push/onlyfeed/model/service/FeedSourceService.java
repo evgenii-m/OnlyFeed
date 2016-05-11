@@ -196,6 +196,9 @@ public class FeedSourceService implements IFeedSourceService {
         Predicate<SyndEntry> predicate = new Predicate<SyndEntry>() {
             @Override
             public boolean evaluate(SyndEntry object) {
+                if (object.getPublishedDate() == null) {
+                    return true;
+                }
                 return (object.getPublishedDate().compareTo(relevantDate) >= 0);
             }
         };

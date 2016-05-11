@@ -11,6 +11,7 @@
 <spring:message var="feedSamplesPanelTitle" code="source.list.feedSamplesPanelTitle"/>
 
 <spring:url var="feedUrl" value="/feed/"/>
+<spring:url var="sourceAddUrl" value="/source/add/"/>
 <spring:url var="sourceEditUrl" value="/source/edit/"/>
 <spring:url var="sourceDeleteUrl" value="/source/delete/"/>
 
@@ -30,7 +31,7 @@
         </c:if>
         <c:if test="${not empty feedSources}">
 		    <c:forEach items="${feedSources}" var="feedSource">
-		        <div class="item" id="${feedSource.id}">
+		        <div class="item" id="fs-${feedSource.id}">
 	                <div style="background-image: url(${feedSource.logoUrl});" class="feed-logo"></div>
 	                <div class="name">
 	                    <a href="${feedUrl}${feedSource.id}">${feedSource.name}</a>
@@ -49,10 +50,10 @@
 </div>
 
 <div class="feed-samples-panel">
-    <div class="panel-header" style="font-weight: bold;">${feedSamplesPanelTitle}</div>
-    <div class="panel-content">
+    <div style="font-weight: bold;">${feedSamplesPanelTitle}</div>
+    <div>
         <c:forEach items="${feedSamples}" var="feedSample">
-            <div class="item">
+            <div class="item" id="fp-${feedSample.id}">
                 <div style="background-image: url(${feedSample.logoUrl});" class="feed-logo"></div>
                 <div class="name">${feedSample.name}</div>
             </div>
@@ -80,24 +81,25 @@
         });
         
         $(".edit-link").click(function() {
-            window.location.href = "${sourceEditUrl}" + $(this).parents(".item").attr("id");
+            window.location.href = "${sourceEditUrl}" + $(this).parents(".item").attr("id").replace(/\D/g, '');
         });
         
         $(".delete-link").click(function() {
         	var feedItem = $(this).parents(".item");
         	$.ajax({
-        		url: "${sourceDeleteUrl}" + feedItem.attr("id"),
+        		url: "${sourceDeleteUrl}" + feedItem.attr("id").replace(/\D/g, ''),
         		type: "delete",
         		success: function(response) {
         			if (response == true) {
         				feedItem.remove();
         			}
         		},
-                error: function(error) {
-                    console.log("error");
-                    console.log(error);
-                }
+                error: serverError
         	});
+        });
+        
+        $(".feed-samples-panel .item").click(function() {
+            window.location.href = "${sourceAddUrl}" + $(this).attr("id").replace(/\D/g, '');
         });
     });
 </script>

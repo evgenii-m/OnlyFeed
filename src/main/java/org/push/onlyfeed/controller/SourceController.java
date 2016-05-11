@@ -25,11 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -132,7 +128,6 @@ public class SourceController {
             newFeedSource.setUrl(modUrl);
         }
 
-        // TODO: add check fillBlank() result
         feedSourceService.fillBlank(newFeedSource);
         redirectAttributes.addFlashAttribute("feedSource", newFeedSource);
         return "redirect:/source/add";
@@ -149,6 +144,19 @@ public class SourceController {
             uiModel.addAttribute("feedSource", feedSource);
             logger.debug("Added blank feedSource to uiModel");
         }
+        return "source/edit";
+    }
+
+
+    @RequestMapping(value = "/add/{feedSampleId}", method = GET)
+    public String showAddFeedSampleForm(@PathVariable("feedSampleId") Long feedSampleId, Model uiModel, 
+            Principal principal) {
+        logger.debug("showAddFeedSampleForm");
+        UserEntity user = userService.findByEmail(principal.getName());
+        uiModel.addAttribute("user", user);
+        FeedSourceEntity feedSource = feedSourceService.getBlank();
+        feedSourceService.fillBlankFromSample(feedSource, feedSampleId);
+        uiModel.addAttribute("feedSource", feedSource);
         return "source/edit";
     }
     
@@ -169,7 +177,7 @@ public class SourceController {
     }
         
     
-    @RequestMapping(value = {"/add", "/edit/{id}"}, method = POST)
+    @RequestMapping(value = {"/add", "/add/{id}", "/edit/{id}"}, method = POST)
     public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
             @RequestParam(value = "picture", required = false) MultipartFile picture, 
             BindingResult bindingResult, Model uiModel, Principal principal) {

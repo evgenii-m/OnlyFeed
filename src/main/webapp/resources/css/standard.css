@@ -502,14 +502,8 @@ li.sortable-placeholder {
     float: left;
     width: 250px;
     height: 400px;
-    margin-left: 20px;
+    margin-left: 40px;
     margin-top: 10px;
-    background-color: #ffffff;
-    border: 1px solid #C4C4C4;
-    border-radius: 4px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    overflow: hidden;
-    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
     color: #3d3d3d;
 }
 
@@ -517,13 +511,23 @@ li.sortable-placeholder {
     cursor: pointer;
     height: 50px;
     margin-bottom: 5px;
-    background-color: #EBEBEB;
+    background-color: #ffffff;
     border: 1px solid #C4C4C4;
+    overflow: hidden;
     border-radius: 4px;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
-    display: block;
-    vertical-align: middle;
+    overflow: hidden;
+    box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);
     padding: 3px;
+    margin-top: 10px;
+}
+
+.feed-samples-panel .item:hover {
+    color: #26b3ff;
+    border-color: #26B3FF;
+    background-color: #ebf4f2;
+    border: 1px solid #26B3FF;
+    box-shadow: 0.4em 0.4em 7px rgba(100,100,100,0.9);
 }
 
 .feed-samples-panel .item .feed-logo {
@@ -563,7 +567,8 @@ li.sortable-placeholder {
 /* edit view */
 .not-found-alert {
 	margin-top: 35px;
-	font-size: 24px;
+	font-size: 20px;
+	width: 50%;
 }
 
 .not-found-alert span {

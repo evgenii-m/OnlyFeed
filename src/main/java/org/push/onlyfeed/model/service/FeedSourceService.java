@@ -133,6 +133,7 @@ public class FeedSourceService implements IFeedSourceService {
 
     
     @Override
+    @Transactional(readOnly = true)
     public FeedSourceEntity getBlank() {
         FeedSourceEntity blankFeedSource = new FeedSourceEntity();
         return blankFeedSource;
@@ -140,6 +141,7 @@ public class FeedSourceService implements IFeedSourceService {
     
     
     @Override
+    @Transactional(readOnly = true)
     public boolean fillBlank(FeedSourceEntity feedSource) {
         SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSource.getUrl());
         if (syndFeed == null) {
@@ -155,6 +157,23 @@ public class FeedSourceService implements IFeedSourceService {
         } else {
             feedSource.setLogoUrl(syndImage.getUrl());
         }
+        feedSource.setDescription(syndFeed.getDescription());
+        return true;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean fillBlankFromSample(FeedSourceEntity feedSource, Long feedSampleId) {
+        FeedSampleEntity feedSample = feedSampleRepository.findOne(feedSampleId);
+        feedSource.setUrl(feedSample.getUrl());
+        SyndFeed syndFeed = feedFetchService.retrieveFeed(feedSource.getUrl());
+        if (syndFeed == null) {
+            logger.error("Exception when fetch feed from source (feedSource.url="
+                    + feedSource.getUrl() + ")");
+            return false;
+        }
+        feedSource.setName(feedSample.getName());
+        feedSource.setLogoUrl(feedSample.getLogoUrl());
         feedSource.setDescription(syndFeed.getDescription());
         return true;
     }

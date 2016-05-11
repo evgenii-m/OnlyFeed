@@ -24,6 +24,7 @@ public interface IFeedSourceService {
     FeedSourceEntity findByUserAndUrl(UserEntity user, String url);
     FeedSourceEntity getBlank();
     boolean fillBlank(FeedSourceEntity feedSource);
+    boolean fillBlankFromSample(FeedSourceEntity feedSource, Long feedSampleId);
     boolean isSupported(String feedSourceUrl);
     boolean refresh(FeedSourceEntity feedSource, Date relevantDate);
     boolean refresh(List<FeedSourceEntity> feedSources, Date relevantDate);

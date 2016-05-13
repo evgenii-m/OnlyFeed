@@ -73,9 +73,6 @@ INSERT INTO feed_samples (name, url, logo_url) values ("Газета.Ru - Пол
 INSERT INTO feed_samples (name, url, logo_url) values ("Новостной портал Ria.ru: больше, чем просто новости", 
                                                        "http://ria.ru/export/rss2/index.xml", 
                                                        "http://cdn12.img22.ria.ru/i/ria_logo.png?0000444");
-INSERT INTO feed_samples (name, url, logo_url) values ("Новостной портал Ria.ru: больше, чем просто новости", 
-                                                       "http://ria.ru/export/rss2/index.xml", 
-                                                       "http://cdn12.img22.ria.ru/i/ria_logo.png?0000444");
 INSERT INTO feed_samples (name, url, logo_url) values ("Афиша: Кино", 
                                                        "http://feeds.feedburner.com/afisha_msk_cinema", 
                                                        "http://s.afisha.ru/dsn/logo-afisha-100x100.gif");

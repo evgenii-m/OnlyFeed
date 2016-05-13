@@ -436,27 +436,22 @@ li.sortable-placeholder {
 
 /* index view */
 .index-container {
-	width: 800px;
-	height: 400px;
+	width: 450px;
+	height: 450px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 50px;
 }
 
-.index-container .welcome-panel {
-	width: 500px;
-	height: 400px;
-	float: left;
-    padding: 0px 20px;
-    background-color: #ffffff;
-    border: 1px solid #E1E8ED;
-    border-radius: 4px;
-    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+.index-container .title {
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 26px;
 }
 
 .index-container .login-form {
     width: 275px;
-    float: right;
+    margin: 0px auto;
     padding: 10px;
     background-color: #ffffff;
     border: 1px solid #E1E8ED;
@@ -475,6 +470,29 @@ li.sortable-placeholder {
 .index-container .login-form .error {
     height: 35px;
     padding: 7px 15px;
+}
+
+.reset-form {
+    margin-top: 15px;
+}
+
+.reset-form input {
+    width: 245px;
+    display: inline-block;
+}
+
+.reset-form button {
+    width: 115px;
+    margin-left: 15px;
+    margin-top: -2px;
+    display: inline-block;
+}
+
+.reset-form div.error {
+    width: 375px;
+    min-height: 35px;
+    padding: 7px 17px;
+    margin-top: 20px;
 }
 /*************************************************************************************************/
 

@@ -10,19 +10,19 @@
 <spring:message var="loginButton" code="index.loginButton"/>
 <spring:message var="noAccountLabel" code="index.noAccountLabel"/>
 <spring:message var="registerLink" code="index.registerLink"/>
+<spring:message var="resetPasswordLink" code="index.resetPasswordLink"/>
 
 <spring:url var="loginUrl" value="/j_spring_security_check"/>
+<spring:url var="passwordResetUrl" value="/password/reset"/>
 <spring:url var="registerUrl" value="/register"/>
 
 
 <div class="index-container">
-	<c:if test="${not empty successMessage}">
-	    <div class="alert alert-success">${successMessage}</div>
-	</c:if>
-	
-	<div class="welcome-panel">
-	    <h1>${welcomeText}</h1>
-	</div>
+	<div class="title" style="text-align: center;">${welcomeText}</div>
+ 
+    <c:if test="${not empty successMessage}">
+        <div class="alert alert-success">${successMessage}</div>
+    </c:if>
     
 	<form role="form" action="${loginUrl}" method="post" class="login-form">
 	    <c:if test="${not empty loginFailMessage}">
@@ -30,10 +30,15 @@
 	    </c:if>
 	    <input type="text" name="j_username" class="form-control" placeholder="${emailPlaceholder}" required autofocus>
 	    <input type="password" name="j_password" class="form-control" placeholder="${passwordPlaceholder}" required>
+        <div>
+            <a href="${passwordResetUrl}">${resetPasswordLink}</a>
+        </div>
         <div class="checkbox">
-             <label><input type="checkbox" name="remember-me"/> ${remembermeCheckbox}</label>
+            <label><input type="checkbox" name="remember-me"/> ${remembermeCheckbox}</label>
  	    </div>
 	    <button type="submit" name="submit" class="btn btn-primary btn-block">${loginButton}</button>
-        <span>${noAccountLabel} <a href="${registerUrl}">${registerLink}</a></span>
+        <div>
+            <span>${noAccountLabel} <a href="${registerUrl}">${registerLink}</a></span>
+        </div>
     </form>
 </div>

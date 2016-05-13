@@ -12,31 +12,35 @@
     </definition>
     
     <definition name="index" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/index.jsp"/>
     </definition>
     
     <definition name="help" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/help.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/help.jsp"/>
     </definition>
     
     <definition name="register" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/register.jsp"/>
     </definition>
 
     <definition name="feed" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/feed/feed.jsp"/>
     </definition>
 
     <definition name="source/list" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/source/list.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/source/list.jsp"/>
     </definition>
     
     <definition name="source/edit" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/source/edit.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/source/edit.jsp"/>
     </definition>
     
     <definition name="user/settings" extends="default">
-       <put-attribute name="body" value="/WEB-INF/views/user/settings.jsp"/>
+        <put-attribute name="body" value="/WEB-INF/views/user/settings.jsp"/>
+    </definition>
+    
+    <definition name="password/reset" extends="default">
+        <put-attribute name="body" value="/WEB-INF/views/passwordreset.jsp"/>
     </definition>
 
 </tiles-definitions>

@@ -3,6 +3,7 @@ USE onlyfeed_db;
 DROP TABLE IF EXISTS user_feed_tabs;
 DROP TABLE IF EXISTS feed_items;
 DROP TABLE IF EXISTS feed_sources;
+DROP TABLE IF EXISTS reset_password_requests;
 DROP TABLE IF EXISTS user_roles;
 DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS users;
@@ -45,6 +46,12 @@ CREATE TABLE user_roles (
     PRIMARY KEY (user_id, role_id),
     CONSTRAINT fk_user_roles_1 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT fk_user_roles_2 FOREIGN KEY (role_id) REFERENCES roles (id)
+);
+
+CREATE TABLE reset_password_requests (
+    token VARCHAR(32) NOT NULL,
+    email VARCHAR(64) NOT NULL,
+    PRIMARY KEY (token)
 );
 
 CREATE TABLE feed_sources (

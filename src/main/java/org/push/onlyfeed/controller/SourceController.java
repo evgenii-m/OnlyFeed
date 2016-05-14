@@ -177,12 +177,13 @@ public class SourceController {
     }
         
     
-    @RequestMapping(value = {"/add", "/add/{id}", "/edit/{id}"}, method = POST)
+    @RequestMapping(value = {"/add", "/add/{feedSampleId}", "/edit/{id}"}, method = POST)
     public String saveFeedSource(@ModelAttribute("feedSource") @Valid FeedSourceEntity feedSource,
             @RequestParam(value = "picture", required = false) MultipartFile picture, 
             BindingResult bindingResult, Model uiModel, Principal principal) {
         logger.debug("saveFeedSource");
         UserEntity user = userService.findByEmail(principal.getName());
+        
         validateFeedSourceUrl(feedSource.getUrl(), bindingResult);
         if ((picture != null) && !picture.isEmpty()) {
             if (fileUploader.validateImage(picture)) {
@@ -197,9 +198,8 @@ public class SourceController {
                 logger.error("Invalid picture (feedSource.id=" + feedSource.getId() + ")");
                 bindingResult.rejectValue("logoUrl", "validation.invalidImage");
             }
-        } else {
-            logger.debug("Logo not set");
         }
+
         if (bindingResult.hasErrors()) {
             logger.error("Error when validate feed source (" + feedSource + ")\n"
                     + bindingResult.toString());

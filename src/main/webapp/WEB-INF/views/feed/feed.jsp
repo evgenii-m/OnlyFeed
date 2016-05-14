@@ -6,6 +6,8 @@
 <spring:message var="removeAllActionIconTitle" code='feed.removeAllActionIconTitle'/>
 <spring:message var="backActionIconTitle" code="feed.backActionIconTitle"/>
 <spring:message var="openOriginalIconTitle" code="feed.openOriginalIconTitle"/>
+<spring:message var="closePanelIconTitle" code="feed.closePanelIconTitle"/>
+<spring:message var="pinPanelIconTitle" code="feed.pinPanelIconTitle"/>
 <spring:message var="showMoreNewsButton" code="feed.showMoreNewsButton"/>
 <spring:message var="confirmRemoveTitle" code="feed.confirmRemoveTitle"/>
 <spring:message var="confirmRemoveMessage" code="feed.confirmRemoveMessage"/>
@@ -31,12 +33,12 @@
         <div class="float-right">
             <a id="open-original-action" class="glyphicon glyphicon-new-window action-icon" 
                     aria-hidden="true" target="_blank" title="${openOriginalIconTitle}"></a>
-            <span id="add-tab-action" class="glyphicon glyphicon-bookmark action-icon"
+            <span id="add-tab-action" class="glyphicon glyphicon-plus action-icon"
                     aria-hidden="true"></span>
             <span class="glyphicon glyphicon-pushpin action-icon pin-feed-panel-action"
-                    aria-hidden="true" style="margin-left: 20px;"></span>
+                    title="${pinPanelIconTitle}" aria-hidden="true" style="margin-left: 20px;"></span>
             <span class="glyphicon glyphicon-remove action-icon close-feed-panel-action"
-                    aria-hidden="true"></span>
+                    title="${closePanelIconTitle}" aria-hidden="true"></span>
         </div>
     </div>
     <div class="panel-content">
@@ -62,9 +64,9 @@
         </div>
         <div class="float-right">
             <span class="glyphicon glyphicon-pushpin action-icon pin-feed-panel-action"
-                    aria-hidden="true" style="margin-left: 20px;"></span>
+                    title="${pinPanelIconTitle}" aria-hidden="true" style="margin-left: 20px;"></span>
             <span class="glyphicon glyphicon-remove action-icon close-feed-panel-action"
-                    aria-hidden="true"></span>
+                    title="${closePanelIconTitle}" aria-hidden="true"></span>
         </div>
     </div>
 	<ul class="panel-content feed-tab-list sortable" aria-dropeffect="move">
@@ -115,6 +117,7 @@
     var addTabActionIconTitle = "<spring:message code='feed.addTabActionIconTitle'/>";
     var removeTabActionIconTitle = "<spring:message code='feed.removeTabActionIconTitle'/>";
     var refreshIconTitle = "<spring:message code='header.refreshIconTitle'/>";
+    var showTabsIconTitle = "<spring:message code='header.showTabsIconTitle'/>";
     var settingsIconTitle = "<spring:message code='header.settingsIconTitle'/>";
     var viewLabel = "<spring:message code='header.viewLabel'/>";
     var compactViewLabel = "<spring:message code='header.compactViewLabel'/>";

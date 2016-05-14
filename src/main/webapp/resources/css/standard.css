@@ -840,7 +840,7 @@ li.sortable-placeholder {
 }
 
 .feed-details-panel .pub-info .author {
-    max-width: 180px;
+    max-width: 150px;
 }
 
 .feed-details-panel .pub-info .published-date {
@@ -871,4 +871,12 @@ li.sortable-placeholder {
     display: block;
 }
 /*************************************************************************************************/
+
+.help-container h4 {
+    font-weight: bold;
+}
+
+.help-container .glyphicon {
+    color: #5E5E5E;
+}
 
